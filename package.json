@@ -1,0 +1,26 @@
+{
+  "name": "frontend",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "main": "index.js",
+  "scripts": {
+    "test": "npm run test --workspace sales-frontend && npm run test --workspace admin-frontend",
+    "start": "concurrently \"npm --workspace sales-frontend run start\" \"npm --workspace admin-frontend run start\"",
+    "sales": "npm --workspace sales-frontend run start",
+    "admin": "npm --workspace admin-frontend run start"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "concurrently": "^8.2.2",
+    "cross-env": "^7.0.3"
+  },
+  "dependencies": {
+    "frontend": "file:"
+  }
+}
