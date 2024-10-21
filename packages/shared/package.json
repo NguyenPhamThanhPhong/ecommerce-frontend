@@ -10,6 +10,7 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@ecommerce/shared": "file:",
     "react": "^18.3.1"
   }
 }

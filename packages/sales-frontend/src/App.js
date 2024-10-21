@@ -1,14 +1,16 @@
 import logo from './logo.svg';
 import './App.css';
-import SharedButton from '@ecommerce/shared/src/Button';
+import RecipeReviewCard from '@ecommerce/shared/src/RecipeReviewCard';
 
 
 function App() {
+
   return (
     <div className="App">
-      <SharedButton onClick={() => alert('Hello from the shared button!')}>
+      <RecipeReviewCard onClick={() => alert('Hello from the shared button!')}>
         Click me!
-      </SharedButton>
+      </RecipeReviewCard>
+      {console.log('Hello from the sales frontend!')}
 
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />

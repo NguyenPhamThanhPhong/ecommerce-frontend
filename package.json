@@ -13,14 +13,19 @@
     "admin": "npm --workspace admin-frontend run start"
   },
   "keywords": [],
-  "author": "",
+  "author": "Nguyễn Phạm Thanh Phong!!",
   "license": "ISC",
-  "description": "",
+  "description": "Phong created this with MonoRepo",
   "devDependencies": {
     "concurrently": "^8.2.2",
     "cross-env": "^7.0.3"
   },
   "dependencies": {
-    "frontend": "file:"
+    "@emotion/react": "^11.13.3",
+    "@emotion/styled": "^11.13.0",
+    "@mui/icons-material": "^6.1.4",
+    "@mui/material": "^6.1.4",
+    "frontend": "file:",
+    "react": "^18.3.1"
   }
 }

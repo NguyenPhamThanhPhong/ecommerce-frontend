@@ -1,3 +1,3 @@
 
-import SharedButton from './Button';
-export default SharedButton;
+import RecipeReviewCard from './RecipeReviewCard';
+export default RecipeReviewCard;
