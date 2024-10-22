@@ -1,6 +1,6 @@
 {
     "compilerOptions": {
-        "baseUrl": "src",
+        "baseUrl": "pages",
         "paths": {
             "@shared/*": [
                 "../shared/src/*"
@@ -8,6 +8,7 @@
         }
     },
     "include": [
-        "src"
+        "pages",
+        "../shared/src"
     ]
 }
