@@ -2,17 +2,19 @@
   "name": "sales-frontend",
   "version": "0.1.0",
   "private": true,
+  "main": "index.js",
   "dependencies": {
+    "@ecommerce/shared": "^1.0.0",
+    "admin-frontend": "file:",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-scripts": "5.0.1",
     "sales-frontend": "file:"
   },
   "scripts": {
-    "start": "cross-env PORT=3006 react-app-rewired start",
-    "build": "cross-env PORT=3006 react-app-rewired build",
-    "test": "cross-env PORT=3006 react-app-rewired test",
-    "eject": "cross-env PORT=3006 react-scripts eject"
+    "dev": "cross-env PORT=3007 next dev",
+    "build": "next build",
+    "start": "cross-env PORT=3007 next start"
   },
   "eslintConfig": {
     "extends": [
@@ -34,6 +36,7 @@
   },
   "devDependencies": {
     "@babel/preset-react": "^7.24.7",
+    "@ecommerce/shared": "file:../shared",
     "customize-cra": "^1.0.0",
     "react-app-rewired": "^2.2.1"
   }

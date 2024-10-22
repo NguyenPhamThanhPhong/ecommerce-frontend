@@ -1,16 +1,42 @@
 {
-  "name": "@ecommerce/shared",
-  "version": "1.0.0",
-  "main": "src/index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": "",
+  "name": "shared",
+  "version": "0.1.0",
+  "private": true,
+  "main": "index.js",
   "dependencies": {
-    "@ecommerce/shared": "file:",
-    "react": "^18.3.1"
+    "@ecommerce/shared": "^1.0.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-scripts": "5.0.1",
+    "shared": "file:"
+  },
+  "scripts": {
+    "dev": "cross-env PORT=3007 next dev",
+    "build": "next build",
+    "start": "cross-env PORT=3007 next start"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@babel/preset-react": "^7.24.7",
+    "@ecommerce/shared": "file:../shared",
+    "customize-cra": "^1.0.0",
+    "react-app-rewired": "^2.2.1"
   }
 }

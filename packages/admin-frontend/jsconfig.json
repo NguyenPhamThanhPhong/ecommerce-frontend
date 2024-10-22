@@ -1,14 +1,13 @@
 {
     "compilerOptions": {
-        "baseUrl": "pages",
-        "paths": {
-            "@shared/*": [
-                "../shared/src/*"
-            ]
-        }
+      "baseUrl": ".",  // This should be the root of your current package, so '.' points to the 'admin-frontend' folder.
+      "paths": {
+        "@shared/*": ["../shared/src/*"]  // Adjust to correctly map the shared folder relative to this package
+      }
     },
     "include": [
-        "pages",
-        "../shared/src"
+      "pages",   // Ensure your Next.js pages are included
+      "../shared/src"  // Also include the shared folder so that it's part of the workspace
     ]
-}
+  }
+  

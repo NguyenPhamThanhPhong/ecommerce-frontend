@@ -1,0 +1,14 @@
+{
+    "compilerOptions": {
+        "baseUrl": "pages",
+        "paths": {
+            "@shared/*": [
+                "../shared/src/*"
+            ]
+        }
+    },
+    "include": [
+        "pages",
+        "../shared/src"
+    ]
+}
