@@ -1,8 +1,8 @@
 // pages/index.jsx
-import React from 'react';
+// import React from 'react';
 import RecipeReviewCard from '@shared/RecipeReviewCard';
 
-const HomePage = () => {
+const RootPage = () => {
   return (
     <div className="App">
       <RecipeReviewCard>Click me!</RecipeReviewCard>
@@ -10,4 +10,4 @@ const HomePage = () => {
   );
 };
 
-export default HomePage;
+export default RootPage;
