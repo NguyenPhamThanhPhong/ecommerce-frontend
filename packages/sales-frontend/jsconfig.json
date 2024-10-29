@@ -2,7 +2,8 @@
   "compilerOptions": {
     "baseUrl": ".",  // This should be the root of your current package, so '.' points to the 'admin-frontend' folder.
     "paths": {
-      "@shared/*": ["../shared/src/*"]  // Adjust to correctly map the shared folder relative to this package
+      "@shared/*": ["../shared/src/*"],  // Adjust to correctly map the shared folder relative to this package
+      "@components/*": ["components/*"],
     }
   },
   "include": [

@@ -12,7 +12,7 @@ module.exports = {
     config.module.rules.push({
       test: /\.(js|jsx)$/,
       include: [
-        path.resolve(__dirname, 'src'),
+        path.resolve(__dirname, './components'),
         path.resolve(__dirname, '../shared/src') // Allow importing from shared folder
       ],
       exclude: /node_modules/,
