@@ -6,6 +6,7 @@ node_modules
 
 # production
 /build
+./packages/*/.next/
 
 # misc
 .DS_Store

@@ -1,12 +1,18 @@
 // pages/_app.js
 import NonLoginLayout from '@components/AuthenticatedLayout';
+// import { darkTheme, lightTheme } from './theme';
+import { Button,ThemeProvider, CssBaseline } from '@mui/material';
+import { useState } from 'react';
+import { theme, GlobalStyles } from '../styles/GlobalStyles';
 
 
 function MyApp(params) {
   const noLayoutRoutes = ['/login', '/register', '/auth']; // Add your login-related routes here
 
+  // const [isDarkMode, setIsDarkMode] = useState(false);
+
   const { Component, pageProps, router } = params;
-  
+
 
   const isNoLayout = noLayoutRoutes.includes(router.pathname);
 
@@ -17,9 +23,16 @@ function MyApp(params) {
 
   // For non-login pages, wrap with the layout
   return (
-    <NonLoginLayout>
-      <Component {...pageProps} />
-    </NonLoginLayout>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <GlobalStyles />
+      <NonLoginLayout>
+      {/* <Button onClick={() => setIsDarkMode(!isDarkMode)}>
+        Toggle Theme
+      </Button> */}
+        <Component {...pageProps} />
+      </NonLoginLayout>
+    </ThemeProvider>
   );
 }
 

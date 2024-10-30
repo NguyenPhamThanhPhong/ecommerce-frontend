@@ -1,7 +1,7 @@
 import React from 'react';
 import { styled } from '@mui/system';
 import { AppBar, Box, Toolbar, Typography, Container, IconButton } from '@mui/material';
-
+import { useTheme } from '@mui/material/styles';
 import Link from 'next/link';
 
 import Menu from '@mui/material/Menu';
@@ -43,14 +43,24 @@ function ResponsiveAppBar() {
     const handleCloseUserMenu = () => {
       setAnchorElUser(null);
     };
+    const theme = useTheme();
   
     return (
-      <AppBar position="static">
+      <AppBar position="static"
+        sx={{
+          backgroundColor: theme.palette.appbar.background,
+          height: '56px',
+          display: 'flex',
+          justifyContent: 'center',
+        }}
+      >
         <Container maxWidth="xl">
-          <Toolbar disableGutters>
-            <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
+          <Toolbar disableGutters="false" sx={{
+
+          }}>
+            <AdbIcon color='logo' sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
             <Typography
-              variant="h6"
+              variant="h5"
               noWrap
               component="a"
               href="#app-bar-with-responsive-menu"
@@ -60,7 +70,7 @@ function ResponsiveAppBar() {
                 fontFamily: 'monospace',
                 fontWeight: 700,
                 letterSpacing: '.3rem',
-                color: 'inherit',
+                // color: 'red',
                 textDecoration: 'none',
               }}
             >
@@ -74,7 +84,7 @@ function ResponsiveAppBar() {
                 aria-controls="menu-appbar"
                 aria-haspopup="true"
                 onClick={handleOpenNavMenu}
-                color="inherit"
+                color="text.primary"
               >
                 <MenuIcon />
               </IconButton>
