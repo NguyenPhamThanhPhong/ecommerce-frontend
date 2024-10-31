@@ -98,7 +98,7 @@ const RecipeReviewCard = () => {
             Heat 1/2 cup of the broth in a pot until simmering, add saffron and set
             aside for 10 minutes.
           </Typography>
-          <Typography sx={{ marginBottom: 2 }}>
+          <Typography sx={{ marginBottom: 2,color: '#e31111',textDecorationColor:'Background' }}>
             Heat oil in a (14- to 16-inch) paella pan or a large, deep skillet over
             medium-high heat. Add chicken, shrimp and chorizo, and cook, stirring
             occasionally until lightly browned, 6 to 8 minutes. Transfer shrimp to a

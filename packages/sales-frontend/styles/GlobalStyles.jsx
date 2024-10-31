@@ -15,11 +15,13 @@ export const theme = createTheme({
       main: '#f5f5f5', // Light gray for backgrounds
     },
     text: {
-      primary: '#333333', // Dark gray for general text
-      secondary: '#555555', // Lighter gray for less prominent text
+      primary: '#000000', // Dark gray for general text
+      secondary: '#f5f5f5', // Lighter gray for less prominent text
     },
-    logo:{
-      main: '#333333', // Green for the logo
+    hover:{
+      primary: 'rgb(95, 95, 95,0.2)', // Green for the logo
+      secondary:  '#f5f5f5', // Green for buttons and links
+      success: '#007b55', // Green for buttons and links
     },
     background: {
       default: '#f9f9f9', // Very light gray background for the main content area
@@ -36,7 +38,7 @@ export const theme = createTheme({
   },
   typography: {
     fontFamily: "'Roboto', sans-serif",
-    h1: {
+    h1: { 
       fontSize: '2rem',
       fontWeight: 700,
       color: '#000000',
@@ -63,23 +65,24 @@ export const theme = createTheme({
       fontWeight: 700,
       textTransform: 'uppercase',
       color: '#000000',
+      backgroundColor: '#007b55',
     },
   },
   spacing: 8,
-  components: {
-    MuiButton: {
-      styleOverrides: {
-        root: {
-          borderRadius: '4px',
-          padding: '8px 16px',
-          fontSize: '1rem',
-          color: '#ffffff',
-        },
-        contained: {
-          backgroundColor: '#000000',
-          '&:hover': {
-            backgroundColor: '#333333',
-          },
+  MuiButton: {
+    styleOverrides: {
+      root: {
+        textAlign: 'center',
+        borderRadius: '4px',
+        padding: '8px 16px',
+        fontSize: '1rem',
+        color: '#007b55', // Text color
+      },
+      contained: {
+        backgroundColor: '#000000',
+        color: '#ffffff', // Text color for contained variant
+        '&:hover': {
+          backgroundColor: '#333333',
         },
       },
     },

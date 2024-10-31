@@ -6,7 +6,9 @@ node_modules
 
 # production
 /build
-./packages/*/.next/
+packages/sales-frontend/.next/
+packages/admin-frontend/.next/
+packages\sales-frontend\.next\build-manifest.json
 
 # misc
 .DS_Store
