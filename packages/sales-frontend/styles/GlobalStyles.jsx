@@ -7,25 +7,46 @@ import { createTheme } from '@mui/material/styles';
 
 
 export const theme = createTheme({
+  discount: '#ffffff',
+  fontWeight: {
+    thin: 100,
+    extraLight: 200,
+    light: 300,
+    regular: 400,
+    medium: 600,
+    semiBold: 600,
+    bold: 700,
+    extraBold: 800,
+    black: 900
+  },
   palette: {
+    common: {
+      black: '#000000',
+      white: '#ffffff',
+    },
     primary: {
-      main: '#000000', // Black color for buttons and text
+      main: '#007bff',
     },
     secondary: {
-      main: '#f5f5f5', // Light gray for backgrounds
+      main: '#ffffff',
     },
     text: {
-      primary: '#000000', // Dark gray for general text
-      secondary: '#f5f5f5', // Lighter gray for less prominent text
+      primary: '#212121',
+      disabled: '#757575', // For secondary text
+      secondary: '#ffffff', // For white text  
     },
-    hover:{
+    hover: {
       primary: 'rgb(95, 95, 95,0.2)', // Green for the logo
-      secondary:  '#f5f5f5', // Green for buttons and links
+      secondary: '#f5f5f5', // Green for buttons and links
       success: '#007b55', // Green for buttons and links
     },
     background: {
-      default: '#f9f9f9', // Very light gray background for the main content area
-      paper: '#ffffff', // White for cards and paper elements
+      default: '#EFF7FA',
+      paper: '#ffffff',
+    },
+    action: {
+      active: '#e0e0e0',
+      hover: '#e8e8e8',
     },
     info: {
       main: '#007b55', // Green for "In Stock" and similar tags
@@ -38,7 +59,7 @@ export const theme = createTheme({
   },
   typography: {
     fontFamily: "'Roboto', sans-serif",
-    h1: { 
+    h1: {
       fontSize: '2rem',
       fontWeight: 700,
       color: '#000000',
@@ -58,8 +79,13 @@ export const theme = createTheme({
       color: '#333333', // Dark gray for subtitles
     },
     body1: {
-      fontSize: '0.875rem',
-      color: '#555555', // Standard body text color
+      fontSize: '14px',
+      color: '#000000', // Standard body text color
+    },
+    body2: {
+      fontSize: '10px',
+      fontWeight: 400,
+      color: '#000000', // Light gray for secondary text
     },
     button: {
       fontWeight: 700,
@@ -116,11 +142,11 @@ export const theme = createTheme({
 
 export default theme;
 
-    // background-color: ${({ theme }) => {
-    //   console.log(theme);
-    //   return 'red';
-    // }};
-    // color: ${({ theme }) => 'red'};
+// background-color: ${({ theme }) => {
+//   console.log(theme);
+//   return 'red';
+// }};
+// color: ${({ theme }) => 'red'};
 
 export const GlobalStyles = createGlobalStyle`
   body {

@@ -4,10 +4,13 @@
     "paths": {
       "@shared/*": ["../shared/src/*"],  // Adjust to correctly map the shared folder relative to this package
       "@components/*": ["components/*"],
+      "@styles/*": ["styles/*"],
     }
   },
   "include": [
-    "pages",   // Ensure your Next.js pages are included
+    "./styles",
+    "./components",
+    "./pages",   // Ensure your Next.js pages are included
     "../shared/src"  // Also include the shared folder so that it's part of the workspace
   ]
 }

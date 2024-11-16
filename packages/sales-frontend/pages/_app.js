@@ -1,8 +1,7 @@
 // pages/_app.js
-import NonLoginLayout from '@components/AuthenticatedLayout';
+import CommonLayout from '@components/CommonLayout';
 // import { darkTheme, lightTheme } from './theme';
 import { Button,ThemeProvider, CssBaseline } from '@mui/material';
-import { useState } from 'react';
 import { theme, GlobalStyles } from '../styles/GlobalStyles';
 
 
@@ -26,12 +25,12 @@ function MyApp(params) {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <GlobalStyles />
-      <NonLoginLayout>
+      <CommonLayout>
       {/* <Button onClick={() => setIsDarkMode(!isDarkMode)}>
         Toggle Theme
       </Button> */}
         <Component {...pageProps} />
-      </NonLoginLayout>
+      </CommonLayout>
     </ThemeProvider>
   );
 }

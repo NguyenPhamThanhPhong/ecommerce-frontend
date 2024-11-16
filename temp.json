@@ -1,0 +1,231 @@
+[ {
+    "simple_name" : "EagerExtension",
+    "name" : null,
+    "injection_points" : "",
+    "injection_points_name" : "java.util.Collections$EmptySet",
+    "scope" : "ApplicationScoped",
+    "type" : "java.lang.Object, jakarta.enterprise.inject.spi.Extension, practice.extension.EagerExtension",
+    "qualifiers" : "Any, Default",
+    "stereotypes" : "",
+    "alternatives" : false
+  }, {
+    "simple_name" : "BeanManagerImpl",
+    "name" : null,
+    "injection_points" : "",
+    "injection_points_name" : "java.util.Collections$EmptySet",
+    "scope" : "Dependent",
+    "type" : "java.lang.Object, org.jboss.weld.manager.api.WeldManager, org.jboss.weld.manager.BeanManagerImpl",
+    "qualifiers" : "Any, Default",
+    "stereotypes" : "",
+    "alternatives" : false
+  }, {
+    "simple_name" : "InjectionPointBean",
+    "name" : null,
+    "injection_points" : "",
+    "injection_points_name" : "java.util.Collections$EmptySet",
+    "scope" : "Dependent",
+    "type" : "java.lang.Object, jakarta.enterprise.inject.spi.InjectionPoint",
+    "qualifiers" : "Any, Default",
+    "stereotypes" : "",
+    "alternatives" : false
+  }, {
+    "simple_name" : "InterceptionFactoryBean",
+    "name" : null,
+    "injection_points" : "",
+    "injection_points_name" : "java.util.Collections$EmptySet",
+    "scope" : "Dependent",
+    "type" : "jakarta.enterprise.inject.spi.InterceptionFactory, java.lang.Object",
+    "qualifiers" : "Any, Default",
+    "stereotypes" : "",
+    "alternatives" : false
+  }, {
+    "simple_name" : "BeanManagerProxy",
+    "name" : null,
+    "injection_points" : "",
+    "injection_points_name" : "java.util.Collections$EmptySet",
+    "scope" : "Dependent",
+    "type" : "java.lang.Object, jakarta.enterprise.inject.spi.BeanContainer, jakarta.enterprise.inject.spi.BeanManager",
+    "qualifiers" : "Any, Default",
+    "stereotypes" : "",
+    "alternatives" : false
+  }, {
+    "simple_name" : "UtilProvider",
+    "name" : "objectMapper",
+    "injection_points" : "",
+    "injection_points_name" : "org.jboss.weld.injection.AbstractCallableInjectionPoint$1",
+    "scope" : "ApplicationScoped",
+    "type" : "com.fasterxml.jackson.databind.ObjectMapper, java.lang.Object, com.fasterxml.jackson.core.Versioned, java.io.Serializable, com.fasterxml.jackson.core.ObjectCodec, com.fasterxml.jackson.core.TreeCodec",
+    "qualifiers" : "Default, Named, Any",
+    "stereotypes" : "",
+    "alternatives" : false
+  }, {
+    "simple_name" : "Bean",
+    "name" : null,
+    "injection_points" : "",
+    "injection_points_name" : "java.util.Collections$EmptySet",
+    "scope" : "Dependent",
+    "type" : "java.lang.Object, jakarta.enterprise.inject.spi.Bean",
+    "qualifiers" : "Any, Default",
+    "stereotypes" : "",
+    "alternatives" : false
+  }, {
+    "simple_name" : "Interceptor",
+    "name" : null,
+    "injection_points" : "",
+    "injection_points_name" : "java.util.Collections$EmptySet",
+    "scope" : "Dependent",
+    "type" : "java.lang.Object, jakarta.enterprise.inject.spi.Interceptor",
+    "qualifiers" : "Any, Default",
+    "stereotypes" : "",
+    "alternatives" : false
+  }, {
+    "simple_name" : "WeldExtension",
+    "name" : null,
+    "injection_points" : "",
+    "injection_points_name" : "java.util.Collections$EmptySet",
+    "scope" : "ApplicationScoped",
+    "type" : "java.lang.Object, jakarta.enterprise.inject.spi.Extension, org.jboss.weld.bootstrap.WeldExtension",
+    "qualifiers" : "Any, Default",
+    "stereotypes" : "",
+    "alternatives" : false
+  }, {
+    "simple_name" : "ConfigExtension",
+    "name" : null,
+    "injection_points" : "",
+    "injection_points_name" : "java.util.Collections$EmptySet",
+    "scope" : "ApplicationScoped",
+    "type" : "java.lang.Object, jakarta.enterprise.inject.spi.Extension, io.smallrye.config.inject.ConfigExtension",
+    "qualifiers" : "Any, Default",
+    "stereotypes" : "",
+    "alternatives" : false
+  }, {
+    "simple_name" : "EventMetadataBean",
+    "name" : null,
+    "injection_points" : "",
+    "injection_points_name" : "java.util.Collections$EmptySet",
+    "scope" : "Dependent",
+    "type" : "jakarta.enterprise.inject.spi.EventMetadata, java.lang.Object",
+    "qualifiers" : "Any, Default",
+    "stereotypes" : "",
+    "alternatives" : false
+  }, {
+    "simple_name" : "ConfigProducer",
+    "name" : null,
+    "injection_points" : "",
+    "injection_points_name" : "java.util.Collections$EmptySet",
+    "scope" : "ApplicationScoped",
+    "type" : "java.lang.Object, io.smallrye.config.inject.ConfigProducer",
+    "qualifiers" : "Any, Default",
+    "stereotypes" : "",
+    "alternatives" : false
+  }, {
+    "simple_name" : "Decorator",
+    "name" : null,
+    "injection_points" : "",
+    "injection_points_name" : "java.util.Collections$EmptySet",
+    "scope" : "Dependent",
+    "type" : "java.lang.Object, jakarta.enterprise.inject.spi.Decorator",
+    "qualifiers" : "Any, Default",
+    "stereotypes" : "",
+    "alternatives" : false
+  }, {
+    "simple_name" : "WeldSEBeanRegistrant",
+    "name" : null,
+    "injection_points" : "",
+    "injection_points_name" : "java.util.Collections$EmptySet",
+    "scope" : "ApplicationScoped",
+    "type" : "java.lang.Object, jakarta.enterprise.inject.spi.Extension, org.jboss.weld.environment.se.WeldSEBeanRegistrant",
+    "qualifiers" : "Any, Default",
+    "stereotypes" : "",
+    "alternatives" : false
+  }, {
+    "simple_name" : "ConfigProducer",
+    "name" : null,
+    "injection_points" : "",
+    "injection_points_name" : "org.jboss.weld.injection.AbstractCallableInjectionPoint$1",
+    "scope" : "Dependent",
+    "type" : "io.smallrye.config.SmallRyeConfig, org.eclipse.microprofile.config.Config, java.lang.Object, java.io.Serializable",
+    "qualifiers" : "Any, Default",
+    "stereotypes" : "",
+    "alternatives" : false
+  }, {
+    "simple_name" : "InstanceImpl",
+    "name" : null,
+    "injection_points" : "",
+    "injection_points_name" : "java.util.Collections$EmptySet",
+    "scope" : "Dependent",
+    "type" : "jakarta.inject.Provider<java.lang.Object>, java.lang.Object, org.jboss.weld.inject.WeldInstance<java.lang.Object>, jakarta.enterprise.inject.Instance<java.lang.Object>",
+    "qualifiers" : "Any, Default",
+    "stereotypes" : "",
+    "alternatives" : false
+  }, {
+    "simple_name" : "RequestContextControllerBean",
+    "name" : null,
+    "injection_points" : "",
+    "injection_points_name" : "java.util.Collections$EmptySet",
+    "scope" : "Dependent",
+    "type" : "java.lang.Object, jakarta.enterprise.context.control.RequestContextController",
+    "qualifiers" : "Any, Default",
+    "stereotypes" : "",
+    "alternatives" : false
+  }, {
+    "simple_name" : "UtilProvider",
+    "name" : null,
+    "injection_points" : "",
+    "injection_points_name" : "java.util.Collections$EmptySet",
+    "scope" : "ApplicationScoped",
+    "type" : "practice.config.UtilProvider, java.lang.Object",
+    "qualifiers" : "Any, Default",
+    "stereotypes" : "",
+    "alternatives" : false
+  }, {
+    "simple_name" : "EventImpl",
+    "name" : null,
+    "injection_points" : "",
+    "injection_points_name" : "java.util.Collections$EmptySet",
+    "scope" : "Dependent",
+    "type" : "jakarta.enterprise.event.Event, java.lang.Object, org.jboss.weld.events.WeldEvent",
+    "qualifiers" : "Any, Default",
+    "stereotypes" : "",
+    "alternatives" : false
+  }, {
+    "simple_name" : "LifecycleLoggingExtension",
+    "name" : null,
+    "injection_points" : "",
+    "injection_points_name" : "java.util.Collections$EmptySet",
+    "scope" : "ApplicationScoped",
+    "type" : "practice.extension.LifecycleLoggingExtension, java.lang.Object, jakarta.enterprise.inject.spi.Extension",
+    "qualifiers" : "Any, Default",
+    "stereotypes" : "",
+    "alternatives" : false
+  }, {
+    "simple_name" : "WeldSEBeanRegistrant",
+    "name" : null,
+    "injection_points" : "",
+    "injection_points_name" : "java.util.Collections$EmptySet",
+    "scope" : "Singleton",
+    "type" : "java.lang.Object, org.jboss.weld.environment.se.WeldContainer",
+    "qualifiers" : "Any, Default",
+    "stereotypes" : "",
+    "alternatives" : false
+  }, {
+    "simple_name" : "ConversationImpl",
+    "name" : "jakarta.enterprise.context.conversation",
+    "injection_points" : "",
+    "injection_points_name" : "java.util.Collections$EmptySet",
+    "scope" : "RequestScoped",
+    "type" : "java.lang.Object, jakarta.enterprise.context.Conversation",
+    "qualifiers" : "Any, Default",
+    "stereotypes" : "",
+    "alternatives" : false
+  }, {
+    "simple_name" : "ParametersFactory",
+    "name" : null,
+    "injection_points" : "",
+    "injection_points_name" : "java.util.Collections$EmptySet",
+    "scope" : "ApplicationScoped",
+    "type" : "java.lang.Object, org.jboss.weld.environment.se.beans.ParametersFactory",
+    "qualifiers" : "Any, Default",
+    "stereotypes" : "",
+    "alternatives" : false
+  } ]

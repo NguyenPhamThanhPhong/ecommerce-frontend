@@ -1,0 +1,1033 @@
+[
+  {
+    "alternatives": false,
+    "injectionPoints": "",
+    "injectionPointsName": "java.util.Collections$EmptySet",
+    "qualifiers": "Any, Default",
+    "scope": "Dependent",
+    "simpleName": "FaultToleranceCDI_cs",
+    "stereotypes": "",
+    "type": "java.util.ResourceBundle, com.ibm.ws.microprofile.faulttolerance.cdi.resources.FaultToleranceCDI_cs, java.lang.Object, java.util.ListResourceBundle"
+  },
+  {
+    "alternatives": false,
+    "injectionPoints": "",
+    "injectionPointsName": "java.util.Collections$EmptySet",
+    "qualifiers": "Any, Default",
+    "scope": "RequestScoped",
+    "simpleName": "HttpServletRequestBean",
+    "stereotypes": "",
+    "type": "java.lang.Object, jakarta.servlet.http.HttpServletRequest"
+  },
+  {
+    "alternatives": false,
+    "injectionPoints": "",
+    "injectionPointsName": "org.jboss.weld.injection.AbstractCallableInjectionPoint$1",
+    "qualifiers": "Any, Default",
+    "scope": "RequestScoped",
+    "simpleName": "ContextProducers",
+    "stereotypes": "",
+    "type": "jakarta.ws.rs.core.Request, java.lang.Object"
+  },
+  {
+    "alternatives": false,
+    "injectionPoints": "",
+    "injectionPointsName": "java.util.Collections$EmptySet",
+    "qualifiers": "Any, Default",
+    "scope": "Dependent",
+    "simpleName": "FaultToleranceCDI_fr",
+    "stereotypes": "",
+    "type": "java.util.ResourceBundle, java.lang.Object, java.util.ListResourceBundle, com.ibm.ws.microprofile.faulttolerance.cdi.resources.FaultToleranceCDI_fr"
+  },
+  {
+    "alternatives": true,
+    "injectionPoints": "",
+    "injectionPointsName": "java.util.Collections$EmptySet",
+    "qualifiers": "Any, Default",
+    "scope": "ApplicationScoped",
+    "simpleName": "PolicyStoreImpl30",
+    "stereotypes": "",
+    "type": "com.ibm.ws.microprofile.faulttolerance.cdi.PolicyStore, io.openliberty.microprofile.faulttolerance30.internal.cdi.PolicyStoreImpl30, java.lang.Object, com.ibm.ws.microprofile.faulttolerance.cdi.AbstractPolicyStore<io.openliberty.microprofile.faulttolerance30.internal.cdi.PolicyStoreImpl30$Key>"
+  },
+  {
+    "alternatives": false,
+    "injectionPoints": "",
+    "injectionPointsName": "java.util.Collections$EmptySet",
+    "qualifiers": "Any, Default",
+    "scope": "ApplicationScoped",
+    "simpleName": "TelemetryContainerFilter",
+    "stereotypes": "",
+    "type": "jakarta.ws.rs.container.ContainerResponseFilter, jakarta.ws.rs.container.ContainerRequestFilter, java.lang.Object, io.openliberty.microprofile.telemetry11.internal.rest.TelemetryContainerFilter, io.openliberty.microprofile.telemetry.internal.common.rest.AbstractTelemetryContainerFilter"
+  },
+  {
+    "alternatives": false,
+    "injectionPoints": "",
+    "injectionPointsName": "java.util.Collections$EmptySet",
+    "qualifiers": "Any, Default",
+    "scope": "Dependent",
+    "simpleName": "JwtCDI",
+    "stereotypes": "",
+    "type": "java.util.ResourceBundle, java.lang.Object, java.util.ListResourceBundle, com.ibm.ws.security.mp.jwt.cdi.resources.JwtCDI"
+  },
+  {
+    "alternatives": false,
+    "injectionPoints": "",
+    "injectionPointsName": "java.util.Collections$EmptySet",
+    "qualifiers": "Any, Default",
+    "scope": "ApplicationScoped",
+    "simpleName": "TelemetryClientFilter",
+    "stereotypes": "",
+    "type": "jakarta.ws.rs.client.ClientResponseFilter, io.openliberty.microprofile.telemetry.internal.common.rest.AbstractTelemetryClientFilter, jakarta.ws.rs.client.ClientRequestFilter, io.openliberty.microprofile.telemetry11.internal.rest.TelemetryClientFilter, java.lang.Object"
+  },
+  {
+    "alternatives": false,
+    "injectionPoints": "",
+    "injectionPointsName": "java.util.Collections$EmptySet",
+    "name": "jakarta.enterprise.context.conversation",
+    "qualifiers": "Any, Default",
+    "scope": "RequestScoped",
+    "simpleName": "ConversationImpl",
+    "stereotypes": "",
+    "type": "java.lang.Object, jakarta.enterprise.context.Conversation"
+  },
+  {
+    "alternatives": false,
+    "injectionPoints": "",
+    "injectionPointsName": "java.util.Collections$EmptySet",
+    "qualifiers": "Any, Default",
+    "scope": "Dependent",
+    "simpleName": "FaultToleranceCDI_ru",
+    "stereotypes": "",
+    "type": "java.util.ResourceBundle, com.ibm.ws.microprofile.faulttolerance.cdi.resources.FaultToleranceCDI_ru, java.lang.Object, java.util.ListResourceBundle"
+  },
+  {
+    "alternatives": false,
+    "injectionPoints": "",
+    "injectionPointsName": "java.util.Collections$EmptySet",
+    "qualifiers": "Any, Default",
+    "scope": "Dependent",
+    "simpleName": "Interceptor",
+    "stereotypes": "",
+    "type": "java.lang.Object, jakarta.enterprise.inject.spi.Interceptor"
+  },
+  {
+    "alternatives": false,
+    "injectionPoints": "",
+    "injectionPointsName": "java.util.Collections$EmptySet",
+    "qualifiers": "Any, Default",
+    "scope": "Dependent",
+    "simpleName": "EventMetadataBean",
+    "stereotypes": "",
+    "type": "jakarta.enterprise.inject.spi.EventMetadata, java.lang.Object"
+  },
+  {
+    "alternatives": false,
+    "injectionPoints": "",
+    "injectionPointsName": "java.util.Collections$EmptySet",
+    "qualifiers": "Any, Default",
+    "scope": "ApplicationScoped",
+    "simpleName": "FaultToleranceCDI20Extension",
+    "stereotypes": "",
+    "type": "com.ibm.ws.microprofile.faulttolerance.cdi20.FaultToleranceCDI20Extension, jakarta.enterprise.inject.spi.Extension, java.lang.Object, com.ibm.ws.cdi.extension.WebSphereCDIExtension"
+  },
+  {
+    "alternatives": false,
+    "injectionPoints": "",
+    "injectionPointsName": "java.util.Collections$EmptySet",
+    "qualifiers": "Any, Default",
+    "scope": "Dependent",
+    "simpleName": "JwtCDI_zh_TW",
+    "stereotypes": "",
+    "type": "java.util.ResourceBundle, java.lang.Object, java.util.ListResourceBundle, com.ibm.ws.security.mp.jwt.cdi.resources.JwtCDI_zh_TW"
+  },
+  {
+    "alternatives": false,
+    "injectionPoints": "",
+    "injectionPointsName": "java.util.Collections$EmptySet",
+    "qualifiers": "Any, Default",
+    "scope": "Dependent",
+    "simpleName": "AnnotationConfigFactoryImpl",
+    "stereotypes": "",
+    "type": "java.lang.Object, com.ibm.ws.microprofile.faulttolerance.cdi.config.impl.AnnotationConfigFactoryImpl, com.ibm.ws.microprofile.faulttolerance.cdi.config.AnnotationConfigFactory"
+  },
+  {
+    "alternatives": false,
+    "injectionPoints": "",
+    "injectionPointsName": "java.util.Collections$EmptySet",
+    "qualifiers": "Any, Default",
+    "scope": "ApplicationScoped",
+    "simpleName": "FaultToleranceCDIExtension",
+    "stereotypes": "",
+    "type": "com.ibm.ws.microprofile.faulttolerance.cdi.FaultToleranceCDIExtension, jakarta.enterprise.inject.spi.Extension, java.lang.Object, com.ibm.ws.cdi.extension.WebSphereCDIExtension"
+  },
+  {
+    "alternatives": false,
+    "injectionPoints": "",
+    "injectionPointsName": "org.jboss.weld.injection.AbstractCallableInjectionPoint$1",
+    "qualifiers": "Any, Default",
+    "scope": "RequestScoped",
+    "simpleName": "ContextProducers",
+    "stereotypes": "",
+    "type": "jakarta.ws.rs.core.HttpHeaders, java.lang.Object"
+  },
+  {
+    "alternatives": false,
+    "injectionPoints": "",
+    "injectionPointsName": "java.util.Collections$EmptySet",
+    "qualifiers": "Any, Default",
+    "scope": "ApplicationScoped",
+    "simpleName": "RestClientExtension",
+    "stereotypes": "",
+    "type": "java.lang.Object, jakarta.enterprise.inject.spi.Extension, org.jboss.resteasy.microprofile.client.RestClientExtension"
+  },
+  {
+    "alternatives": false,
+    "injectionPoints": "",
+    "injectionPointsName": "java.util.Collections$EmptySet",
+    "qualifiers": "Any, Default",
+    "scope": "ApplicationScoped",
+    "simpleName": "LibertyResteasyCdiExtension",
+    "stereotypes": "",
+    "type": "io.openliberty.org.jboss.resteasy.common.component.LibertyResteasyCdiExtension, org.jboss.resteasy.cdi.ResteasyCdiExtension, jakarta.enterprise.inject.spi.Extension, java.lang.Object"
+  },
+  {
+    "alternatives": false,
+    "injectionPoints": "",
+    "injectionPointsName": "org.jboss.weld.injection.AbstractCallableInjectionPoint$1",
+    "qualifiers": "Any, Default",
+    "scope": "Dependent",
+    "simpleName": "OpenTelemetryProducer",
+    "stereotypes": "",
+    "type": "io.opentelemetry.api.trace.Tracer, java.lang.Object"
+  },
+  {
+    "alternatives": false,
+    "injectionPoints": "",
+    "injectionPointsName": "org.jboss.weld.injection.AbstractCallableInjectionPoint$1",
+    "qualifiers": "Any, Default",
+    "scope": "ApplicationScoped",
+    "simpleName": "ContextProducers",
+    "stereotypes": "",
+    "type": "jakarta.ws.rs.container.ResourceContext, java.lang.Object"
+  },
+  {
+    "alternatives": false,
+    "injectionPoints": "",
+    "injectionPointsName": "java.util.Collections$EmptySet",
+    "qualifiers": "Any, Default",
+    "scope": "ApplicationScoped",
+    "simpleName": "TelemetryExtension",
+    "stereotypes": "",
+    "type": "java.lang.Object, jakarta.enterprise.inject.spi.Extension, io.openliberty.microprofile.telemetry11.internal.cdi.TelemetryExtension"
+  },
+  {
+    "alternatives": false,
+    "injectionPoints": "org.eclipse.microprofile.jwt.JsonWebToken",
+    "injectionPointsName": "org.jboss.weld.util.collections.ImmutableTinySet$Singleton",
+    "qualifiers": "Any, Default",
+    "scope": "Dependent",
+    "simpleName": "ClaimProducer",
+    "stereotypes": "",
+    "type": "java.lang.Object, com.ibm.ws.security.mp.jwt.cdi.ClaimProducer"
+  },
+  {
+    "alternatives": false,
+    "injectionPoints": "",
+    "injectionPointsName": "java.util.Collections$EmptySet",
+    "qualifiers": "Any, Default",
+    "scope": "Dependent",
+    "simpleName": "FaultToleranceCDI",
+    "stereotypes": "",
+    "type": "java.util.ResourceBundle, com.ibm.ws.microprofile.faulttolerance.cdi.resources.FaultToleranceCDI, java.lang.Object, java.util.ListResourceBundle"
+  },
+  {
+    "alternatives": false,
+    "injectionPoints": "",
+    "injectionPointsName": "java.util.Collections$EmptySet",
+    "qualifiers": "Any, Default",
+    "scope": "ApplicationScoped",
+    "simpleName": "OLSmallRyeConfigExtension",
+    "stereotypes": "",
+    "type": "com.ibm.ws.cdi.extension.WebSphereCDIExtension, io.smallrye.config.inject.ConfigExtension, jakarta.enterprise.inject.spi.Extension, java.lang.Object, io.openliberty.microprofile.config.internal.extension.OLSmallRyeConfigExtension"
+  },
+  {
+    "alternatives": false,
+    "injectionPoints": "",
+    "injectionPointsName": "java.util.Collections$EmptySet",
+    "qualifiers": "Any, Default",
+    "scope": "Dependent",
+    "simpleName": "FaultToleranceCDI_it",
+    "stereotypes": "",
+    "type": "java.util.ResourceBundle, com.ibm.ws.microprofile.faulttolerance.cdi.resources.FaultToleranceCDI_it, java.lang.Object, java.util.ListResourceBundle"
+  },
+  {
+    "alternatives": false,
+    "injectionPoints": "",
+    "injectionPointsName": "java.util.Collections$EmptySet",
+    "qualifiers": "Any, Default",
+    "scope": "Dependent",
+    "simpleName": "PolicyStoreImpl",
+    "stereotypes": "",
+    "type": "com.ibm.ws.microprofile.faulttolerance.cdi.PolicyStore, com.ibm.ws.microprofile.faulttolerance.cdi.AbstractPolicyStore<java.lang.reflect.Method>, com.ibm.ws.microprofile.faulttolerance.cdi.PolicyStoreImpl, java.lang.Object"
+  },
+  {
+    "alternatives": false,
+    "injectionPoints": "",
+    "injectionPointsName": "java.util.Collections$EmptySet",
+    "qualifiers": "Any, Default",
+    "scope": "Dependent",
+    "simpleName": "JwtCDI_ja",
+    "stereotypes": "",
+    "type": "java.util.ResourceBundle, com.ibm.ws.security.mp.jwt.cdi.resources.JwtCDI_ja, java.lang.Object, java.util.ListResourceBundle"
+  },
+  {
+    "alternatives": false,
+    "injectionPoints": "",
+    "injectionPointsName": "org.jboss.weld.injection.AbstractCallableInjectionPoint$1",
+    "qualifiers": "Any, Default",
+    "scope": "ApplicationScoped",
+    "simpleName": "ContextProducers",
+    "stereotypes": "",
+    "type": "jakarta.ws.rs.ext.Providers, java.lang.Object"
+  },
+  {
+    "alternatives": false,
+    "injectionPoints": "",
+    "injectionPointsName": "java.util.Collections$EmptySet",
+    "qualifiers": "Any, Default",
+    "scope": "Dependent",
+    "simpleName": "JwtCDI_ko",
+    "stereotypes": "",
+    "type": "java.util.ResourceBundle, com.ibm.ws.security.mp.jwt.cdi.resources.JwtCDI_ko, java.lang.Object, java.util.ListResourceBundle"
+  },
+  {
+    "alternatives": false,
+    "injectionPoints": "jakarta.enterprise.inject.spi.InjectionPoint",
+    "injectionPointsName": "org.jboss.weld.injection.AbstractCallableInjectionPoint$1",
+    "qualifiers": "Default, Any, RegistryScope",
+    "scope": "Dependent",
+    "simpleName": "MetricRegistryProducerAdapter",
+    "stereotypes": "",
+    "type": "org.eclipse.microprofile.metrics.MetricRegistry, java.lang.Object"
+  },
+  {
+    "alternatives": false,
+    "injectionPoints": "",
+    "injectionPointsName": "java.util.Collections$EmptySet",
+    "qualifiers": "Any, Default",
+    "scope": "Dependent",
+    "simpleName": "AnnotationConfigFactoryImpl20",
+    "stereotypes": "",
+    "type": "java.lang.Object, com.ibm.ws.microprofile.faulttolerance.cdi.config.impl.AnnotationConfigFactoryImpl20, com.ibm.ws.microprofile.faulttolerance.cdi.config.AnnotationConfigFactory"
+  },
+  {
+    "alternatives": false,
+    "injectionPoints": "",
+    "injectionPointsName": "java.util.Collections$EmptySet",
+    "qualifiers": "Any, Default",
+    "scope": "Dependent",
+    "simpleName": "Decorator",
+    "stereotypes": "",
+    "type": "java.lang.Object, jakarta.enterprise.inject.spi.Decorator"
+  },
+  {
+    "alternatives": false,
+    "injectionPoints": "",
+    "injectionPointsName": "java.util.Collections$EmptySet",
+    "qualifiers": "Any, Default",
+    "scope": "ApplicationScoped",
+    "simpleName": "LibertyResteasyCdiExtension",
+    "stereotypes": "",
+    "type": "java.lang.AutoCloseable, jakarta.ws.rs.core.Configurable<jakarta.ws.rs.client.Client>, java.lang.Object, jakarta.ws.rs.client.Client"
+  },
+  {
+    "alternatives": false,
+    "injectionPoints": "",
+    "injectionPointsName": "org.jboss.weld.injection.AbstractCallableInjectionPoint$1",
+    "qualifiers": "Any, Default",
+    "scope": "ApplicationScoped",
+    "simpleName": "OpenTelemetryProducer",
+    "stereotypes": "",
+    "type": "io.opentelemetry.api.OpenTelemetry, java.lang.Object"
+  },
+  {
+    "alternatives": false,
+    "injectionPoints": "",
+    "injectionPointsName": "java.util.Collections$EmptySet",
+    "qualifiers": "Any, Default",
+    "scope": "Dependent",
+    "simpleName": "JwtCDI_de",
+    "stereotypes": "",
+    "type": "java.util.ResourceBundle, com.ibm.ws.security.mp.jwt.cdi.resources.JwtCDI_de, java.lang.Object, java.util.ListResourceBundle"
+  },
+  {
+    "alternatives": false,
+    "injectionPoints": "",
+    "injectionPointsName": "java.util.Collections$EmptySet",
+    "qualifiers": "Any, Default",
+    "scope": "Dependent",
+    "simpleName": "InstanceImpl",
+    "stereotypes": "",
+    "type": "jakarta.enterprise.inject.Instance<java.lang.Object>, java.lang.Object, org.jboss.weld.inject.WeldInstance<java.lang.Object>, jakarta.inject.Provider<java.lang.Object>"
+  },
+  {
+    "alternatives": false,
+    "injectionPoints": "",
+    "injectionPointsName": "java.util.Collections$EmptySet",
+    "qualifiers": "Any, Default",
+    "scope": "Dependent",
+    "simpleName": "BeanManagerImpl",
+    "stereotypes": "",
+    "type": "org.jboss.weld.manager.BeanManagerImpl, java.lang.Object, org.jboss.weld.manager.api.WeldManager"
+  },
+  {
+    "alternatives": false,
+    "injectionPoints": "jakarta.enterprise.inject.spi.InjectionPoint",
+    "injectionPointsName": "org.jboss.weld.injection.AbstractCallableInjectionPoint$1",
+    "qualifiers": "Any, Default",
+    "scope": "Dependent",
+    "simpleName": "MetricProducerAdapter",
+    "stereotypes": "",
+    "type": "org.eclipse.microprofile.metrics.Counting, org.eclipse.microprofile.metrics.Counter, org.eclipse.microprofile.metrics.Metric, java.lang.Object"
+  },
+  {
+    "alternatives": false,
+    "injectionPoints": "",
+    "injectionPointsName": "java.util.Collections$EmptySet",
+    "qualifiers": "Any, Default, Http",
+    "scope": "Dependent",
+    "simpleName": "HttpSessionDestructionContext",
+    "stereotypes": "",
+    "type": "jakarta.enterprise.context.spi.AlterableContext, org.jboss.weld.context.WeldAlterableContext, org.jboss.weld.context.ManagedContext, interface org.jboss.weld.context.BoundContext<interface jakarta.servlet.http.HttpSession>, java.lang.Object, org.jboss.weld.contexts.AbstractBoundContext<jakarta.servlet.http.HttpSession>, org.jboss.weld.contexts.AbstractContext, org.jboss.weld.module.web.context.http.HttpSessionDestructionContext, org.jboss.weld.contexts.AbstractManagedContext, jakarta.enterprise.context.spi.Context"
+  },
+  {
+    "alternatives": false,
+    "injectionPoints": "",
+    "injectionPointsName": "java.util.Collections$EmptySet",
+    "qualifiers": "Any, Default",
+    "scope": "Dependent",
+    "simpleName": "InterceptionFactoryBean",
+    "stereotypes": "",
+    "type": "jakarta.enterprise.inject.spi.InterceptionFactory, java.lang.Object"
+  },
+  {
+    "alternatives": false,
+    "injectionPoints": "",
+    "injectionPointsName": "java.util.Collections$EmptySet",
+    "qualifiers": "Any, Default",
+    "scope": "Dependent",
+    "simpleName": "RequestContextControllerBean",
+    "stereotypes": "",
+    "type": "java.lang.Object, jakarta.enterprise.context.control.RequestContextController"
+  },
+  {
+    "alternatives": false,
+    "injectionPoints": "",
+    "injectionPointsName": "java.util.Collections$EmptySet",
+    "qualifiers": "Any, Default",
+    "scope": "Singleton",
+    "simpleName": "ContextProducers",
+    "stereotypes": "",
+    "type": "java.lang.Object, org.jboss.resteasy.cdi.ContextProducers"
+  },
+  {
+    "alternatives": false,
+    "injectionPoints": "",
+    "injectionPointsName": "org.jboss.weld.injection.AbstractCallableInjectionPoint$1",
+    "qualifiers": "Any, Default",
+    "scope": "RequestScoped",
+    "simpleName": "ContextProducers",
+    "stereotypes": "",
+    "type": "jakarta.ws.rs.core.SecurityContext, java.lang.Object"
+  },
+  {
+    "alternatives": false,
+    "injectionPoints": "",
+    "injectionPointsName": "java.util.Collections$EmptySet",
+    "qualifiers": "Any, Default",
+    "scope": "Dependent",
+    "simpleName": "PrincipalBean",
+    "stereotypes": "",
+    "type": "java.lang.Object, java.security.Principal"
+  },
+  {
+    "alternatives": false,
+    "injectionPoints": "java.lang.String, org.eclipse.microprofile.config.Config",
+    "injectionPointsName": "org.jboss.weld.util.collections.ImmutableTinySet$Doubleton",
+    "qualifiers": "Any, Default",
+    "scope": "ApplicationScoped",
+    "simpleName": "DataConfig",
+    "stereotypes": "",
+    "type": "java.lang.Object, experiment.start.DataConfig"
+  },
+  {
+    "alternatives": false,
+    "injectionPoints": "",
+    "injectionPointsName": "java.util.Collections$EmptySet",
+    "qualifiers": "Any, Default",
+    "scope": "ApplicationScoped",
+    "simpleName": "ConfigProducer",
+    "stereotypes": "",
+    "type": "java.lang.Object, io.smallrye.config.inject.ConfigProducer"
+  },
+  {
+    "alternatives": false,
+    "injectionPoints": "",
+    "injectionPointsName": "java.util.Collections$EmptySet",
+    "qualifiers": "Any, Default",
+    "scope": "Dependent",
+    "simpleName": "FaultToleranceCDI_zh",
+    "stereotypes": "",
+    "type": "java.util.ResourceBundle, com.ibm.ws.microprofile.faulttolerance.cdi.resources.FaultToleranceCDI_zh, java.lang.Object, java.util.ListResourceBundle"
+  },
+  {
+    "alternatives": false,
+    "injectionPoints": "",
+    "injectionPointsName": "org.jboss.weld.injection.AbstractCallableInjectionPoint$1",
+    "qualifiers": "Any, Default",
+    "scope": "Dependent",
+    "simpleName": "ContextProducers",
+    "stereotypes": "",
+    "type": "jakarta.ws.rs.core.Configuration, java.lang.Object"
+  },
+  {
+    "alternatives": false,
+    "injectionPoints": "jakarta.enterprise.inject.Instance<jakarta.enterprise.context.control.RequestContextController>",
+    "injectionPointsName": "org.jboss.weld.util.collections.ImmutableTinySet$Singleton",
+    "qualifiers": "Any, Default",
+    "scope": "Dependent",
+    "simpleName": "AsyncRequestContextControllerImpl",
+    "stereotypes": "",
+    "type": "com.ibm.ws.microprofile.faulttolerance.cdi20.AsyncRequestContextControllerImpl, java.lang.Object, com.ibm.ws.microprofile.faulttolerance.spi.AsyncRequestContextController"
+  },
+  {
+    "alternatives": false,
+    "injectionPoints": "",
+    "injectionPointsName": "java.util.Collections$EmptySet",
+    "qualifiers": "Any, Default",
+    "scope": "Dependent",
+    "simpleName": "JwtCDI_fr",
+    "stereotypes": "",
+    "type": "java.util.ResourceBundle, java.lang.Object, java.util.ListResourceBundle, com.ibm.ws.security.mp.jwt.cdi.resources.JwtCDI_fr"
+  },
+  {
+    "alternatives": false,
+    "injectionPoints": "",
+    "injectionPointsName": "java.util.Collections$EmptySet",
+    "qualifiers": "Any, Default",
+    "scope": "RequestScoped",
+    "simpleName": "ServletContextBean",
+    "stereotypes": "",
+    "type": "java.lang.Object, jakarta.servlet.ServletContext"
+  },
+  {
+    "alternatives": false,
+    "injectionPoints": "",
+    "injectionPointsName": "java.util.Collections$EmptySet",
+    "qualifiers": "Any, Default",
+    "scope": "ApplicationScoped",
+    "simpleName": "JacksonConfig",
+    "stereotypes": "",
+    "type": "java.lang.Object, experiment.start.JacksonConfig"
+  },
+  {
+    "alternatives": false,
+    "injectionPoints": "",
+    "injectionPointsName": "org.jboss.weld.injection.AbstractCallableInjectionPoint$1",
+    "qualifiers": "Any, Default",
+    "scope": "ApplicationScoped",
+    "simpleName": "OpenTelemetryProducer",
+    "stereotypes": "",
+    "type": "io.opentelemetry.context.ImplicitContextKeyed, io.opentelemetry.api.trace.Span, java.lang.Object"
+  },
+  {
+    "alternatives": false,
+    "injectionPoints": "",
+    "injectionPointsName": "java.util.Collections$EmptySet",
+    "qualifiers": "Any, Default",
+    "scope": "Dependent",
+    "simpleName": "FaultToleranceCDI_hu",
+    "stereotypes": "",
+    "type": "java.util.ResourceBundle, com.ibm.ws.microprofile.faulttolerance.cdi.resources.FaultToleranceCDI_hu, java.lang.Object, java.util.ListResourceBundle"
+  },
+  {
+    "alternatives": false,
+    "injectionPoints": "jakarta.enterprise.inject.spi.BeanManager",
+    "injectionPointsName": "org.jboss.weld.util.collections.ImmutableTinySet$Singleton",
+    "qualifiers": "Any, Default",
+    "scope": "Dependent",
+    "simpleName": "BeanResource",
+    "stereotypes": "",
+    "type": "experiment.start.BeanResource, java.lang.Object"
+  },
+  {
+    "alternatives": false,
+    "injectionPoints": "",
+    "injectionPointsName": "java.util.Collections$EmptySet",
+    "qualifiers": "Any, Default",
+    "scope": "Dependent",
+    "simpleName": "JwtCDI_zh",
+    "stereotypes": "",
+    "type": "java.util.ResourceBundle, java.lang.Object, java.util.ListResourceBundle, com.ibm.ws.security.mp.jwt.cdi.resources.JwtCDI_zh"
+  },
+  {
+    "alternatives": false,
+    "injectionPoints": "",
+    "injectionPointsName": "java.util.Collections$EmptySet",
+    "qualifiers": "Any, Default",
+    "scope": "Dependent",
+    "simpleName": "FaultToleranceCDI_zh_TW",
+    "stereotypes": "",
+    "type": "java.util.ResourceBundle, com.ibm.ws.microprofile.faulttolerance.cdi.resources.FaultToleranceCDI_zh_TW, java.lang.Object, java.util.ListResourceBundle"
+  },
+  {
+    "alternatives": false,
+    "injectionPoints": "",
+    "injectionPointsName": "org.jboss.weld.injection.AbstractCallableInjectionPoint$1",
+    "qualifiers": "Any, Default",
+    "scope": "RequestScoped",
+    "simpleName": "ContextProducers",
+    "stereotypes": "",
+    "type": "jakarta.ws.rs.core.UriInfo, java.lang.Object"
+  },
+  {
+    "alternatives": false,
+    "injectionPoints": "",
+    "injectionPointsName": "java.util.Collections$EmptySet",
+    "qualifiers": "Any, Default",
+    "scope": "Dependent",
+    "simpleName": "BeanManagerProxy",
+    "stereotypes": "",
+    "type": "java.lang.Object, jakarta.enterprise.inject.spi.BeanManager, jakarta.enterprise.inject.spi.BeanContainer"
+  },
+  {
+    "alternatives": false,
+    "injectionPoints": "",
+    "injectionPointsName": "java.util.Collections$EmptySet",
+    "qualifiers": "Any, Default",
+    "scope": "Dependent",
+    "simpleName": "FaultToleranceCDI_pl",
+    "stereotypes": "",
+    "type": "java.util.ResourceBundle, com.ibm.ws.microprofile.faulttolerance.cdi.resources.FaultToleranceCDI_pl, java.lang.Object, java.util.ListResourceBundle"
+  },
+  {
+    "alternatives": false,
+    "injectionPoints": "",
+    "injectionPointsName": "java.util.Collections$EmptySet",
+    "qualifiers": "Any, Default",
+    "scope": "Dependent",
+    "simpleName": "JwtCDI_pl",
+    "stereotypes": "",
+    "type": "com.ibm.ws.security.mp.jwt.cdi.resources.JwtCDI_pl, java.util.ResourceBundle, java.lang.Object, java.util.ListResourceBundle"
+  },
+  {
+    "alternatives": false,
+    "injectionPoints": "",
+    "injectionPointsName": "java.util.Collections$EmptySet",
+    "qualifiers": "Any, Default",
+    "scope": "Dependent",
+    "simpleName": "JwtCDI_ru",
+    "stereotypes": "",
+    "type": "java.util.ResourceBundle, com.ibm.ws.security.mp.jwt.cdi.resources.JwtCDI_ru, java.lang.Object, java.util.ListResourceBundle"
+  },
+  {
+    "alternatives": false,
+    "injectionPoints": "",
+    "injectionPointsName": "java.util.Collections$EmptySet",
+    "qualifiers": "Any, Default",
+    "scope": "ApplicationScoped",
+    "simpleName": "LegacyMetricsExtensionAdapter",
+    "stereotypes": "",
+    "type": "java.lang.Object, jakarta.enterprise.inject.spi.Extension, io.openliberty.smallrye.metrics.cdi.adapters.LegacyMetricsExtensionAdapter"
+  },
+  {
+    "alternatives": false,
+    "injectionPoints": "",
+    "injectionPointsName": "java.util.Collections$EmptySet",
+    "qualifiers": "Any, Default",
+    "scope": "ApplicationScoped",
+    "simpleName": "Application",
+    "stereotypes": "",
+    "type": "java.lang.Object, jakarta.ws.rs.core.Application"
+  },
+  {
+    "alternatives": false,
+    "injectionPoints": "",
+    "injectionPointsName": "java.util.Collections$EmptySet",
+    "qualifiers": "Any, Default",
+    "scope": "Dependent",
+    "simpleName": "JwtCDI_pt_BR",
+    "stereotypes": "",
+    "type": "java.util.ResourceBundle, com.ibm.ws.security.mp.jwt.cdi.resources.JwtCDI_pt_BR, java.lang.Object, java.util.ListResourceBundle"
+  },
+  {
+    "alternatives": false,
+    "injectionPoints": "",
+    "injectionPointsName": "java.util.Collections$EmptySet",
+    "qualifiers": "Any, Default",
+    "scope": "ApplicationScoped",
+    "simpleName": "HelloApplication",
+    "stereotypes": "",
+    "type": "java.lang.Object, experiment.start.HelloApplication, jakarta.ws.rs.core.Application"
+  },
+  {
+    "alternatives": false,
+    "injectionPoints": "",
+    "injectionPointsName": "java.util.Collections$EmptySet",
+    "qualifiers": "Any, Default",
+    "scope": "Dependent",
+    "simpleName": "ResolutionContext",
+    "stereotypes": "",
+    "type": "java.lang.Object, com.ibm.ws.microprofile.faulttolerance.cdi.config.MethodFinder$ResolutionContext"
+  },
+  {
+    "alternatives": false,
+    "injectionPoints": "",
+    "injectionPointsName": "java.util.Collections$EmptySet",
+    "qualifiers": "Any, Default",
+    "scope": "Dependent",
+    "simpleName": "FaultToleranceCDI_ro",
+    "stereotypes": "",
+    "type": "java.util.ResourceBundle, java.lang.Object, com.ibm.ws.microprofile.faulttolerance.cdi.resources.FaultToleranceCDI_ro, java.util.ListResourceBundle"
+  },
+  {
+    "alternatives": false,
+    "injectionPoints": "jakarta.enterprise.inject.spi.InjectionPoint",
+    "injectionPointsName": "org.jboss.weld.injection.AbstractCallableInjectionPoint$1",
+    "qualifiers": "Any, Default",
+    "scope": "Dependent",
+    "simpleName": "MetricProducerAdapter",
+    "stereotypes": "",
+    "type": "org.eclipse.microprofile.metrics.Metric, org.eclipse.microprofile.metrics.Gauge<T>, java.lang.Object"
+  },
+  {
+    "alternatives": false,
+    "injectionPoints": "",
+    "injectionPointsName": "java.util.Collections$EmptySet",
+    "qualifiers": "Any, Default",
+    "scope": "ApplicationScoped",
+    "simpleName": "MetricRegistryProducerAdapter",
+    "stereotypes": "",
+    "type": "java.lang.Object, io.openliberty.smallrye.metrics.cdi.adapters51.MetricRegistryProducerAdapter"
+  },
+  {
+    "alternatives": false,
+    "injectionPoints": "",
+    "injectionPointsName": "java.util.Collections$EmptySet",
+    "qualifiers": "Any, Default",
+    "scope": "ApplicationScoped",
+    "simpleName": "CDI20TransactionContextExtension",
+    "stereotypes": "",
+    "type": "jakarta.enterprise.inject.spi.Extension, java.lang.Object, io.openliberty.transaction.internal.cdi20.CDI20TransactionContextExtension, com.ibm.ws.cdi.extension.WebSphereCDIExtension"
+  },
+  {
+    "alternatives": false,
+    "injectionPoints": "",
+    "injectionPointsName": "java.util.Collections$EmptySet",
+    "qualifiers": "Any, Default",
+    "scope": "Dependent",
+    "simpleName": "FTEnablementConfig10Impl",
+    "stereotypes": "",
+    "type": "com.ibm.ws.microprofile.faulttolerance.cdi.AbstractFTEnablementConfig, com.ibm.ws.microprofile.faulttolerance.cdi.FTEnablementConfig, java.lang.Object, com.ibm.ws.microprofile.faulttolerance.cdi.config.impl.FTEnablementConfig10Impl"
+  },
+  {
+    "alternatives": false,
+    "injectionPoints": "",
+    "injectionPointsName": "java.util.Collections$EmptySet",
+    "qualifiers": "Any, Default",
+    "scope": "ApplicationScoped",
+    "simpleName": "WeldSEBeanRegistrant",
+    "stereotypes": "",
+    "type": "java.lang.Object, jakarta.enterprise.inject.spi.Extension, org.jboss.weld.environment.se.WeldSEBeanRegistrant"
+  },
+  {
+    "alternatives": false,
+    "injectionPoints": "jakarta.enterprise.inject.spi.InjectionPoint",
+    "injectionPointsName": "org.jboss.weld.injection.AbstractCallableInjectionPoint$1",
+    "qualifiers": "Any, Default",
+    "scope": "Dependent",
+    "simpleName": "MetricProducerAdapter",
+    "stereotypes": "",
+    "type": "org.eclipse.microprofile.metrics.Histogram, org.eclipse.microprofile.metrics.Sampling, org.eclipse.microprofile.metrics.Counting, org.eclipse.microprofile.metrics.Metric, java.lang.Object"
+  },
+  {
+    "alternatives": false,
+    "injectionPoints": "",
+    "injectionPointsName": "java.util.Collections$EmptySet",
+    "qualifiers": "Any, Default",
+    "scope": "Dependent",
+    "simpleName": "MethodFinder",
+    "stereotypes": "",
+    "type": "com.ibm.ws.microprofile.faulttolerance.cdi.config.MethodFinder, java.lang.Object"
+  },
+  {
+    "alternatives": false,
+    "injectionPoints": "jakarta.enterprise.inject.spi.InjectionPoint",
+    "injectionPointsName": "org.jboss.weld.injection.AbstractCallableInjectionPoint$1",
+    "qualifiers": "Any, Default",
+    "scope": "Dependent",
+    "simpleName": "MetricProducerAdapter",
+    "stereotypes": "",
+    "type": "org.eclipse.microprofile.metrics.Sampling, org.eclipse.microprofile.metrics.Metric, org.eclipse.microprofile.metrics.Timer, java.lang.Object"
+  },
+  {
+    "alternatives": false,
+    "injectionPoints": "",
+    "injectionPointsName": "java.util.Collections$EmptySet",
+    "qualifiers": "Any, Default",
+    "scope": "Dependent",
+    "simpleName": "FaultToleranceCDI_pt_BR",
+    "stereotypes": "",
+    "type": "com.ibm.ws.microprofile.faulttolerance.cdi.resources.FaultToleranceCDI_pt_BR, java.util.ResourceBundle, java.lang.Object, java.util.ListResourceBundle"
+  },
+  {
+    "alternatives": false,
+    "injectionPoints": "",
+    "injectionPointsName": "java.util.Collections$EmptySet",
+    "qualifiers": "Any, Default",
+    "scope": "ApplicationScoped",
+    "simpleName": "JwtCDIExtension",
+    "stereotypes": "",
+    "type": "jakarta.enterprise.inject.spi.Extension, java.lang.Object, com.ibm.ws.security.mp.jwt.cdi.JwtCDIExtension, com.ibm.ws.cdi.extension.WebSphereCDIExtension"
+  },
+  {
+    "alternatives": false,
+    "injectionPoints": "",
+    "injectionPointsName": "java.util.Collections$EmptySet",
+    "qualifiers": "Any, Default",
+    "scope": "Dependent",
+    "simpleName": "FaultToleranceCDI_es",
+    "stereotypes": "",
+    "type": "java.util.ResourceBundle, com.ibm.ws.microprofile.faulttolerance.cdi.resources.FaultToleranceCDI_es, java.lang.Object, java.util.ListResourceBundle"
+  },
+  {
+    "alternatives": false,
+    "injectionPoints": "",
+    "injectionPointsName": "java.util.Collections$EmptySet",
+    "qualifiers": "Any, Default",
+    "scope": "Dependent",
+    "simpleName": "FTEnablementConfig11Impl",
+    "stereotypes": "",
+    "type": "com.ibm.ws.microprofile.faulttolerance.cdi.config.impl.FTEnablementConfig11Impl, com.ibm.ws.microprofile.faulttolerance.cdi.AbstractFTEnablementConfig, com.ibm.ws.microprofile.faulttolerance.cdi.FTEnablementConfig, java.lang.Object"
+  },
+  {
+    "alternatives": false,
+    "injectionPoints": "",
+    "injectionPointsName": "java.util.Collections$EmptySet",
+    "qualifiers": "Any, Default",
+    "scope": "Dependent",
+    "simpleName": "JwtCDI_hu",
+    "stereotypes": "",
+    "type": "com.ibm.ws.security.mp.jwt.cdi.resources.JwtCDI_hu, java.util.ResourceBundle, java.lang.Object, java.util.ListResourceBundle"
+  },
+  {
+    "alternatives": false,
+    "injectionPoints": "",
+    "injectionPointsName": "java.util.Collections$EmptySet",
+    "qualifiers": "Any, Default",
+    "scope": "Dependent",
+    "simpleName": "UserTransactionBean",
+    "stereotypes": "",
+    "type": "java.lang.Object, jakarta.transaction.UserTransaction"
+  },
+  {
+    "alternatives": false,
+    "injectionPoints": "",
+    "injectionPointsName": "java.util.Collections$EmptySet",
+    "qualifiers": "Any, Default",
+    "scope": "Dependent",
+    "simpleName": "SessionBeanAwareInjectionPointBean",
+    "stereotypes": "",
+    "type": "java.lang.Object, jakarta.enterprise.inject.spi.InjectionPoint"
+  },
+  {
+    "alternatives": false,
+    "injectionPoints": "",
+    "injectionPointsName": "org.jboss.weld.injection.AbstractCallableInjectionPoint$1",
+    "qualifiers": "Any, Default",
+    "scope": "RequestScoped",
+    "simpleName": "ContextProducers",
+    "stereotypes": "",
+    "type": "org.jboss.resteasy.spi.HttpRequest, java.lang.Object"
+  },
+  {
+    "alternatives": false,
+    "injectionPoints": "",
+    "injectionPointsName": "java.util.Collections$EmptySet",
+    "qualifiers": "Any, Default",
+    "scope": "Dependent",
+    "simpleName": "FaultToleranceCDI_ja",
+    "stereotypes": "",
+    "type": "java.util.ResourceBundle, com.ibm.ws.microprofile.faulttolerance.cdi.resources.FaultToleranceCDI_ja, java.lang.Object, java.util.ListResourceBundle"
+  },
+  {
+    "alternatives": false,
+    "injectionPoints": "",
+    "injectionPointsName": "org.jboss.weld.injection.AbstractCallableInjectionPoint$1",
+    "qualifiers": "Any, Default",
+    "scope": "ApplicationScoped",
+    "simpleName": "ContextProducers",
+    "stereotypes": "",
+    "type": "jakarta.ws.rs.sse.Sse, java.lang.Object"
+  },
+  {
+    "alternatives": false,
+    "injectionPoints": "experiment.start.DataConfig",
+    "injectionPointsName": "org.jboss.weld.util.collections.ImmutableTinySet$Singleton",
+    "qualifiers": "Any, Default",
+    "scope": "Dependent",
+    "simpleName": "HelloResource",
+    "stereotypes": "",
+    "type": "java.lang.Object, experiment.start.HelloResource"
+  },
+  {
+    "alternatives": false,
+    "injectionPoints": "io.openliberty.smallrye.metrics.cdi.adapters.LegacyMetricsExtensionAdapter",
+    "injectionPointsName": "org.jboss.weld.util.collections.ImmutableTinySet$Singleton",
+    "qualifiers": "Any, Default",
+    "scope": "ApplicationScoped",
+    "simpleName": "MetricProducerAdapter",
+    "stereotypes": "",
+    "type": "java.lang.Object, io.openliberty.smallrye.metrics.cdi.adapters.MetricProducerAdapter"
+  },
+  {
+    "alternatives": false,
+    "injectionPoints": "",
+    "injectionPointsName": "java.util.Collections$EmptySet",
+    "qualifiers": "Any, Default",
+    "scope": "Dependent",
+    "simpleName": "JwtCDI_es",
+    "stereotypes": "",
+    "type": "java.util.ResourceBundle, java.lang.Object, java.util.ListResourceBundle, com.ibm.ws.security.mp.jwt.cdi.resources.JwtCDI_es"
+  },
+  {
+    "alternatives": false,
+    "injectionPoints": "",
+    "injectionPointsName": "java.util.Collections$EmptySet",
+    "qualifiers": "Any, Default",
+    "scope": "Dependent",
+    "simpleName": "JwtCDI_it",
+    "stereotypes": "",
+    "type": "com.ibm.ws.security.mp.jwt.cdi.resources.JwtCDI_it, java.util.ResourceBundle, java.lang.Object, java.util.ListResourceBundle"
+  },
+  {
+    "alternatives": false,
+    "injectionPoints": "",
+    "injectionPointsName": "java.util.Collections$EmptySet",
+    "qualifiers": "Any, Default",
+    "scope": "SessionScoped",
+    "simpleName": "HttpSessionBean",
+    "stereotypes": "",
+    "type": "java.lang.Object, jakarta.servlet.http.HttpSession"
+  },
+  {
+    "alternatives": false,
+    "injectionPoints": "",
+    "injectionPointsName": "java.util.Collections$EmptySet",
+    "qualifiers": "Any, Default",
+    "scope": "Dependent",
+    "simpleName": "EventImpl",
+    "stereotypes": "",
+    "type": "jakarta.enterprise.event.Event, java.lang.Object, org.jboss.weld.events.WeldEvent"
+  },
+  {
+    "alternatives": true,
+    "injectionPoints": "",
+    "injectionPointsName": "java.util.Collections$EmptySet",
+    "qualifiers": "Any, Default",
+    "scope": "RequestScoped",
+    "simpleName": "PrincipalBean",
+    "stereotypes": "",
+    "type": "com.ibm.ws.security.mp.jwt.principal.PrincipalBean, java.lang.Object, org.eclipse.microprofile.jwt.JsonWebToken, java.security.Principal"
+  },
+  {
+    "alternatives": false,
+    "injectionPoints": "",
+    "injectionPointsName": "java.util.Collections$EmptySet",
+    "qualifiers": "Any, Default",
+    "scope": "Dependent",
+    "simpleName": "FaultToleranceCDI_de",
+    "stereotypes": "",
+    "type": "java.util.ResourceBundle, com.ibm.ws.microprofile.faulttolerance.cdi.resources.FaultToleranceCDI_de, java.lang.Object, java.util.ListResourceBundle"
+  },
+  {
+    "alternatives": false,
+    "injectionPoints": "",
+    "injectionPointsName": "java.util.Collections$EmptySet",
+    "qualifiers": "Any, Default",
+    "scope": "Dependent",
+    "simpleName": "FaultToleranceCDI_ko",
+    "stereotypes": "",
+    "type": "java.util.ResourceBundle, java.lang.Object, java.util.ListResourceBundle, com.ibm.ws.microprofile.faulttolerance.cdi.resources.FaultToleranceCDI_ko"
+  },
+  {
+    "alternatives": false,
+    "injectionPoints": "",
+    "injectionPointsName": "java.util.Collections$EmptySet",
+    "qualifiers": "Any, Default",
+    "scope": "Dependent",
+    "simpleName": "Bean",
+    "stereotypes": "",
+    "type": "java.lang.Object, jakarta.enterprise.inject.spi.Bean"
+  },
+  {
+    "alternatives": false,
+    "injectionPoints": "",
+    "injectionPointsName": "org.jboss.weld.injection.AbstractCallableInjectionPoint$1",
+    "qualifiers": "Any, Default",
+    "scope": "RequestScoped",
+    "simpleName": "ContextProducers",
+    "stereotypes": "",
+    "type": "jakarta.ws.rs.container.ResourceInfo, java.lang.Object"
+  },
+  {
+    "alternatives": false,
+    "injectionPoints": "",
+    "injectionPointsName": "org.jboss.weld.injection.AbstractCallableInjectionPoint$1",
+    "qualifiers": "Any, Default",
+    "scope": "ApplicationScoped",
+    "simpleName": "OpenTelemetryProducer",
+    "stereotypes": "",
+    "type": "io.opentelemetry.context.ImplicitContextKeyed, io.opentelemetry.api.baggage.Baggage, java.lang.Object"
+  },
+  {
+    "alternatives": false,
+    "injectionPoints": "",
+    "injectionPointsName": "java.util.Collections$EmptySet",
+    "qualifiers": "Any, Default",
+    "scope": "Dependent",
+    "simpleName": "JwtCDI_ro",
+    "stereotypes": "",
+    "type": "com.ibm.ws.security.mp.jwt.cdi.resources.JwtCDI_ro, java.util.ResourceBundle, java.lang.Object, java.util.ListResourceBundle"
+  },
+  {
+    "alternatives": false,
+    "injectionPoints": "",
+    "injectionPointsName": "java.util.Collections$EmptySet",
+    "qualifiers": "Any, Default",
+    "scope": "Dependent",
+    "simpleName": "JwtCDI_cs",
+    "stereotypes": "",
+    "type": "java.util.ResourceBundle, com.ibm.ws.security.mp.jwt.cdi.resources.JwtCDI_cs, java.lang.Object, java.util.ListResourceBundle"
+  },
+  {
+    "alternatives": false,
+    "injectionPoints": "",
+    "injectionPointsName": "org.jboss.weld.injection.AbstractCallableInjectionPoint$1",
+    "qualifiers": "Any, Default",
+    "scope": "Dependent",
+    "simpleName": "ConfigProducer",
+    "stereotypes": "",
+    "type": "java.io.Serializable, org.eclipse.microprofile.config.Config, java.lang.Object, io.smallrye.config.SmallRyeConfig"
+  },
+  {
+    "alternatives": false,
+    "injectionPoints": "",
+    "injectionPointsName": "java.util.Collections$EmptySet",
+    "qualifiers": "Any, Default",
+    "scope": "ApplicationScoped",
+    "simpleName": "OpenTelemetryProducer",
+    "stereotypes": "",
+    "type": "java.lang.Object, io.openliberty.microprofile.telemetry.internal.common.cdi.OpenTelemetryProducer"
+  }
+]
