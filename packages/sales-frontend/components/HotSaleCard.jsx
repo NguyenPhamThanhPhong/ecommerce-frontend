@@ -9,7 +9,7 @@ import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 
 export default function HotSaleCard() {
   return (
-    <Card sx={{ maxWidth: 400, borderRadius: 2, boxShadow: 3, p: 2 }}>
+    <Card sx={{ maxWidth: 400, borderRadius: 2, boxShadow: 3, p: 2, display:'flex' }}>
       <Box display="flex" justifyContent="space-between" alignItems="center">
         {/* Product Image */}
         <CardMedia

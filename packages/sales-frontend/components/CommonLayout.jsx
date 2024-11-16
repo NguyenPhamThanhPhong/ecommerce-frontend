@@ -35,6 +35,7 @@ const BottomAppBar = () => {
     <Box
       component="footer"
       sx={{
+        zIndex: 1000,
         position: 'fixed',
         bottom: 0,
         width: '100%',
@@ -93,10 +94,10 @@ const CommonLayout = ({ children }) => {
   return (
     <div>
       <ResponsiveAppBar />
-      <Box sx={{ paddingTop: '36px',display:'flex',justifyContent:'center' }}>
+      <Box sx={{ paddingTop: '36px',display:'flex',justifyContent:'center',marginBottom:'150px' }}>
         {children}
       </Box>
-      {/* <BottomAppBar /> */}
+      <BottomAppBar />
     </div>
   );
 };

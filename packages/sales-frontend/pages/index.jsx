@@ -2,14 +2,22 @@
 import React from 'react';
 import RecipeReviewCard from '@shared/RecipeReviewCard';
 import GallerySlider from '@components/GalleryView';
-import { Box, Typography, Card, CardContent, CardMedia, Button, Icon, Avatar } from '@mui/material';
-import { createTheme } from '@mui/material';
+import {
+  Box, Typography,
+  ImageList, ImageListItem,
+  CardActionArea,
+  Card, CardContent, CardMedia, Button, Icon, Avatar, Stack
+} from '@mui/material';
+import { useTheme } from '@mui/material';
 import AirportShuttleIcon from '@mui/icons-material/AirportShuttle';
 import HotSaleCard from '@components/HotSaleCard';
 import SuccessModal from '@components/SuccessModal';
-
+import Banner from '@components/home/Banner';
+import ProductGrid from '@components/product/ProductGrid';
+import ProductCard from '@components/product/ProductCard';
 
 function IconButtonWithText() {
+
 
   return (
     <Button
@@ -48,36 +56,64 @@ function IconButtonWithText() {
   );
 }
 
-// `
-// <ProductCard />
-// <HotSaleCard/>
-// <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100px' }}>
-//   <Card sx={{ maxWidth: 345, position: 'relative' }}>
-//     <CardContent>
-//       {/* Card content */}
-//       <Box sx={{ position: 'absolute', top: 0, right: 0, p: 1 }}>
-//         <button>Close</button>
-//       </Box>
-//     </CardContent>
-//   </Card>
-// </Box>
+function LabelLine({ children, margin }) {
+  return (
+    <Box display={'flex'} sx={{
+      margin: margin,
+      justifyContent: 'space-between',
+      alignItems: 'center',
+    }}>
+      <Typography variant="h5" fontWeight={500} sx={{
+        fontSize: '18px',
+        cursor: 'pointer',
+        textDecoration: 'underline',
+      }}>
+        {children}
+      </Typography>
+      <Stack direction={'row'} sx={{
+        columnGap: '10px',
+      }}>
+        <Avatar sx={{ height: '16px', width: '16px', cursor: 'pointer' }} src='pre-page.svg' />
+        <Avatar sx={{ height: '16px', width: '16px', cursor: 'pointer' }} src='next-page.svg' />
+      </Stack>
+    </Box>
+  )
 
-// <Box height={120}
-//   sx={{
-//     width: '100%',
-//     background: theme.palette.background.default,
-//     display: 'flex', justifyContent: 'space-between',
-//     alignItems: 'center'
-//   }}>
-//   {buttonData.map(
-//     (_, index) => (<IconButtonWithText key={index} />)
-//   )
-//   }
-// </Box>`
+}
+
+
+
 
 const HomePage = () => {
-  const theme = createTheme();
+  const theme = useTheme();
   const buttonData = Array(5).fill(1);
+  const standardMargin = '0 132px'
+  const subBanners = [
+    {
+      id: '1',
+      image: 'sub-banner1.png',
+      width: '370px',
+      height: '330px'
+    },
+    {
+      id: '2',
+      image: 'sub-banner2.png',
+      width: '240px',
+      height: '330px'
+    },
+    {
+      id: '3',
+      image: 'sub-banner3.png',
+      width: '240px',
+      height: '330px'
+    },
+    {
+      id: '4',
+      image: 'sub-banner4.png',
+      width: '240px',
+      height: '330px'
+    }
+  ]
 
   return (
     <>
@@ -85,6 +121,86 @@ const HomePage = () => {
       {/* <GallerySlider /> */}
       {/* <RoutingBreadcrumbs /> */}
       {/* <ProductFilterLayout /> */}
+      <Stack sx={{
+        width: '100%',
+      }}>
+        <Banner margin={standardMargin} />
+
+        <Box height={120}
+          sx={{
+            marginTop: '36px',
+            marginBottom: '25px',
+            padding: '0 139px',
+            width: '100%',
+            background: '#ffffff',
+            display: 'flex', justifyContent: 'space-between',
+            alignItems: 'center'
+          }}>
+          {buttonData.map(
+            (_, index) => (<IconButtonWithText key={index} />)
+          )
+          }
+        </Box>
+
+        <LabelLine margin={standardMargin}>
+          Hot Sales
+        </LabelLine>
+        <ProductGrid length={5} margin={'34px 132px'} >
+          <ProductCard />
+        </ProductGrid>
+        <LabelLine margin={standardMargin}>
+          Featured Collection
+        </LabelLine>
+        <ProductGrid length={5} margin={'34px 132px'} >
+          <ProductCard />
+        </ProductGrid>
+        <Box sx={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          marginBottom: '41px',
+          height: '330px',
+          columnGap: '30px',
+          margin: standardMargin,
+        }}>
+          {
+            subBanners.map((banner, index) => (
+              <Avatar key={banner.id} variant='square'
+                src={banner.image}
+                sx={{
+                  width: banner.width,
+                  height: banner.height,
+                  objectFit: 'fill',
+                }} />
+            ))
+          }
+
+        </Box>
+        <Box height={120}
+          sx={{
+            marginTop: '36px',
+            marginBottom: '25px',
+            padding: '0 139px',
+            width: '100%',
+            background: '#ffffff',
+            display: 'flex', justifyContent: 'space-between',
+            alignItems: 'center'
+          }}>
+          {Array(12).fill(1).map(
+            (_, index) => (<IconButtonWithText key={index} />)
+          )
+          }
+        </Box>
+        <LabelLine margin={standardMargin}>
+          Featured Collection
+        </LabelLine>
+        <ProductGrid length={5} margin={'34px 132px'} >
+          <HotSaleCard />
+        </ProductGrid>
+
+      </Stack>
+
+
+
 
 
       {/* <RecipeReviewCard>Click me!</RecipeReviewCard> */}
