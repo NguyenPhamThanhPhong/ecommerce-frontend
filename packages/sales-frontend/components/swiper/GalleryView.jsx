@@ -1,3 +1,4 @@
+'use client';
 import React from 'react';
 import { Box, Card, CardMedia } from '@mui/material';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -8,7 +9,7 @@ import 'swiper/css/navigation';
 
 
 // Swiper modules
-import { EffectCoverflow, Pagination } from 'swiper/modules';
+import { EffectCoverflow, Pagination, Navigation } from 'swiper/modules';
 
 // Sample images array
 const images = [
@@ -16,24 +17,41 @@ const images = [
   'https://picsum.photos/id/237/500/600',
   'https://picsum.photos/id/237/500/600',
   'https://picsum.photos/id/237/500/600',
-  'https://picsum.photos/id/237/500/600'
+
 ];
 
 const GallerySlider = () => {
   return (
     <Box sx={{ width: '100%', maxWidth: 1000, mx: 'auto', mt: 4 }}>
+      <style>
+        {`
+          .card-wrapper {
+            padding-left: 50px;
+            margin-right: 50px;
+          }
+
+          .swiper-button-next,
+          .swiper-button-prev {
+          margin-left: -20px;
+            color: red;
+            font-weight: 800;
+          }
+
+          .swiper-button-next:hover,
+          .swiper-button-prev:hover {
+            color: #808080; /* Change on hover */
+          }
+        `}
+      </style>
       <Swiper
-        modules={[EffectCoverflow, Pagination]}
-        effect="coverflow"
+        modules={[Pagination, Navigation]}
+        enabled={true}
+        spaceBetween={50}
+        slidesOffsetAfter={100}
         grabCursor={true}
-        centeredSlides={true}
         slidesPerView={3} // Show at least 3 images
-        coverflowEffect={{
-          rotate: 50,
-          stretch: 0,
-          depth: 100,
-          modifier: 1,
-          slideShadows: true,
+        navigation={{
+          enabled: true,
         }}
         pagination={{ clickable: true }}
         loop={true}

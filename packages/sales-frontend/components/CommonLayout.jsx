@@ -97,7 +97,7 @@ const CommonLayout = ({ children }) => {
       <Box sx={{ paddingTop: '36px',display:'flex',justifyContent:'center',marginBottom:'150px' }}>
         {children}
       </Box>
-      <BottomAppBar />
+      {/* <BottomAppBar /> */}
     </div>
   );
 };

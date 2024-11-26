@@ -25,14 +25,14 @@ export const theme = createTheme({
       white: '#ffffff',
     },
     primary: {
-      main: '#007bff',
+      main: '#000000',
     },
     secondary: {
       main: '#ffffff',
     },
     text: {
       primary: '#212121',
-      disabled: '#757575', // For secondary text
+      thirdary: '#757575', // For secondary text
       secondary: '#ffffff', // For white text  
     },
     hover: {

@@ -1,7 +1,7 @@
 // pages/index.jsx
 import React from 'react';
 import RecipeReviewCard from '@shared/RecipeReviewCard';
-import GallerySlider from '@components/GalleryView';
+import GallerySlider from '@components/swiper/GalleryView';
 import {
   Box, Typography,
   ImageList, ImageListItem,
@@ -15,6 +15,8 @@ import SuccessModal from '@components/SuccessModal';
 import Banner from '@components/home/Banner';
 import ProductGrid from '@components/product/ProductGrid';
 import ProductCard from '@components/product/ProductCard';
+import NewsCard from '@components/NewsCard';
+// import ImageSwiper from '@components/ImageSwiper';
 
 function IconButtonWithText() {
 
@@ -190,11 +192,18 @@ const HomePage = () => {
           )
           }
         </Box>
+        {/* <ImageSwiper /> */}
         <LabelLine margin={standardMargin}>
           Featured Collection
         </LabelLine>
-        <ProductGrid length={5} margin={'34px 132px'} >
+        <ProductGrid length={5} margin={'34px 132px'} rowSpacing={4} columnSpacing={4} >
           <HotSaleCard />
+        </ProductGrid>
+        <LabelLine margin={standardMargin}>
+          Our latest news
+        </LabelLine>
+        <ProductGrid length={5} margin={'34px 132px'} rowSpacing={4} columnSpacing={4} >
+          <NewsCard />
         </ProductGrid>
 
       </Stack>
