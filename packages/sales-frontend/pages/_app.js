@@ -1,36 +1,27 @@
-// pages/_app.js
-import CommonLayout from '@components/CommonLayout';
-// import { darkTheme, lightTheme } from './theme';
-import { Button,ThemeProvider, CssBaseline } from '@mui/material';
+import { Inter } from 'next/font/google';
+import { ThemeProvider, CssBaseline } from '@mui/material';
 import { theme, GlobalStyles } from '../styles/GlobalStyles';
+import CommonLayout from '@components/CommonLayout';
 
+const inter = Inter({ subsets: ['latin'] });
 
-function MyApp(params) {
-  const noLayoutRoutes = ['/login', '/register', '/auth']; // Add your login-related routes here
-
-  // const [isDarkMode, setIsDarkMode] = useState(false);
-
-  const { Component, pageProps, router } = params;
-
-
+function MyApp({ Component, pageProps, router }) {
+  const noLayoutRoutes = ['/login', '/register', '/auth'];
   const isNoLayout = noLayoutRoutes.includes(router.pathname);
 
-  // If the page is a login-related page, don't wrap it in the layout
-  if (isNoLayout) {
-    return <Component {...pageProps} />;
-  }
-
-  // For non-login pages, wrap with the layout
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <GlobalStyles />
-      <CommonLayout>
-      {/* <Button onClick={() => setIsDarkMode(!isDarkMode)}>
-        Toggle Theme
-      </Button> */}
-        <Component {...pageProps} />
-      </CommonLayout>
+      <div className={inter.className}>
+        {isNoLayout ? (
+          <Component {...pageProps} />
+        ) : (
+          <CommonLayout>
+            <Component {...pageProps} />
+          </CommonLayout>
+        )}
+      </div>
     </ThemeProvider>
   );
 }

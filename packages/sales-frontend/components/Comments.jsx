@@ -3,7 +3,6 @@ import { useState } from 'react';
 import { Box, Typography, Rating, Avatar } from '@mui/material';
 
 export default function Comments() {
-  const [rating, setRating] = useState(4.8); // Example rating
   const feedbacks = [
     {
       name: 'Dianne Russell',
@@ -40,20 +39,7 @@ export default function Comments() {
   return (
     <Box p={4}>
       {/* Header */}
-      <Box mb={4}>
-        <Typography variant="h4" fontWeight="bold">
-          Ratings & Reviews
-        </Typography>
-        <Box display="flex" alignItems="center" mt={2}>
-          <Typography variant="h3" fontWeight="bold" mr={2}>
-            {rating}
-          </Typography>
-          <Rating value={rating} precision={0.1} readOnly />
-        </Box>
-        <Typography variant="body1" color="text.secondary">
-          1,64,002 Ratings & 5,922 Reviews
-        </Typography>
-      </Box>
+
 
       {/* Individual Feedback */}
       <Box>
@@ -70,7 +56,7 @@ export default function Comments() {
                 </Typography>
               </Box>
               <Rating value={feedback.rating} readOnly size="small" />
-              <Typography variant="body2" mt={1}>
+              <Typography variant="body1" mt={1}>
                 {feedback.comment}
               </Typography>
             </Box>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Grid2, TextField, Typography } from '@mui/material';
+import { Box, Grid2, TextField, Typography, useTheme } from '@mui/material';
 import { marginUtil } from '@styles/styleUtils';
 
 import Button from '@mui/material/Button';
@@ -55,8 +55,8 @@ const BottomAppBar = () => {
             <Grid2 key={index} {...columnProps}>
               <Typography variant="h6" key={0}
                 sx={{ fontSize: titleFontSize, fontWeight: titleFontWeight }}>{column[0]}</Typography>
-              {column.slice(1).map((item, index) => (
-                <Typography key={index} variant="body2">{item}</Typography>
+              {column.slice(1).map((data, index) => (
+                <Typography key={index} variant="body2">{data}</Typography>
               ))}
             </Grid2>
           ))}
@@ -91,10 +91,11 @@ const BottomAppBar = () => {
 };
 
 const CommonLayout = ({ children }) => {
+  const theme = useTheme();
   return (
     <div>
       <ResponsiveAppBar />
-      <Box sx={{ paddingTop: '36px',display:'flex',justifyContent:'center',marginBottom:'150px' }}>
+      <Box sx={{ paddingTop: '36px', display: 'flex', justifyContent: 'center', marginBottom: '150px' }}>
         {children}
       </Box>
       {/* <BottomAppBar /> */}

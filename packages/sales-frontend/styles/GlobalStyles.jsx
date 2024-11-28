@@ -8,6 +8,9 @@ import { createTheme } from '@mui/material/styles';
 
 export const theme = createTheme({
   discount: '#ffffff',
+  boxShadow: {
+    default: '0px 3px 1px -2px rgba(0,0,0,0.2),0px 2px 2px 0px rgba(0,0,0,0.14),0px 1px 5px 0px rgba(0,0,0,0.12)',
+  },
   fontWeight: {
     thin: 100,
     extraLight: 200,
@@ -34,6 +37,7 @@ export const theme = createTheme({
       primary: '#212121',
       thirdary: '#757575', // For secondary text
       secondary: '#ffffff', // For white text  
+      subtitle: '#B9BBBF', // For subtitle text
     },
     hover: {
       primary: 'rgb(95, 95, 95,0.2)', // Green for the logo
@@ -102,7 +106,7 @@ export const theme = createTheme({
         borderRadius: '4px',
         padding: '8px 16px',
         fontSize: '1rem',
-        color: '#007b55', // Text color
+        color: '#000000', // Text color
       },
       contained: {
         backgroundColor: '#000000',
