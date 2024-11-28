@@ -1,9 +1,10 @@
-import React from 'react';
-import { Box, Grid2, TextField, Typography, useTheme } from '@mui/material';
+'use client'
+import { Box, Grid2, TextField, Typography, useTheme, Stack } from '@mui/material';
 import { marginUtil } from '@styles/styleUtils';
 
 import Button from '@mui/material/Button';
 import { ResponsiveAppBar } from '@components/AppBar';
+import { isHomePage } from '@utils/PathUtils';
 
 
 const BottomAppBar = () => {
@@ -92,14 +93,27 @@ const BottomAppBar = () => {
 
 const CommonLayout = ({ children }) => {
   const theme = useTheme();
+  const [isNotHome, setIsNotHome] = React.useState(false);
+
+  React.useEffect(() => {
+    setIsNotHome(!(window.location.pathname === '/' || window.location.pathname === '/home'));
+  }, []);
   return (
-    <div>
+    <>
       <ResponsiveAppBar />
       <Box sx={{ paddingTop: '36px', display: 'flex', justifyContent: 'center', marginBottom: '150px' }}>
-        {children}
+        {
+          isNotHome ? (
+            <Stack sx={{ width: '85%' }}>
+              {children}
+            </Stack>
+          ) : (
+            children
+          )
+        }
       </Box>
       {/* <BottomAppBar /> */}
-    </div>
+    </>
   );
 };
 

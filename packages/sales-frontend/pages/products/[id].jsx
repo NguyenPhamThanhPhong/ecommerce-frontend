@@ -21,9 +21,9 @@ import RoutingBreadcrumbs from "@components/RoutingBreadCrumbs";
 import { ProductSelector, ProductFavorite, ProductRating, ProductColorPicker } from "@components/product/ProductUIAssets";
 import theme from "@styles/GlobalStyles";
 import SmsIcon from '@mui/icons-material/Sms';
-import NumberInput from "@components/NumberInput";
 import ShoppingBagIcon from '@mui/icons-material/ShoppingBag';
 import CommonTab from "@components/CommonTab";
+import FloatingNumberInput from "@components/inputs/FloatingNumberInput";
 
 const DetailDivider = () => (
   <Divider sx={{ marginTop: '20px', marginBottom: '10px', borderColor: '#bdbcbc' }} />
@@ -165,9 +165,7 @@ const ProductPage = () => {
 
 
   return (
-    <Stack sx={{
-      width: '85%',
-    }}>
+    <>
       {/* Breadcrumb */}
       <Box sx={{ display: 'block', marginBottom: '28px' }}>
         <RoutingBreadcrumbs />
@@ -289,7 +287,7 @@ const ProductPage = () => {
 
             flexDirection: 'row',
           }}>
-            <NumberInput />
+            <FloatingNumberInput />
 
             {/* Add to Cart */}
             <Button
@@ -324,7 +322,7 @@ const ProductPage = () => {
 
 
       <Comments />
-    </Stack>
+    </>
   );
 };
 

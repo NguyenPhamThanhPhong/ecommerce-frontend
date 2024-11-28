@@ -1,3 +1,4 @@
+'use client';
 import {
     Box,
     RadioGroup, Radio,
@@ -41,7 +42,7 @@ import {
     // const onSelectChange = onSelectChange || ((value) => { });
   
     return (
-      <Stack sx={{ width: '85%' }}>
+      <>
         <Box sx={{ display: 'block', marginBottom: '28px' }}>
           <RoutingBreadcrumbs />
         </Box>
@@ -153,7 +154,7 @@ import {
   
           </Stack>
         </Stack>
-      </Stack>
+      </>
   
     );
   }
