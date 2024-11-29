@@ -1,100 +1,203 @@
-import { Box, Grid2, Typography, Button, IconButton, TextField, Paper } from '@mui/material';
+import { Box, Grid2, Typography, Button, IconButton, TextField, Paper, useTheme, Avatar, Stack } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
+import FlatNumberInput from '@components/inputs/FlatNumberInput';
+import { DetailDivider } from '@components/product/ProductUIAssets';
+import SuccessModal from '@components/SuccessModal';
+
+const TrashButton = ({ theme }) => (
+  <Box sx={{
+    textAlign: 'center',
+    display: 'inline-flex',
+    border: `1px solid ${theme.palette.outline.primary}`,
+    padding: '4px',
+    cursor: 'pointer'
+  }}>
+    <Avatar src="/trash.svg"
+      variant='square'
+      sx={{
+        width: '28px', height: '28px',
+
+        objectFit: 'contain'
+      }}
+    />
+  </Box>
+)
+const CardOrderItem = ({ key, item, fontWeight }) => (
+  <Box sx={{
+    display: 'flex', justifyContent: 'space-between',
+    fontSize: 16,
+    mb: 2
+  }}>
+    <Typography>{item.label}</Typography>
+    <Typography sx={{ fontWeight: fontWeight }}>{item.value}</Typography>
+  </Box>
+)
+const cartOrderData = [
+  {
+    label: 'Price',
+    value: '$319.98'
+  },
+  {
+    label: 'Discount',
+    value: '$31.9'
+  },
+  {
+    label: 'Shipping',
+    value: 'Free'
+  },
+  {
+    label: 'Coupon Applied',
+    value: '$0.00'
+  },
+]
+const summaries = [
+
+  {
+    label: 'TOTAL',
+    value: '$288.08'
+  },
+  {
+    label: 'Estimated Delivery by',
+    value: '01 Feb, 2023'
+  }
+]
+
+const successModalSumaries = [
+  {
+    label: 'Payment Type',
+    value: 'Net Banking'
+  },
+  {
+    label: 'Phone number',
+    value: '099999999'
+  },
+  {
+    label: 'Email',
+    value: 'abc123@gmail.com'
+  },
+  {
+    label: 'Transaction id',
+    value: '9999999999'
+  },
+  {
+    label: "Amount Paid",
+    value: '$288.08'
+  }
+]
+
 
 export default function Cart() {
+  const theme = useTheme();
+  const [open, setOpen] = React.useState(false);
+
+  const handleOpen = () => { setOpen(true); }
+  const handleClose = () => { setOpen(false); }
+
+  const modalContent = (
+    <Stack sx={{ fontFamily: 'lato', px: '15px' }}>
+      {
+        successModalSumaries.map((item, index) => (
+          <CardOrderItem key={index} item={item} />
+        ))
+      }
+    </Stack>
+  )
+
   return (
     <Box sx={{ padding: 4 }}>
-      <Typography variant="h4" gutterBottom>
-        Cart <Typography component="span" variant="h6">2 ITEMS</Typography>
+      <Typography variant="h4" gutterBottom fontWeight={'bold'}>
+        Cart <Typography component="span" variant="h6" color={theme.palette.text.cartSubTiltle} fontWeight={theme.fontWeight.thin}>2 ITEMS</Typography>
       </Typography>
 
       <Grid2 container spacing={4}>
         {/* Left Side: Cart Items */}
-        <Grid2 item xs={12} md={8}>
+        <Grid2 sx={{
+          width: '60%',
+        }}>
           {[1, 2].map((item, index) => (
-            <Paper key={index} sx={{ padding: 2, marginBottom: 2, display: 'flex', alignItems: 'center' }}>
+            <Box key={index} sx={{ padding: 2, marginBottom: 2, display: 'flex', }}>
               {/* Image */}
               <Box sx={{ width: 100, height: 100, marginRight: 2 }}>
-                <img
-                  src="/iphone-15pro.jpg"
+                <Avatar
+                  variant='square'
+                  src="/iphone-green.jpg"
                   alt="IPhone 15Pro"
                   style={{ width: '100%', height: '100%', objectFit: 'contain' }}
                 />
               </Box>
               {/* Details */}
-              <Box sx={{ flex: 1 }}>
-                <Typography variant="h6">I Phone 15Pro</Typography>
-                <Typography variant="body2" color="textSecondary" paragraph>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+              <Box flexGrow={1} sx={{ flex: 1 }} fontFamily={'lato'}>
+                <Typography variant="h6" fontFamily={'lato'}>I Phone 15Pro</Typography>
+                <Typography variant="body2" color="textThirdary" mb={1} fontFamily={'lato'} fontSize={16}>
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. sit amet, consectetur adipiscing elit. sit amet, consectetur adipiscing elit.
+                  sit amet, consectetur adipiscing elit.
+                  sit amet, consectetur adipiscing elit.
                 </Typography>
                 <Typography variant="body1" color="success.main">
                   In Stock
                 </Typography>
+                {/* Quantity and Actions */}
+                <Box display={'flex'} sx={{
+                  justifyContent: 'space-between',
+                }}>
+                  <Stack direction={'row'}>
+                    <FlatNumberInput />
+                    {/* Delete and Price */}
+                    <TrashButton theme={theme} />
+                  </Stack>
+                  <Box>
+                    <Typography variant="body1" fontWeight={theme.fontWeight.thin} fontSize={10} fontFamily={'lato'} >Total of 2 items</Typography>
+                    <Typography variant="h6" fontWeight={theme.fontWeight.bold} fontSize={19} fontFamily={'lato'}>$159.99</Typography>
+                  </Box>
+                </Box>
               </Box>
-              {/* Quantity and Actions */}
-              <Box sx={{ display: 'flex', alignItems: 'center', marginRight: 2 }}>
-                <IconButton color="primary">
-                  <RemoveIcon />
-                </IconButton>
-                <Typography variant="body1" sx={{ paddingX: 1 }}>
-                  1
-                </Typography>
-                <IconButton color="primary">
-                  <AddIcon />
-                </IconButton>
-              </Box>
-              {/* Delete and Price */}
-              <Box sx={{ textAlign: 'center' }}>
-                <IconButton color="error">
-                  <DeleteIcon />
-                </IconButton>
-                <Typography variant="body1">$149.99</Typography>
-              </Box>
-            </Paper>
+            </Box>
           ))}
         </Grid2>
 
         {/* Right Side: Order Summary */}
-        <Grid2 item xs={12} md={4}>
+        <Grid2 sx={{ width: '30%', }}>
           <Paper sx={{ padding: 3 }}>
-            <Typography variant="h6" gutterBottom>
-              Order Summary
-            </Typography>
-            <Box sx={{ display: 'flex', justifyContent: 'space-between', marginBottom: 1 }}>
-              <Typography>Price</Typography>
-              <Typography>$319.98</Typography>
-            </Box>
-            <Box sx={{ display: 'flex', justifyContent: 'space-between', marginBottom: 1 }}>
-              <Typography>Discount</Typography>
-              <Typography>$31.9</Typography>
-            </Box>
-            <Box sx={{ display: 'flex', justifyContent: 'space-between', marginBottom: 1 }}>
-              <Typography>Shipping</Typography>
-              <Typography>Free</Typography>
-            </Box>
-            <Box sx={{ display: 'flex', justifyContent: 'space-between', marginBottom: 2 }}>
-              <Typography>Coupon Applied</Typography>
-              <Typography>$0.00</Typography>
-            </Box>
-            <Box sx={{ display: 'flex', justifyContent: 'space-between', marginBottom: 2 }}>
-              <Typography variant="h6">TOTAL</Typography>
-              <Typography variant="h6">$288.08</Typography>
-            </Box>
-            <Typography variant="body2" color="textSecondary" gutterBottom>
-              Estimated Delivery by <strong>01 Feb, 2023</strong>
-            </Typography>
-            <TextField
-              fullWidth
-              size="small"
-              placeholder="Coupon Code"
-              sx={{ marginBottom: 2 }}
-              InputProps={{ endAdornment: <Button variant="contained">✓</Button> }}
-            />
-            <Button variant="contained" color="primary" fullWidth>
-              Proceed to Checkout
-            </Button>
+            <Stack sx={{ fontFamily: 'lato', px: '15px' }}>
+              <Typography variant="h6" gutterBottom sx={{
+                fontWeight: 'bold',
+              }}>
+                Order Summary
+              </Typography>
+              {
+                cartOrderData.map((item, index) => (
+                  <CardOrderItem key={index} item={item} />
+                ))
+              }
+              <DetailDivider />
+              {
+                summaries.map((item, index) => (
+                  <CardOrderItem key={index} item={item} fontWeight={'bold'} />))
+              }
+              <Stack direction={'row'} mb={1.5}>
+                <TextField
+                  fullWidth
+                  size="small"
+                  placeholder="Coupon Code"
+                // slotProps={{
+                //   input: {
+                //     endAdornment: 
+                //   }
+                // }}
+                />
+                <Button variant="contained" >✓</Button>
+              </Stack>
+              <Button variant="contained" color="primary" onClick={handleOpen} fullWidth sx={{
+                height: '52px',
+              }}>
+                Proceed to Checkout
+              </Button>
+              <SuccessModal open={open} onClose={handleClose} 
+              status='success' title='Successful Payment'
+              content={modalContent} />
+            </Stack>
           </Paper>
         </Grid2>
       </Grid2>

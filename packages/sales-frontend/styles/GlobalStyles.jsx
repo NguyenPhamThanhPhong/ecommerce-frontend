@@ -17,7 +17,7 @@ export const theme = createTheme({
     light: 300,
     regular: 400,
     medium: 600,
-    semiBold: 600,
+    semiBold: 550,
     bold: 700,
     extraBold: 800,
     black: 900
@@ -38,6 +38,7 @@ export const theme = createTheme({
       thirdary: '#757575', // For secondary text
       secondary: '#ffffff', // For white text  
       subtitle: '#B9BBBF', // For subtitle text
+      cartSubTiltle: '#A2A3B1', // For cart subtitle text
     },
     hover: {
       primary: 'rgb(95, 95, 95,0.2)', // Green for the logo
@@ -56,6 +57,9 @@ export const theme = createTheme({
       main: '#007b55', // Green for "In Stock" and similar tags
     },
     divider: '#e0e0e0', // Divider color,
+    outline: {
+      primary: '#A2A3B1',
+    },
     appbar: {
       background: '#FFFFFF',
       primary: '#000000',
@@ -67,16 +71,21 @@ export const theme = createTheme({
       fontSize: '2rem',
       fontWeight: 700,
       color: '#000000',
+      fontFamily: 'inherit',
     },
     h2: {
       fontSize: '1.5rem',
       fontWeight: 600,
       color: '#000000',
+      fontFamily: 'inherit',
     },
     h5: {
       fontSize: '1.25rem',
       fontWeight: 500,
       color: '#000000',
+    },
+    h6: {
+      fontFamily: 'inherit',
     },
     subtitle1: {
       fontSize: '1rem',
@@ -142,6 +151,13 @@ export const theme = createTheme({
       },
     },
   },
+  MuiBox:{
+    styleOverrides:{
+      root:{
+        fontFamily: 'inherit',
+      }
+    }
+  }
 });
 
 export default theme;

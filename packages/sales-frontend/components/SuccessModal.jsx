@@ -1,66 +1,87 @@
-import React, { useState } from 'react';
-import { Modal, Box, Typography, Button, IconButton } from '@mui/material';
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import { Modal, Box, Typography, Button, IconButton, Badge, Stack } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
+import CheckIcon from '@mui/icons-material/Check';
+import theme from '@styles/GlobalStyles';
+
 
 const style = {
-  position: 'absolute',
+  position: 'relative',
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  width: 300,
+  maxWidth: 400,
+  width: '80%',
+  fontFamily: 'inter',
   bgcolor: 'background.paper',
   boxShadow: 24,
-  p: 4,
+  px: 4,
+  pt: 3,
+  pb: 4,
   borderRadius: 2,
 };
 
-export default function SuccessModal() {
-  const [open, setOpen] = useState(false);
-  
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+
+export default function SuccessModal({ open, onClose, title, status, content }) {
+
+  const statusColor = status === 'success' ? theme.palette.success.dark : theme.palette.error.dark;
+
+  const statusIcon = status === 'success' ?
+    <CheckIcon sx={{ color: statusColor,height: '55px', width: '50px', }} />
+    : <CloseIcon sx={{ color: statusColor,height: '55px', width: '50px', }} />;
 
   return (
-    <div>
-      <Button variant="contained" onClick={handleOpen}>
-        Open Payment Modal
-      </Button>
-      <Modal
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="modal-title"
-        aria-describedby="modal-description"
-      >
-        <Box sx={style}>
-          <Box display="flex" justifyContent="space-between" alignItems="center">
-            <CheckCircleIcon color="success" sx={{ fontSize: 48 }} />
-            <IconButton onClick={handleClose}>
-              <CloseIcon />
-            </IconButton>
+    <Modal
+      open={open}
+      onClose={onClose}
+      aria-labelledby="modal-title"
+      aria-describedby="modal-description">
+      <Stack sx={style}>
+        <Badge badgeContent={<IconButton onClick={onClose} >
+          <CloseIcon sx={{
+            color: 'black',
+          }} />
+        </IconButton>} sx={{
+          position: 'absolute',
+          top: 27,
+          right: 27
+        }}>
+
+        </Badge>
+        <Box display="flex" justifyContent={'center'} alignItems="center" sx={{
+
+        }}>
+          <Box display={'inline-flex'} sx={{
+            borderRadius: '50%',
+            bgcolor: '#FFFFFF',
+            alignItems: 'center',
+            justifyContent: 'center',
+            boxShadow: theme.boxShadow.default,
+            width: '80px',
+            height: '80px',
+          }}>
+            {statusIcon}
           </Box>
-          <Typography id="modal-title" variant="h6" align="center" gutterBottom>
-            Successful Payment
-          </Typography>
-          <Typography variant="body2" color="text.secondary">Payment type</Typography>
-          <Typography variant="body2">Net Banking</Typography>
-          <Typography variant="body2" color="text.secondary">Phone number</Typography>
-          <Typography variant="body2">+12345678910</Typography>
-          <Typography variant="body2" color="text.secondary">Email</Typography>
-          <Typography variant="body2">JimmySmith1996@gmail.com</Typography>
-          <Typography variant="body2" color="text.secondary">Transaction id</Typography>
-          <Typography variant="body2">2345678910</Typography>
-          <Typography variant="body2" color="text.secondary" fontWeight="bold">
-            Amount Paid
-          </Typography>
-          <Typography variant="body2" fontWeight="bold">
-            $543.02
-          </Typography>
-          <Button variant="contained" fullWidth sx={{ mt: 2 }} onClick={handleClose}>
-            Order Status
-          </Button>
         </Box>
-      </Modal>
-    </div>
+        <Typography id="modal-title" variant="h6"
+          mt={1}
+          mb={5}
+          align="center" gutterBottom  sx={{
+            color: statusColor,
+          }}>
+          Successful Payment
+        </Typography>
+        {content ||
+          <Typography id="modal-description" variant="body1" align="center" gutterBottom>
+            Something went wrong. Please try again.
+          </Typography>}
+        <Button variant="contained" color="primary" onClick={onClose} sx={{
+          height: '45px',
+          px: 4,
+          alignSelf: 'flex-end'
+        }}>
+          Order Status
+        </Button>
+      </Stack>
+    </Modal>
   );
 }

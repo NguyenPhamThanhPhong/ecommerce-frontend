@@ -18,16 +18,14 @@ import {
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import ClockIcon from "@mui/icons-material/AccessTime"; // Replace if using a different icon package
 import RoutingBreadcrumbs from "@components/RoutingBreadCrumbs";
-import { ProductSelector, ProductFavorite, ProductRating, ProductColorPicker } from "@components/product/ProductUIAssets";
+import { DetailDivider } from "@components/Divider";
+import { ProductSelector, ProductFavorite, ProductRating, ProductColorPicker, DetailDivider } from "@components/product/ProductUIAssets";
 import theme from "@styles/GlobalStyles";
 import SmsIcon from '@mui/icons-material/Sms';
 import ShoppingBagIcon from '@mui/icons-material/ShoppingBag';
 import CommonTab from "@components/CommonTab";
 import FloatingNumberInput from "@components/inputs/FloatingNumberInput";
 
-const DetailDivider = () => (
-  <Divider sx={{ marginTop: '20px', marginBottom: '10px', borderColor: '#bdbcbc' }} />
-)
 
 const DetailLabel = ({ children }) => (
   <Typography variant="h6" fontWeight="bold" mb={1} sx={{

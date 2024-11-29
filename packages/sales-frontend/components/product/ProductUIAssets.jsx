@@ -1,4 +1,6 @@
-import { Checkbox, RadioGroup, FormControlLabel, Radio, Card, CardMedia, CardContent, Typography, Box, Avatar, IconButton, Badge, Stack, Button } from '@mui/material';
+import { Checkbox, RadioGroup, FormControlLabel, Radio,
+    Divider,
+    Typography, Box, Avatar, IconButton, Badge, Stack, Button } from '@mui/material';
 import Favorite from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
@@ -7,7 +9,7 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import { useState } from 'react';
 
-export function ProductRating({ fontSize,iconSize }) {
+export function ProductRating({ fontSize, iconSize }) {
     fontSize = fontSize || 11;
     iconSize = iconSize || 22;
     return (
@@ -70,7 +72,7 @@ export function ProductSelector({ itemSize, itemGap, iconSize }) {
         }
     };
     itemSize = itemSize || 48;
-    itemGap = itemGap ||  8;
+    itemGap = itemGap || 8;
     iconSize = iconSize || 24;
     return (
         <Box display="flex" justifyContent="center" alignItems="center" gap={1} sx={{
@@ -92,9 +94,10 @@ export function ProductSelector({ itemSize, itemGap, iconSize }) {
                         width: `${items.length * (itemSize + itemGap)}px`
                     }}>
                     {items.map((src, i) => (
-                        <Avatar key={i} variant="rounded" src={src} sx={{ 
-                            width: itemSize, height: itemSize, flexShrink: 0, 
-                            marginRight: i < items.length - 1 ? `${itemGap}px` : '0' }} />
+                        <Avatar key={i} variant="rounded" src={src} sx={{
+                            width: itemSize, height: itemSize, flexShrink: 0,
+                            marginRight: i < items.length - 1 ? `${itemGap}px` : '0'
+                        }} />
                     ))}
                 </Box>
             </Box>
@@ -134,7 +137,7 @@ export function ProductColorPickerItem({ color, isSelected, onSelect, itemSize }
                         height: itemSize,
                         border: `2px solid ${'transparent'}`,
                     }}>
-                    <CheckCircleIcon sx={{ fontSize: itemSize-6, color: '#fff' }} />
+                    <CheckCircleIcon sx={{ fontSize: itemSize - 6, color: '#fff' }} />
                 </Avatar>
             }
             sx={{
@@ -204,6 +207,10 @@ export function ProductTag({ anchorOrigin, zIndex, fontSize, backgroundColor, co
         </Typography>
     )
 }
+
+export const DetailDivider = () => (
+    <Divider sx={{ marginTop: '20px', marginBottom: '10px', borderColor: '#bdbcbc' }} />
+)
 
 
 
