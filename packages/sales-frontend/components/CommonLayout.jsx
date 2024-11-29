@@ -5,6 +5,7 @@ import { marginUtil } from '@styles/styleUtils';
 import Button from '@mui/material/Button';
 import { ResponsiveAppBar } from '@components/AppBar';
 import { isHomePage } from '@utils/PathUtils';
+import RoutingBreadcrumbs from './RoutingBreadCrumbs';
 
 
 const BottomAppBar = () => {
@@ -105,6 +106,7 @@ const CommonLayout = ({ children }) => {
         {
           isNotHome ? (
             <Stack sx={{ width: '85%' }}>
+              <RoutingBreadcrumbs />
               {children}
             </Stack>
           ) : (

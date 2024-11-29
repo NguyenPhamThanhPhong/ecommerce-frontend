@@ -7,5 +7,5 @@ export function isHomePage() {
 
 export function checkPath(){
     const router = useRouter();
-    return router.asPath;
+    return router.asPath.toUpperCase();
 }

@@ -1,133 +1,200 @@
 
-import { Box, Typography, Paper, Grid, Avatar, Button,List, ListItem, ListItemText, ListItemIcon } from '@mui/material';
-import DashboardIcon from '@mui/icons-material/Dashboard';
-import AccountBoxIcon from '@mui/icons-material/AccountBox';
-import LocationOnIcon from '@mui/icons-material/LocationOn';
-import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
-import ExitToAppIcon from '@mui/icons-material/ExitToApp';
+import { DetailDivider } from '@components/product/ProductUIAssets';
+import { Box, Typography, Paper, Grid2, Avatar, Button, List, ListItem, ListItemText, ListItemIcon, Stack, useTheme } from '@mui/material';
 
-function Sidebar() {
-  return (
-    <Paper elevation={3} style={{ width: '200px' }}>
-      <List>
-        <ListItem button selected>
-          <ListItemIcon><DashboardIcon /></ListItemIcon>
-          <ListItemText primary="Dashboard" />
-        </ListItem>
-        <ListItem button>
-          <ListItemIcon><AccountBoxIcon /></ListItemIcon>
-          <ListItemText primary="Account Details" />
-        </ListItem>
-        <ListItem button>
-          <ListItemIcon><LocationOnIcon /></ListItemIcon>
-          <ListItemText primary="Shipping Address" />
-        </ListItem>
-        <ListItem button>
-          <ListItemIcon><AccountBalanceWalletIcon /></ListItemIcon>
-          <ListItemText primary="Wallet" />
-        </ListItem>
-        <ListItem button>
-          <ListItemIcon><ExitToAppIcon /></ListItemIcon>
-          <ListItemText primary="Log-out" />
-        </ListItem>
-      </List>
-    </Paper>
-  );
-}
+
 function DashboardContent() {
+  const theme = useTheme();
+
+  const orderSumaries = [
+    {
+      color: "#e0f7fa",
+      title: "Total Orders",
+      value: "154",
+      img: '/profile-dashboard-total-orders.png'
+    },
+    {
+      color: "#fff3e0",
+      title: "Pending Orders",
+      value: "05",
+      img: '/profile-dashboard-pending-orders.png'
+    },
+    {
+      color: "#e8f5e9",
+      title: "Completed Orders",
+      value: "149",
+      img: '/profile-dashboard-completed-orders.png'
+    }
+  ]
   return (
-    <Box>
+    <Stack width={'100%'}>
       {/* Orders Overview */}
-      <Grid container spacing={2}>
-        <OrderCard color="#e0f7fa" title="Total Orders" count="154" />
-        <OrderCard color="#fff3e0" title="Pending Orders" count="05" />
-        <OrderCard color="#e8f5e9" title="Completed Orders" count="149" />
-      </Grid>
+      <Box sx={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        flexWrap: 'wrap',
+        width: '100%',
+        gap: '16px'
+      }}>
+        {
+          orderSumaries.map((order, index) => (
+            <OrderCard img={order.img} key={index} color={order.color} title={order.title} count={order.value} />
+          ))
+        }
+
+      </Box>
 
       {/* Welcome Text */}
-      <Typography variant="h6" mt={3}>
+      <Typography variant="h6" mt={3} fontFamily={'Public Sans'} fontWeight={theme.fontWeight.semiBold}>
         Hello, Muhammed Nabeel
       </Typography>
-      <Typography variant="body2" color="textSecondary">
+      <Typography variant="body2" color="textPrimary" fontSize={20}>
         From your account dashboard, you can easily check & view your <a href="#">Recent Orders</a>,
         manage your <a href="#">Shipping and Billing Addresses</a> and edit your <a href="#">Password</a> and <a href="#">Account Details</a>.
       </Typography>
 
       {/* Account and Address Info */}
-      <Grid container spacing={3} mt={3}>
-        <Grid item xs={12} md={6}>
-          <InfoCard title="ACCOUNT INFO">
+      <Box mt={3} sx={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        gap: '16px',
+      }}>
+        <Box sx={{
+          width: '50%',
+        }}>
+          <InfoAssets.InfoCard title="ACCOUNT INFO">
             <AccountInfo />
-          </InfoCard>
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <InfoCard title="DEFAULT ADDRESS">
+          </InfoAssets.InfoCard>
+        </Box>
+        <Box sx={{
+          width: '50%',
+        }}>
+          <InfoAssets.InfoCard title="DEFAULT ADDRESS">
             <AddressInfo />
-          </InfoCard>
-        </Grid>
-      </Grid>
-    </Box>
-  );
-}
-
-function OrderCard({ color, title, count }) {
-  return (
-    <Grid item xs={4}>
-      <Paper style={{ backgroundColor: color, padding: '16px' }} elevation={3}>
-        <Typography variant="h4" component="div">{count}</Typography>
-        <Typography variant="body2" color="textSecondary">{title}</Typography>
-      </Paper>
-    </Grid>
-  );
-}
-
-function AccountInfo() {
-  return (
-    <Box display="flex" alignItems="center">
-      <Avatar src="/avatar.png" alt="Muhammed Nabeel" style={{ width: 60, height: 60, marginRight: 16 }} />
-      <Box>
-        <Typography variant="h6">Muhammed Nabeel</Typography>
-        <Typography variant="body2" color="textSecondary">Calicut, Kerala</Typography>
-        <Typography variant="body2">Email: nabeel@gmail.com</Typography>
-        <Typography variant="body2">Phone: +917034985827</Typography>
+          </InfoAssets.InfoCard>
+        </Box>
       </Box>
-      <Button variant="outlined" style={{ marginTop: 16 }}>Edit Account</Button>
-    </Box>
+    </Stack>
   );
 }
 
-function AddressInfo() {
+function OrderCard({ color, title, count, img }) {
+  const theme = useTheme();
   return (
-    <Box>
-      <Typography variant="body2">Muhammed Nabeel</Typography>
-      <Typography variant="body2">Mikro Grafio, 4th Gate, Calicut</Typography>
-      <Typography variant="body2">Pin: 67372</Typography>
-      <Typography variant="body2">Phone Number: +917034985827</Typography>
-      <Typography variant="body2">Email: nabeel@gmail.com</Typography>
-      <Button variant="outlined" style={{ marginTop: 16 }}>Change Address</Button>
-    </Box>
-  );
-}
-
-function InfoCard({ title, children }) {
-  return (
-    <Paper elevation={3} style={{ padding: 16 }}>
-      <Typography variant="subtitle1" gutterBottom>{title}</Typography>
-      {children}
+    <Paper elevation={1} sx={{
+      backgroundColor: color,
+      display: 'inline-flex', alignItems: 'center',
+      width: '30%',
+      // justifyContent: 'space-between',
+      padding: '16px'
+    }}>
+      <Avatar variant='square' src={img} style={{
+        backgroundColor: 'white',
+        color: 'black', width: 50, height: 50
+      }}></Avatar>
+      <Stack ml={3}>
+        <Typography variant="h4" component="div" fontSize={26}>{count}</Typography>
+        <Typography variant="body1" color="textPrimary" fontSize={18}>{title}</Typography>
+      </Stack>
     </Paper>
   );
 }
 
+function AccountInfo() {
+  const infos = [
+    { label: 'Email', value: 'abc@gmail.com' },
+    { label: 'Phone', value: '9876543210' },
+  ]
+  return (
+    <Stack>
+      <InfoAssets.InfoAvatarGroup avatar="/avatar.png" title="Muhammed Nabeel" subtitle="junior developer" />
+      {
+        infos.map((info, index) => (
+          <InfoAssets.InfoLine key={index} label={info.label} value={info.value} />
+        ))
+      }
+      <InfoAssets.Button >
+        Edit Account
+      </InfoAssets.Button>
+    </Stack>
+
+  );
+}
+
+function AddressInfo() {
+  const infos = [
+    { label: "Name", value: "Muhammed Nabeel" },
+    { label: "Address", value: "Mikro Grafio, 4th Gate, Calicut" },
+    { label: "Pin", value: "67372" },
+    { label: "Phone Number", value: "+917034985827" },
+    { label: "Email", value: "abc@gmail.com" },
+
+  ]
+  return (
+    <Stack>
+      <Typography variant="h6">Muhammed Nabeel</Typography>
+      {
+        infos.map((info, index) => (
+          <InfoAssets.InfoLine key={index} label={info.label} value={info.value} />
+        ))
+      }
+      <InfoAssets.Button >
+        Change Address
+      </InfoAssets.Button>
+    </Stack>
+  );
+}
+
+const InfoAssets = {
+  InfoCard: ({ title, children }) => (
+    <Paper elevation={3} style={{ padding: 16 }}>
+      <Typography variant="subtitle1" >{title}</Typography>
+      <DetailDivider mt={'10px'} mb={'20px'} />
+      {children}
+    </Paper>
+  ),
+  Button: ({ children }) => {
+    const theme = useTheme();
+    return (
+      <Box display="flex" alignItems="center" mt={'15px'}>
+        <Button variant="outlined" sx={{ py: '10px', px: '30px', borderRadius: '10px', border: '2px solid #000000', fontFamily: theme.fontFamily.publicSans }} >
+          {children || 'Edit'}
+        </Button>
+      </Box>
+    );
+  },
+  InfoLine: ({ label, value }) => {
+    const theme = useTheme();
+    return (
+      <Typography variant="body1">{label}: <Typography color='textThirdary' display={'inline'}
+        lineHeight={2.0} fontFamily={theme.fontFamily.publicSans}
+        fontSize={16} >
+        {value}
+      </Typography></Typography>
+    );
+  },
+  InfoAvatarGroup: ({ avatar, title, subtitle }) => {
+    const theme = useTheme();
+    return (
+      <Box display="flex" alignItems="flex-start" fontFamily={theme.fontFamily.publicSans} mb={2}>
+        <Avatar src={avatar} alt="Muhammed Nabeel" style={{ width: 60, height: 60, marginRight: 16 }} />
+        <Box>
+          <Typography variant="h6">{title}</Typography>
+          <Typography variant="body1" color="textThirdary">{subtitle}</Typography>
+        </Box>
+      </Box>
+    );
+  }
+}
+
+
 export default function Dashboard() {
   return (
-    <Box display="flex" p={3}>
-      {/* Sidebar */}
-      <Sidebar />
+    <Box display="flex" p={3} sx={{
+      flexGrow: 1,
+    }}>
+      <DashboardContent />
 
-      {/* Main Content */}
-      <Box flex={1} ml={3}>
-        <DashboardContent />
-      </Box>
     </Box>
   );
 }

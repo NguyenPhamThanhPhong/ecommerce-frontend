@@ -20,7 +20,7 @@ export default function RoutingBreadcrumbs() {
       color: 'text.primary',
     }}>
       <Link underline="hover" fontSize='inherit' color="inherit" href="/">
-        Home
+        HOME
       </Link>
       {
         pathNameParts.map((part, index) => {

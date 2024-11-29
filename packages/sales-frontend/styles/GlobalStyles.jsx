@@ -22,6 +22,13 @@ export const theme = createTheme({
     extraBold: 800,
     black: 900
   },
+  fontFamily: {
+    roboto: 'Roboto, sans-serif',
+    publicSans: 'Public Sans, sans-serif',
+    montserrat: 'Montserrat, sans-serif',
+    lato: 'Lato, sans-serif',
+    inter: 'Inter, sans-serif',
+  },
   palette: {
     common: {
       black: '#000000',

@@ -24,7 +24,7 @@ const TrashButton = ({ theme }) => (
     />
   </Box>
 )
-const CardOrderItem = ({ key, item, fontWeight }) => (
+const CartOrderItem = ({  item, fontWeight }) => (
   <Box sx={{
     display: 'flex', justifyContent: 'space-between',
     fontSize: 16,
@@ -34,6 +34,22 @@ const CardOrderItem = ({ key, item, fontWeight }) => (
     <Typography sx={{ fontWeight: fontWeight }}>{item.value}</Typography>
   </Box>
 )
+
+const cartData = [
+  {
+    title: 'I Phone 15Pro',
+    desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. sit amet, consectetur adipiscing elit. sit amet, consectetur adipiscing elit. sit amet, consectetur adipiscing elit. sit amet, consectetur adipiscing elit.',
+    price: 159.99,
+    quantity: 2,
+  },
+  {
+    title: 'I Phone 15Pro',
+    desc: 'This is IPHONE 15 16 17, sit amet, consectetur adipiscing elit. sit amet, consectetur adipiscing elit. sit amet, consectetur adipiscing elit. sit amet, consectetur adipiscing elit.',
+    price: 159.99,
+    quantity: 2,
+  }
+]
+
 const cartOrderData = [
   {
     label: 'Price',
@@ -99,11 +115,14 @@ export default function Cart() {
     <Stack sx={{ fontFamily: 'lato', px: '15px' }}>
       {
         successModalSumaries.map((item, index) => (
-          <CardOrderItem key={index} item={item} />
+          <CartOrderItem key={index} item={item} />
         ))
       }
     </Stack>
   )
+  const onQuantityChange = (id,value) => {
+    cartData[id].quantity = value;
+  }
 
   return (
     <Box sx={{ padding: 4 }}>
@@ -116,7 +135,7 @@ export default function Cart() {
         <Grid2 sx={{
           width: '60%',
         }}>
-          {[1, 2].map((item, index) => (
+          {cartData.map((item, index) => (
             <Box key={index} sx={{ padding: 2, marginBottom: 2, display: 'flex', }}>
               {/* Image */}
               <Box sx={{ width: 100, height: 100, marginRight: 2 }}>
@@ -129,11 +148,9 @@ export default function Cart() {
               </Box>
               {/* Details */}
               <Box flexGrow={1} sx={{ flex: 1 }} fontFamily={'lato'}>
-                <Typography variant="h6" fontFamily={'lato'}>I Phone 15Pro</Typography>
+                <Typography variant="h6" fontFamily={'lato'}>{item.title}</Typography>
                 <Typography variant="body2" color="textThirdary" mb={1} fontFamily={'lato'} fontSize={16}>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. sit amet, consectetur adipiscing elit. sit amet, consectetur adipiscing elit.
-                  sit amet, consectetur adipiscing elit.
-                  sit amet, consectetur adipiscing elit.
+                  {item.desc}
                 </Typography>
                 <Typography variant="body1" color="success.main">
                   In Stock
@@ -143,7 +160,7 @@ export default function Cart() {
                   justifyContent: 'space-between',
                 }}>
                   <Stack direction={'row'}>
-                    <FlatNumberInput />
+                    <FlatNumberInput key={index} initialValue={item.quantity} id={index} onChange={onQuantityChange}  />
                     {/* Delete and Price */}
                     <TrashButton theme={theme} />
                   </Stack>
@@ -168,13 +185,13 @@ export default function Cart() {
               </Typography>
               {
                 cartOrderData.map((item, index) => (
-                  <CardOrderItem key={index} item={item} />
+                  <CartOrderItem key={index} item={item} />
                 ))
               }
               <DetailDivider />
               {
                 summaries.map((item, index) => (
-                  <CardOrderItem key={index} item={item} fontWeight={'bold'} />))
+                  <CartOrderItem key={index} item={item} fontWeight={'bold'} />))
               }
               <Stack direction={'row'} mb={1.5}>
                 <TextField

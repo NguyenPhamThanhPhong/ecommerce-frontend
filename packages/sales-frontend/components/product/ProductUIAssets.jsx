@@ -208,8 +208,8 @@ export function ProductTag({ anchorOrigin, zIndex, fontSize, backgroundColor, co
     )
 }
 
-export const DetailDivider = () => (
-    <Divider sx={{ marginTop: '20px', marginBottom: '10px', borderColor: '#bdbcbc' }} />
+export const DetailDivider = ({mt, mb}) => (
+    <Divider sx={{ marginTop: mt || '20px', marginBottom: mb || '10px', borderColor: '#bdbcbc' }} />
 )
 
 

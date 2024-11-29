@@ -1,10 +1,11 @@
 import React from 'react';
-import { Container, Grid, TextField, Typography, Button, Box, Avatar, IconButton } from '@mui/material';
+import { Container, Grid, TextField, Typography, Button, Box, Avatar, IconButton, Breadcrumbs } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
+import RoutingBreadcrumbs from '@components/RoutingBreadCrumbs';
 
 function AccountSettings() {
   return (
-    <Container maxWidth="md">
+    <>
       <Box my={4}>
         <Typography variant="h6">ACCOUNT SETTING</Typography>
       </Box>
@@ -72,7 +73,7 @@ function AccountSettings() {
           </Button>
         </Grid>
       </Grid>
-    </Container>
+    </>
   );
 }
 
