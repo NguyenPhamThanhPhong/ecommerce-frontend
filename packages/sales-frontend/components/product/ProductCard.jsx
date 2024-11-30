@@ -1,4 +1,4 @@
-import { Card, RadioGroup, FormControlLabel, CardMedia, CardContent, Typography, Box, Avatar, IconButton, Badge, Stack, Button } from '@mui/material';
+import { Card, RadioGroup,  CardMedia, CardContent, Typography, Box, Avatar, IconButton, Badge, Stack, Button } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import { ProductRating, ProductFavorite, ProductColorPickerItem, ProductTag, ProductColorPicker } from '@components/product/ProductUIAssets';
 

@@ -163,10 +163,6 @@ const ProductPage = () => {
 
   return (
     <>
-      {/* Breadcrumb */}
-      <Box sx={{ display: 'block', marginBottom: '28px' }}>
-        <RoutingBreadcrumbs />
-      </Box>
       <Box p={3} sx={{
         display: 'flex',
         // alignItems: 'center',

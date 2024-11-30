@@ -1,80 +1,55 @@
 import React from 'react';
-import { Container, Grid, TextField, Typography, Button, Box, Avatar, IconButton, Breadcrumbs } from '@mui/material';
+import {
+  Container, TextField, Typography, Button, Box, Avatar,
+  FormControl, FormLabel,
+  IconButton, Breadcrumbs, Stack
+} from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import RoutingBreadcrumbs from '@components/RoutingBreadCrumbs';
+import { ProfileAssets } from '@components/profile/ProfileAssets';
+import ProfileForm from '@components/profile/ProfileForm';
 
 function AccountSettings() {
+  // const { InfoCard, InfoLine, InfoAvatarGroup, variants } = ProfileAssets;
   return (
-    <>
-      <Box my={4}>
-        <Typography variant="h6">ACCOUNT SETTING</Typography>
-      </Box>
-
-      <Grid container spacing={2}>
-        {/* Avatar Section */}
-        <Grid item xs={12} md={3} style={{ display: 'flex', justifyContent: 'center' }}>
+    <ProfileAssets.InfoCard title={'Account Settings'} >
+      {/* Avatar Section */}
+      <Box sx={{
+        display: 'flex',
+        alignItems: 'flex-start',
+        gap: 8,
+        padding: 2,
+      }}>
+        <Box
+          sx={{
+            display: 'flex',
+            width: '20%',
+            height: '100%', // Ensure there’s enough height for vertical centering
+            justifyContent: 'center', // Center horizontally
+          }}
+        >
           <Avatar
             alt="Profile Picture"
             src="/path/to/avatar.png" // Replace with actual path or URL
-            sx={{ width: 100, height: 100 }}
+            sx={{
+              width: 178,
+              height: 178,
+            }}
           />
-        </Grid>
+        </Box>
 
-        {/* Form Section */}
-        <Grid item xs={12} md={9}>
-          <Grid container spacing={2}>
-            {/* First and Last Name */}
-            <Grid item xs={12} sm={6}>
-              <TextField fullWidth label="First Name" defaultValue="muhammed" />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField fullWidth label="Second Name" defaultValue="nabeel" />
-            </Grid>
+        <ProfileForm />
 
-            {/* Email and Change Password */}
-            <Grid item xs={12} sm={6}>
-              <TextField fullWidth label="Email" defaultValue="nabeel@gmail.com" />
-            </Grid>
-            <Grid item xs={12} sm={6} display="flex" alignItems="center">
-              <Button variant="outlined" endIcon={<EditIcon />}>
-                Change Password
-              </Button>
-            </Grid>
+      </Box>
 
-            {/* Secondary Email and Phone Number */}
-            <Grid item xs={12} sm={6}>
-              <TextField fullWidth label="Secondary Email" defaultValue="-" />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField fullWidth label="Phone Number" defaultValue="+91 70349 85827" />
-            </Grid>
-
-            {/* Country/Region, State, and Pin Code */}
-            <Grid item xs={12} sm={4}>
-              <TextField fullWidth label="Country/Region" defaultValue="India" select>
-                {/* Add options here */}
-              </TextField>
-            </Grid>
-            <Grid item xs={12} sm={4}>
-              <TextField fullWidth label="States" defaultValue="Kerala" select>
-                {/* Add options here */}
-              </TextField>
-            </Grid>
-            <Grid item xs={12} sm={4}>
-              <TextField fullWidth label="Pin Code" defaultValue="673570" />
-            </Grid>
-          </Grid>
-        </Grid>
-
-        {/* Save Changes Button */}
-        <Grid item xs={12} style={{ textAlign: 'center' }}>
-          <Button variant="contained" color="primary" style={{ padding: '10px 20px', fontSize: '16px' }}>
-            Save Changes
-          </Button>
-        </Grid>
-      </Grid>
-    </>
+      {/* Save Changes Button */}
+      <ProfileAssets.Button variant="contained" >
+        Save Changes
+      </ProfileAssets.Button>
+    </ProfileAssets.InfoCard>
   );
 }
 
 export default AccountSettings;
+
+

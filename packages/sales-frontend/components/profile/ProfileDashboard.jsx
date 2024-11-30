@@ -1,7 +1,6 @@
 
-import { DetailDivider } from '@components/product/ProductUIAssets';
-import { Box, Typography, Paper, Grid2, Avatar, Button, List, ListItem, ListItemText, ListItemIcon, Stack, useTheme } from '@mui/material';
-
+import { Box, Typography, Paper, Grid2, Avatar, Stack, useTheme } from '@mui/material';
+import { ProfileAssets } from './ProfileAssets';
 
 function DashboardContent() {
   const theme = useTheme();
@@ -62,16 +61,16 @@ function DashboardContent() {
         <Box sx={{
           width: '50%',
         }}>
-          <InfoAssets.InfoCard title="ACCOUNT INFO">
+          <ProfileAssets.InfoCard title="ACCOUNT INFO">
             <AccountInfo />
-          </InfoAssets.InfoCard>
+          </ProfileAssets.InfoCard>
         </Box>
         <Box sx={{
           width: '50%',
         }}>
-          <InfoAssets.InfoCard title="DEFAULT ADDRESS">
+          <ProfileAssets.InfoCard title="DEFAULT ADDRESS">
             <AddressInfo />
-          </InfoAssets.InfoCard>
+          </ProfileAssets.InfoCard>
         </Box>
       </Box>
     </Stack>
@@ -107,15 +106,15 @@ function AccountInfo() {
   ]
   return (
     <Stack>
-      <InfoAssets.InfoAvatarGroup avatar="/avatar.png" title="Muhammed Nabeel" subtitle="junior developer" />
+      <ProfileAssets.InfoAvatarGroup avatar="/avatar.png" title="Muhammed Nabeel" subtitle="junior developer" />
       {
         infos.map((info, index) => (
-          <InfoAssets.InfoLine key={index} label={info.label} value={info.value} />
+          <ProfileAssets.InfoLine key={index} label={info.label} value={info.value} />
         ))
       }
-      <InfoAssets.Button >
+      <ProfileAssets.Button >
         Edit Account
-      </InfoAssets.Button>
+      </ProfileAssets.Button>
     </Stack>
 
   );
@@ -135,57 +134,17 @@ function AddressInfo() {
       <Typography variant="h6">Muhammed Nabeel</Typography>
       {
         infos.map((info, index) => (
-          <InfoAssets.InfoLine key={index} label={info.label} value={info.value} />
+          <ProfileAssets.InfoLine key={index} label={info.label} value={info.value} />
         ))
       }
-      <InfoAssets.Button >
+      <ProfileAssets.Button >
         Change Address
-      </InfoAssets.Button>
+      </ProfileAssets.Button>
     </Stack>
   );
 }
 
-const InfoAssets = {
-  InfoCard: ({ title, children }) => (
-    <Paper elevation={3} style={{ padding: 16 }}>
-      <Typography variant="subtitle1" >{title}</Typography>
-      <DetailDivider mt={'10px'} mb={'20px'} />
-      {children}
-    </Paper>
-  ),
-  Button: ({ children }) => {
-    const theme = useTheme();
-    return (
-      <Box display="flex" alignItems="center" mt={'15px'}>
-        <Button variant="outlined" sx={{ py: '10px', px: '30px', borderRadius: '10px', border: '2px solid #000000', fontFamily: theme.fontFamily.publicSans }} >
-          {children || 'Edit'}
-        </Button>
-      </Box>
-    );
-  },
-  InfoLine: ({ label, value }) => {
-    const theme = useTheme();
-    return (
-      <Typography variant="body1">{label}: <Typography color='textThirdary' display={'inline'}
-        lineHeight={2.0} fontFamily={theme.fontFamily.publicSans}
-        fontSize={16} >
-        {value}
-      </Typography></Typography>
-    );
-  },
-  InfoAvatarGroup: ({ avatar, title, subtitle }) => {
-    const theme = useTheme();
-    return (
-      <Box display="flex" alignItems="flex-start" fontFamily={theme.fontFamily.publicSans} mb={2}>
-        <Avatar src={avatar} alt="Muhammed Nabeel" style={{ width: 60, height: 60, marginRight: 16 }} />
-        <Box>
-          <Typography variant="h6">{title}</Typography>
-          <Typography variant="body1" color="textThirdary">{subtitle}</Typography>
-        </Box>
-      </Box>
-    );
-  }
-}
+
 
 
 export default function Dashboard() {

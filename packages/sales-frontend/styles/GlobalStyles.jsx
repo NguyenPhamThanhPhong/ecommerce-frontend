@@ -16,7 +16,7 @@ export const theme = createTheme({
     extraLight: 200,
     light: 300,
     regular: 400,
-    medium: 600,
+    medium: 500,
     semiBold: 550,
     bold: 700,
     extraBold: 800,
@@ -72,6 +72,23 @@ export const theme = createTheme({
       primary: '#000000',
     }
   },
+  components: {
+    MuiFormControl: {
+      styleOverrides: {
+        root: {
+          marginTop: 0,
+          fontFamily: 'inherit',
+        },
+      },
+    },
+    MuiFormLabel: {
+      styleOverrides: {
+        root: {
+          fontFamily: 'inherit',
+        },
+      },
+    },
+  },
   typography: {
     fontFamily: "'Roboto', sans-serif",
     h1: {
@@ -114,57 +131,7 @@ export const theme = createTheme({
       backgroundColor: '#007b55',
     },
   },
-  spacing: 8,
-  MuiButton: {
-    styleOverrides: {
-      root: {
-        textAlign: 'center',
-        borderRadius: '4px',
-        padding: '8px 16px',
-        fontSize: '1rem',
-        color: '#000000', // Text color
-      },
-      contained: {
-        backgroundColor: '#000000',
-        color: '#ffffff', // Text color for contained variant
-        '&:hover': {
-          backgroundColor: '#333333',
-        },
-      },
-    },
-    MuiCard: {
-      styleOverrides: {
-        root: {
-          borderRadius: '8px',
-          boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
-          padding: '16px',
-        },
-      },
-    },
-    MuiInputBase: {
-      styleOverrides: {
-        root: {
-          borderRadius: '4px',
-          padding: '8px',
-        },
-      },
-    },
-    MuiDivider: {
-      styleOverrides: {
-        root: {
-          backgroundColor: '#e0e0e0',
-          margin: '16px 0',
-        },
-      },
-    },
-  },
-  MuiBox:{
-    styleOverrides:{
-      root:{
-        fontFamily: 'inherit',
-      }
-    }
-  }
+
 });
 
 export default theme;
