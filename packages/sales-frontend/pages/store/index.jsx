@@ -6,7 +6,6 @@ import {
     Avatar, Stack, Card
   } from '@mui/material';
   import { useState } from 'react';
-  import RoutingBreadcrumbs from '@components/RoutingBreadCrumbs';
   import ProductFilterSidebar from '@components/product/ProductFilterSidebar';
   import { FilterLabel, FilterSelect } from '@components/product/FilterUIAssets';
   import { noFallbackAvatarUtil } from '@styles/styleUtils';
@@ -44,7 +43,6 @@ import {
     return (
       <>
         <Box sx={{ display: 'block', marginBottom: '28px' }}>
-          <RoutingBreadcrumbs />
         </Box>
         <Stack direction={'row'} columnGap={'24px'} sx={{ display: 'flex', }}>
           {/* Filter Sidebar */}

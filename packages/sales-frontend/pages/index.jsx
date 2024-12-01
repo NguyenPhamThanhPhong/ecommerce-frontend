@@ -121,7 +121,6 @@ const HomePage = () => {
     <>
       {/* <SuccessModal /> */}
       {/* <GallerySlider /> */}
-      {/* <RoutingBreadcrumbs /> */}
       {/* <ProductFilterLayout /> */}
       <Stack sx={{
         width: '100%',

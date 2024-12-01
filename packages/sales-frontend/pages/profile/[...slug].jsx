@@ -3,20 +3,23 @@ import Box from '@mui/material/Box';
 import { ToggleButton, ToggleButtonGroup, useTheme, Stack } from "@mui/material";
 import { useRouter } from "next/router";
 import Link from 'next/link'; // Import from next/link
-import Dashboard from '@components/profile/ProfileDashboard';
-import AccountSettings from '@components/profile/AccountSettings';
+import Dashboard from '@components/profile/menu/ProfileDashboard';
+import AccountSettings from '@components/profile/menu/AccountSettings';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
+import ShippingAddress from '@components/profile/menu/ShippingAddress';
+import Balance from '@components/profile/menu/Balance';
 
 function ProfileDashboardSidebar({ buttons, value, onChange }) {
     return (
         <Box
             sx={{
                 display: 'flex',
-                width: '30%',
+                width: '20%',
+                // backgroundColor: 'pink',
                 '& > *': {
                     m: 1,
                 },
@@ -38,6 +41,8 @@ function ProfileDashboardSidebar({ buttons, value, onChange }) {
 const children = {
     'dashboard': (<Dashboard />),
     'details': (<AccountSettings />),
+    'shipping': (<ShippingAddress />),
+    'balance': (<Balance />),
 }
 
 const menu = [
@@ -89,7 +94,7 @@ export default function Profile() {
     ));
 
     return (
-        <Box sx={{ display: 'flex' }}>
+        <Box  sx={{display:'flex', gap:3}}>
             <ProfileDashboardSidebar buttons={buttons} value={selected} />
             {children[selected]}
         </Box>

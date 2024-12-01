@@ -17,7 +17,6 @@ import {
 } from "@mui/material";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import ClockIcon from "@mui/icons-material/AccessTime"; // Replace if using a different icon package
-import RoutingBreadcrumbs from "@components/RoutingBreadCrumbs";
 import { ProductSelector, ProductFavorite, ProductRating, ProductColorPicker, DetailDivider } from "@components/product/ProductUIAssets";
 import theme from "@styles/GlobalStyles";
 import SmsIcon from '@mui/icons-material/Sms';

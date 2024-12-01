@@ -1,6 +1,6 @@
 
 import { Box, Typography, Paper, Grid2, Avatar, Stack, useTheme } from '@mui/material';
-import { ProfileAssets } from './ProfileAssets';
+import { ProfileAssets } from '@components/profile/assets/ProfileAssets';
 
 function DashboardContent() {
   const theme = useTheme();
@@ -149,8 +149,9 @@ function AddressInfo() {
 
 export default function Dashboard() {
   return (
-    <Box display="flex" p={3} sx={{
-      flexGrow: 1,
+    <Box display="inline-flex" py={3} sx={{
+      width: '80%',
+
     }}>
       <DashboardContent />
 
