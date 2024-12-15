@@ -18,7 +18,7 @@ module.exports = {
         path.resolve(__dirname, './pages'),
         path.resolve(__dirname, './styles'),
         path.resolve(__dirname, './components'),
-        path.resolve(__dirname, '../shared/src') // Allow importing from shared folder
+        path.resolve(__dirname, '../shared/src') 
       ],
       exclude: /node_modules/,
       use: {

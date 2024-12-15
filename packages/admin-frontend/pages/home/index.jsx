@@ -13,9 +13,10 @@ const HomePage = () => {
                 <Alert severity="error">This is an error message</Alert>
             </Snackbar> */}
 
-            <Snackbar open={true} autoHideDuration={1000}>
+            {/* <Snackbar open={true} autoHideDuration={1000}>
                 <Alert severity="success">This is a success message</Alert>
-            </Snackbar>
+            </Snackbar> */}
+            <DashboardLayoutBasic/>
         </>
     )
 }
