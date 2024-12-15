@@ -1,7 +1,7 @@
 import { Inter, Lato, Montserrat,Public_Sans } from 'next/font/google';
 import { ThemeProvider, CssBaseline } from '@mui/material';
 import { theme, GlobalStyles } from '../styles/GlobalStyles';
-import CommonLayout from '@components/CommonLayout';
+import CommonLayout from '@components/common/CommonLayout';
 
 const inter = Inter({ subsets: ['latin'] });
 const lato = Lato({ subsets: ['latin'], weight: ['400', '700'] });

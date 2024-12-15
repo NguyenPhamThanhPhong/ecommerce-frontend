@@ -1,0 +1,23 @@
+WORK AROUND JAKARTA
+
+produces Dependent 
+-> creation of 
+
+Normal chain:
+
+1. init Service -> final emf created -> final emfResource created 
+
+
+2.at run time -> resolve PersistenceContext
+
+	1. delegator() 
+		-> registerPersistenceContextInjectionPoint 
+			-> new RRFac<EM> () 
+				-> Bean Initialization
+					-> emfResource.getInstance()
+                        -> emf
+                            -> new EMRegistrator();
+                                -> EMRegistrator() -> getInstance() -> em
+                                    -> bean done Initialization
+                            
+						

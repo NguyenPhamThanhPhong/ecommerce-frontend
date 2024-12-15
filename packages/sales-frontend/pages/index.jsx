@@ -10,12 +10,14 @@ import {
 } from '@mui/material';
 import { useTheme } from '@mui/material';
 import AirportShuttleIcon from '@mui/icons-material/AirportShuttle';
-import HotSaleCard from '@components/HotSaleCard';
-import SuccessModal from '@components/SuccessModal';
-import Banner from '@components/home/Banner';
+import HotSaleCard from '@components/product/HotSaleCard';
+import SuccessModal from '@components/modal/SuccessModal';
+import Banner from '@components/common/Banner';
 import ProductGrid from '@components/product/ProductGrid';
 import ProductCard from '@components/product/ProductCard';
-import NewsCard from '@components/NewsCard';
+import {NewsCard} from '@components/common/NewsCard';
+import { useNewsDefault } from '@components/common/NewsUsecase';
+import { v4 } from "uuid";
 // import ImageSwiper from '@components/ImageSwiper';
 
 function IconButtonWithText() {
@@ -117,6 +119,7 @@ const HomePage = () => {
     }
   ]
 
+  const newsCardInfo = useNewsDefault();
   return (
     <>
       {/* <SuccessModal /> */}
@@ -201,8 +204,9 @@ const HomePage = () => {
         <LabelLine margin={standardMargin}>
           Our latest news
         </LabelLine>
-        <ProductGrid length={5} margin={'34px 132px'} rowSpacing={4} columnSpacing={4} >
-          <NewsCard />
+        <ProductGrid length={4} margin={'34px 132px'} rowSpacing={4} columnSpacing={4} >
+          <NewsCard {...newsCardInfo} key={v4()}
+          />
         </ProductGrid>
 
       </Stack>

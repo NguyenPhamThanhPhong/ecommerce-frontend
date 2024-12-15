@@ -23,6 +23,7 @@
     "@mui/icons-material": "^6.1.4",
     "@mui/lab": "^5.0.0-alpha.174",
     "@mui/material": "^6.1.9",
+    "@mui/x-data-grid": "^7.23.1",
     "@mui/x-date-pickers": "^7.23.0",
     "bad-words": "^4.0.0",
     "frontend": "file:",

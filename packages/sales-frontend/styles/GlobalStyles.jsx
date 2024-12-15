@@ -88,25 +88,33 @@ export const theme = createTheme({
         },
       },
     },
+    MuiTableCell:{
+      styleOverrides: {
+        root: {
+          fontSize: 'inherit',
+          // borderBottom: 'none',
+        },
+      },
+    }
   },
   typography: {
     fontFamily: "'Roboto', sans-serif",
     h1: {
       fontSize: '2rem',
       fontWeight: 700,
-      color: '#000000',
+      color: 'inherit',
       fontFamily: 'inherit',
     },
     h2: {
       fontSize: '1.5rem',
       fontWeight: 600,
-      color: '#000000',
+      color: 'inherit',
       fontFamily: 'inherit',
     },
     h5: {
       fontSize: '1.25rem',
       fontWeight: 500,
-      color: '#000000',
+      color: 'inherit',
     },
     h6: {
       fontFamily: 'inherit',
@@ -117,17 +125,17 @@ export const theme = createTheme({
     },
     body1: {
       fontSize: '14px',
-      color: '#000000', // Standard body text color
+      color: 'inherit', // Standard body text color
     },
     body2: {
       fontSize: '10px',
       fontWeight: 400,
-      color: '#000000', // Light gray for secondary text
+      color: 'inherit', // Light gray for secondary text
     },
     button: {
       fontWeight: 700,
       textTransform: 'uppercase',
-      color: '#000000',
+      color: 'inherit',
       backgroundColor: '#007b55',
     },
   },

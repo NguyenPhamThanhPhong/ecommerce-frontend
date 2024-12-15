@@ -7,7 +7,7 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import ShuffleIcon from '@mui/icons-material/Shuffle';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import { ProductSelector } from './product/ProductUIAssets';
+import { ProductSelector } from '@components/product/ProductUIAssets';
 
 
 import { useTheme } from '@mui/material/styles';

@@ -4,7 +4,7 @@ import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import FlatNumberInput from '@components/inputs/FlatNumberInput';
 import { DetailDivider } from '@components/product/ProductUIAssets';
-import SuccessModal from '@components/SuccessModal';
+import SuccessModal from '@components/modal/SuccessModal';
 
 const TrashButton = ({ theme }) => (
   <Box sx={{

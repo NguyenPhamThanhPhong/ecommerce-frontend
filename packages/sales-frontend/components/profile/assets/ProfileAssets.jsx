@@ -72,15 +72,15 @@ export const ProfileAssets = {
             </Typography></Typography>
         );
     },
-    InfoAvatarGroup: ({ avatar, title, subtitle, alignItems, avatarSx, titleSx, subtitleSx,boxSx }) => {
+    InfoAvatarGroup: ({ title, subtitle, alignItems, avatarProp,  titleSx, subtitleSx,boxSx }) => {
         const theme = useTheme();
-        avatarSx = avatarSx || { width: 60, height: 60, marginRight: 16 };
+        const avatarSx = avatarProp?.sx || { width: 60, height: 60, marginRight: 16 };
         titleSx = titleSx || { variant: 'h6' };
         subtitleSx = subtitleSx || { variant: 'body1', color: 'textThirdary' };
         boxSx = boxSx || {};
         return (
             <Box display="flex" alignItems={alignItems} fontFamily={theme.fontFamily.publicSans} mb={2}>
-                <Avatar src={avatar} alt="Muhammed Nabeel" style={avatarSx} />
+                <Avatar {...avatarProp} alt="Muhammed Nabeel" style={avatarSx} />
                 <Box sx={boxSx}>
                     <Typography variant="h6" sx={titleSx}>{title}</Typography>
                     <Typography variant="body1" color="textThirdary" sx={subtitleSx}>{subtitle}</Typography>

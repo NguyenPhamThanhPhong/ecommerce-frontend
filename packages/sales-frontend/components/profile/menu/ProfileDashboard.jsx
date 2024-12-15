@@ -106,7 +106,11 @@ function AccountInfo() {
   ]
   return (
     <Stack>
-      <ProfileAssets.InfoAvatarGroup avatar="/avatar.png" title="Muhammed Nabeel" subtitle="junior developer" />
+      <ProfileAssets.InfoAvatarGroup 
+      avatarProp={{
+        src:"/banner1.png"
+      }}
+      title="Muhammed Nabeel" subtitle="junior developer" />
       {
         infos.map((info, index) => (
           <ProfileAssets.InfoLine key={index} label={info.label} value={info.value} />

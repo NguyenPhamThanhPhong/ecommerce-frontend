@@ -21,7 +21,7 @@ import { ProductSelector, ProductFavorite, ProductRating, ProductColorPicker, De
 import theme from "@styles/GlobalStyles";
 import SmsIcon from '@mui/icons-material/Sms';
 import ShoppingBagIcon from '@mui/icons-material/ShoppingBag';
-import CommonTab from "@components/CommonTab";
+import CommonTab from "@components/common/CommonTab";
 import FloatingNumberInput from "@components/inputs/FloatingNumberInput";
 
 

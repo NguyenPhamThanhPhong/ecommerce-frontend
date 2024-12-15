@@ -1,7 +1,7 @@
 import { Avatar, Box, ListItem, Pagination, Paper, Stack, useTheme } from '@mui/material'
 import React from 'react'
 import { ProfileAssets } from '@components/profile/assets/ProfileAssets';
-import EnhancedTable from '@components/profile/assets/ProfileTransactionTable';
+import EnhancedTable from '@components/profile/assets/table/ProfileTransactionTable';
 
 export default function Balance() {
     const theme = useTheme();
@@ -10,9 +10,12 @@ export default function Balance() {
             <Paper elevation={1}>
                 <Box display={'flex'} justifyContent={'space-between'}
                     alignItems={'center'} p={2}>
-                    <ProfileAssets.InfoAvatarGroup avatar={'/profile-balance-1.png'}
+                    <ProfileAssets.InfoAvatarGroup
                         alignItems={'center'}
-                        avatarSx={{ width: 90, height: 90 }}
+                        avatarProp={{
+                            src: '/profile-balance-1.png',
+                            sx: { width: 90, height: 90 }
+                        }}
                         boxSx={{ ml: 2 }}
                         titleSx={{
                             fontSize: 36, fontWeight: 'bold', lineHeight: 1.2

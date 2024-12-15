@@ -15,9 +15,29 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import SettingsIcon from '@mui/icons-material/Settings';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import Link from 'next/link';
 
-
-const pages = ['Products', 'Pricing', 'Blog'];
+// TODO: Add Meta data to App bar
+// TODO: make profile drop down better
+// TODO: blog page
+const pages = [
+  {
+    label: 'Home',
+    href: '/',
+  },
+  {
+    label: 'Store',
+    href: '/store',
+  },
+  {
+    label: 'Blog',
+    href: '/blog',
+  },
+  {
+    label: 'Contact',
+    href: '/contact',
+  },
+];
 const settings = [{
   icon: <PersonIcon />,
   label: 'Account',
@@ -36,7 +56,7 @@ const settings = [{
 }
 ];
 
-export const ResponsiveAppBar = ()=> {
+export const ResponsiveAppBar = () => {
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
   const handleOpenUserMenu = (event) => {
@@ -74,18 +94,18 @@ export const ResponsiveAppBar = ()=> {
               letterSpacing: '.3rem',
               // color: 'red',
               textDecoration: 'none',
-            }}
-          >
+            }}>
             LOGO
           </Typography>
 
           <Box sx={{ flexGrow: 2, display: { xs: 'flex', md: 'flex' } }}>
             {pages.map((page) => (
-              <Button
-                key={page}
-                sx={{ borderRadius: '5px', height: '55px', fontSize: '16px', my: 2, color: 'black', display: 'inline' }}>
-                {page}
-              </Button>
+              <Link key={page} href={page.href} passHref>
+                <Button
+                  sx={{ borderRadius: '5px', height: '55px', fontSize: '16px', my: 2, color: 'black', display: 'inline' }}>
+                  {page.label}
+                </Button>
+              </Link>
             ))}
           </Box>
           <Box>
