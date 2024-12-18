@@ -1,0 +1,158 @@
+// styles/GlobalStyles.js
+'use client';
+import { createGlobalStyle } from 'styled-components';
+
+// theme.js
+import { createTheme } from '@mui/material/styles';
+
+
+export const theme = createTheme({
+  discount: '#ffffff',
+  boxShadow: {
+    default: '0px 3px 1px -2px rgba(0,0,0,0.2),0px 2px 2px 0px rgba(0,0,0,0.14),0px 1px 5px 0px rgba(0,0,0,0.12)',
+  },
+  fontWeight: {
+    thin: 100,
+    extraLight: 200,
+    light: 300,
+    regular: 400,
+    medium: 500,
+    semiBold: 550,
+    bold: 700,
+    extraBold: 800,
+    black: 900
+  },
+  fontFamily: {
+    roboto: 'Roboto, sans-serif',
+    publicSans: 'Public Sans, sans-serif',
+    montserrat: 'Montserrat, sans-serif',
+    lato: 'Lato, sans-serif',
+    inter: 'Inter, sans-serif',
+  },
+  palette: {
+    common: {
+      black: '#000000',
+      white: '#ffffff',
+    },
+    primary: {
+      main: '#000000',
+    },
+    secondary: {
+      main: '#ffffff',
+    },
+    text: {
+      primary: '#212121',
+      thirdary: '#757575', // For secondary text
+      secondary: '#ffffff', // For white text  
+      subtitle: '#B9BBBF', // For subtitle text
+      cartSubTiltle: '#A2A3B1', // For cart subtitle text
+    },
+    hover: {
+      primary: 'rgb(95, 95, 95,0.2)', // Green for the logo
+      secondary: '#f5f5f5', // Green for buttons and links
+      success: '#007b55', // Green for buttons and links
+    },
+    background: {
+      default: '#EFF7FA',
+      paper: '#ffffff',
+    },
+    action: {
+      active: '#e0e0e0',
+      hover: '#e8e8e8',
+    },
+    info: {
+      main: '#007b55', // Green for "In Stock" and similar tags
+    },
+    divider: '#e0e0e0', // Divider color,
+    outline: {
+      primary: '#A2A3B1',
+    },
+    appbar: {
+      background: '#FFFFFF',
+      primary: '#000000',
+    }
+  },
+  components: {
+    MuiFormControl: {
+      styleOverrides: {
+        root: {
+          marginTop: 0,
+          fontFamily: 'inherit',
+        },
+      },
+    },
+    MuiFormLabel: {
+      styleOverrides: {
+        root: {
+          fontFamily: 'inherit',
+        },
+      },
+    },
+    MuiTableCell:{
+      styleOverrides: {
+        root: {
+          fontSize: 'inherit',
+          // borderBottom: 'none',
+        },
+      },
+    }
+  },
+  typography: {
+    fontFamily: "'Roboto', sans-serif",
+    h1: {
+      fontSize: '2rem',
+      fontWeight: 700,
+      color: 'inherit',
+      fontFamily: 'inherit',
+    },
+    h2: {
+      fontSize: '1.5rem',
+      fontWeight: 600,
+      color: 'inherit',
+      fontFamily: 'inherit',
+    },
+    h5: {
+      fontSize: '1.25rem',
+      fontWeight: 500,
+      color: 'inherit',
+    },
+    h6: {
+      fontFamily: 'inherit',
+    },
+    subtitle1: {
+      fontSize: '1rem',
+      color: '#333333', // Dark gray for subtitles
+    },
+    body1: {
+      fontSize: '14px',
+      color: 'inherit', // Standard body text color
+    },
+    body2: {
+      fontSize: '10px',
+      fontWeight: 400,
+      color: 'inherit', // Light gray for secondary text
+    },
+    button: {
+      fontWeight: 700,
+      textTransform: 'uppercase',
+      color: 'inherit',
+      backgroundColor: '#007b55',
+    },
+  },
+
+});
+
+export default theme;
+
+// background-color: ${({ theme }) => {
+//   console.log(theme);
+//   return 'red';
+// }};
+// color: ${({ theme }) => 'red'};
+
+export const GlobalStyles = createGlobalStyle`
+  body {
+
+    transition: background-color 0.3s ease;
+  }
+`;
