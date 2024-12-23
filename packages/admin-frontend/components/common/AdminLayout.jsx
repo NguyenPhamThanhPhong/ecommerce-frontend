@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { styled, useTheme, alpha } from '@mui/material/styles';
+import { styled, alpha, useTheme } from '@mui/material/styles';
 import {
   Box,
   CssBaseline, Stack,
@@ -41,6 +41,10 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
 import MessageIcon from '@mui/icons-material/Message';
+import MenuButton from '@components/common/MenuButton';
+import AdminBreadcrumbs from './AdminBreadCrumbs';
+import Link from 'next/link';
+import { checkPath } from '@shared-utils/PathUtils';
 
 const drawerWidth = 240;
 
@@ -74,8 +78,6 @@ const DrawerHeader = styled('div')(({ theme }) => ({
   ...theme.mixins.toolbar,
 }));
 
-
-
 const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' })(
   ({ theme }) => ({
     width: drawerWidth,
@@ -101,106 +103,57 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
   }),
 );
 
-export const MenuButton = ({ open, label, href, icon, }) => {
-  const listOpenSx = open ? { justifyContent: 'initial' } : { justifyContent: 'center' }
-  const listItemIconSx = open ? { mr: 3 } : { mr: 'auto' }
-  const listItemTextSx = open ? { opacity: 1, } : { opacity: 0 }
-  return (
-    <ListItemButton
-      sx={[
-        {
-          minHeight: 48,
-          // fontWeight: 'bold',
-          px: 2.5,
-          backgroundColor: 'transparent',
-          color: '#464255',
-          '&:hover': {
-            backgroundColor: 'rgba(0, 176, 116,0.15)',
-            color: '#00B074',
-            fontWeight: 'bold',
-          }
-        },
-        listOpenSx,
-      ]}
-    >
-      <ListItemIcon
-        sx={[
-          {
-            minWidth: 0,
-            justifyContent: 'center',
-            fontWeight: 'inherit',
-            color: 'inherit',
-          },
-          listItemIconSx,
-        ]}
-      >
-        {icon || (<MailIcon />)}
-      </ListItemIcon>
-      {/* <ListItemText
-        primary={text}
-        // secondary="Jan 9, 2014"
-        sx={{
-          ...listItemTextSx,
-          fontWeight: 'bold',
-        }}
-      /> */}
-      <Typography sx={{ fontWeight: 'inherit' }}>
-        {open ? label : ''}
-      </Typography>
-    </ListItemButton>
-  )
-}
 
 const menu = [
   {
     label: 'Dashboard',
     icon: <Dashboard />,
-    href: '/dashboard',
+    href: '/',
   },
   {
     label: 'Order List',
     icon: <FormatAlignLeftIcon />,
-    href: '/order-list',
+    href: '/orders',
   },
   {
     label: 'Product List',
     icon: <InsertDriveFileIcon />,
-    href: '/product-list',
+    href: '/products',
   },
   {
     label: 'Customer List',
     icon: <PersonIcon />,
-    href: '/customer-list',
+    href: '/customers',
   },
   {
     label: 'Admin Panel',
     icon: <AdminPanelSettingsIcon />,
-    href: '/admin-panel',
+    href: '/admins',
   },
   {
     label: 'Payment',
     icon: <CreditCardIcon />,
-    href: '/payment',
+    href: '/payments',
   },
   {
     label: 'Category',
     icon: <CategoryIcon />,
-    href: '/category',
+    href: '/categories',
   },
   {
     label: 'Brand',
     icon: <BrandingWatermarkIcon />,
-    href: '/brand',
+    href: '/brands',
   },
   {
     label: 'Coupon',
     icon: <LocalOfferIcon />,
-    href: '/coupon',
+    href: '/coupons',
   },
   {
     label: 'Banner',
     icon: <ViewCarouselIcon />,
-    href: '/banner',
+    href: '/banners',
   }
 ]
 
@@ -225,20 +178,26 @@ export const AppIconButton = ({ icon, onClick }) => {
 }
 
 
-export default function MiniDrawer() {
+export default function AdminLayout({ children }) {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
 
-  const handleDrawerOpen = () => {
-    setOpen(true);
-  };
-
-  const handleDrawerClose = () => {
-    setOpen(false);
-  };
-
   const handleDrawer = () => {
     setOpen(!open);
+  }
+
+  const pathName = checkPath();
+
+  function isPathSelected(item,path){
+    const isDashboard = item.label === 'Dashboard'
+    if(pathName==="/"&& isDashboard){
+      return true;
+    }
+    else{
+      return path.startsWith(item.href) && !isDashboard
+    }
+
+    // return (pathName==="/" && item.label === 'Dashboard') || pathName.startsWith(item.href)
   }
 
   return (
@@ -254,7 +213,9 @@ export default function MiniDrawer() {
         <List >
           {menu.map((item, index) => (
             <ListItem key={item} disablePadding sx={{ display: 'block', my: 1 }}>
-              <MenuButton {...item} open={open} />
+              <Link href={item.href} style={{ textDecoration: 'none' }} >
+                <MenuButton {...item} open={open} selected={isPathSelected(item,pathName)} />
+              </Link>
 
             </ListItem>
           ))}
@@ -287,9 +248,10 @@ export default function MiniDrawer() {
             <AppIconButton icon={<NotificationsNoneIcon sx={{
               color: '#464255',
             }} />} />
-
           </Stack>
         </Box>
+        <AdminBreadcrumbs />
+        {children}
       </Stack>
     </Box>
   );

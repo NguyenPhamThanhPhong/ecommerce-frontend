@@ -34,16 +34,16 @@ export const useTransactionTabel = ({ rowsData, }) => {
                 }}>{transactionId}</Typography>
             ),
             (
-                <Typography key={TransactionHeadEnum.DESCRIPTION}>{transactionId}</Typography>
+                <Typography key={TransactionHeadEnum.DESCRIPTION}>{description}</Typography>
             ),
             (
-                <Typography key={TransactionHeadEnum.DATE}>{transactionId}</Typography>
+                <Typography key={TransactionHeadEnum.DATE}>{date}</Typography>
             ),
             (
-                <Typography key={TransactionHeadEnum.WITHDRAWEL}>{transactionId}</Typography>
+                <Typography key={TransactionHeadEnum.WITHDRAWEL}>{withdrawel}</Typography>
             ),
             (
-                <Typography key={TransactionHeadEnum.DEPOSIT}>{transactionId}</Typography>
+                <Typography key={TransactionHeadEnum.DEPOSIT}>{deposit}</Typography>
             ),
         ]
     }

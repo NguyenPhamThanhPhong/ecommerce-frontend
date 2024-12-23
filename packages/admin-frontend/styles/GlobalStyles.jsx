@@ -5,19 +5,14 @@ import { createGlobalStyle } from 'styled-components';
 // theme.js
 import { createTheme } from '@mui/material/styles';
 
-
-export const theme = createTheme({
-  discount: '#ffffff',
-  boxShadow: {
-    default: '0px 3px 1px -2px rgba(0,0,0,0.2),0px 2px 2px 0px rgba(0,0,0,0.14),0px 1px 5px 0px rgba(0,0,0,0.12)',
-  },
+const fonts={
   fontWeight: {
     thin: 100,
     extraLight: 200,
     light: 300,
     regular: 400,
     medium: 500,
-    semiBold: 550,
+    semiBold: 600,
     bold: 700,
     extraBold: 800,
     black: 900
@@ -28,127 +23,78 @@ export const theme = createTheme({
     montserrat: 'Montserrat, sans-serif',
     lato: 'Lato, sans-serif',
     inter: 'Inter, sans-serif',
+    barlow: 'Barlow, sans-serif',
   },
+}
+
+export const theme = createTheme({
   palette: {
-    common: {
-      black: '#000000',
-      white: '#ffffff',
-    },
     primary: {
-      main: '#000000',
+      main: '#17c6b1', // Green
+      
     },
     secondary: {
-      main: '#ffffff',
+      main: '#42a5f5', // Blue
     },
-    text: {
-      primary: '#212121',
-      thirdary: '#757575', // For secondary text
-      secondary: '#ffffff', // For white text  
-      subtitle: '#B9BBBF', // For subtitle text
-      cartSubTiltle: '#A2A3B1', // For cart subtitle text
-    },
-    hover: {
-      primary: 'rgb(95, 95, 95,0.2)', // Green for the logo
-      secondary: '#f5f5f5', // Green for buttons and links
-      success: '#007b55', // Green for buttons and links
+    thirdary: {
+      main: '#f06292', // Pink
     },
     background: {
-      default: '#EFF7FA',
-      paper: '#ffffff',
+      default: '#f9f9f9', // Light Gray
+      paper: '#ffffff',  // White
     },
-    action: {
-      active: '#e0e0e0',
-      hover: '#e8e8e8',
+    error: {
+      main: '#ef5350', // Red
     },
-    info: {
-      main: '#007b55', // Green for "In Stock" and similar tags
+    warning: {
+      main: '#ffa726', // Orange
     },
-    divider: '#e0e0e0', // Divider color,
-    outline: {
-      primary: '#A2A3B1',
+    success: {
+      main: '#66bb6a', // Green
+      secondary: '#00B074'
     },
-    appbar: {
-      background: '#FFFFFF',
-      primary: '#000000',
-    }
+    text: {
+      primary: '#2f2f2f', // Dark gray text
+      secondary: '#6f6f6f', // Lighter gray text
+      thirdary: '#667085',
+    },
+  },
+  ...fonts,
+  typography: {
+    fontFamily: 'Roboto, Inter, Arial, sans-serif',
+    h1: { fontWeight: 500 },
+    h2: { fontWeight: 500 },
+    body1: { fontWeight: 400 },
+    body2: { fontWeight: 300 },
   },
   components: {
-    MuiFormControl: {
+    MuiChip: {
       styleOverrides: {
         root: {
-          marginTop: 0,
+          borderRadius: '6px',
+        },
+      },
+    }},
+    MuiTypography:{
+      styleOverrides:{
+        root:{
           fontFamily: 'inherit',
-        },
-      },
+        }
     },
-    MuiFormLabel: {
+    MuiButton: {
       styleOverrides: {
         root: {
-          fontFamily: 'inherit',
+          borderRadius: '8px',
+          textTransform: 'none', // Disable uppercase text
         },
       },
-    },
-    MuiTableCell:{
-      styleOverrides: {
-        root: {
-          fontSize: 'inherit',
-          // borderBottom: 'none',
-        },
-      },
-    }
-  },
-  typography: {
-    fontFamily: "'Roboto', sans-serif",
-    h1: {
-      fontSize: '2rem',
-      fontWeight: 700,
-      color: 'inherit',
-      fontFamily: 'inherit',
-    },
-    h2: {
-      fontSize: '1.5rem',
-      fontWeight: 600,
-      color: 'inherit',
-      fontFamily: 'inherit',
-    },
-    h5: {
-      fontSize: '1.25rem',
-      fontWeight: 500,
-      color: 'inherit',
-    },
-    h6: {
-      fontFamily: 'inherit',
-    },
-    subtitle1: {
-      fontSize: '1rem',
-      color: '#333333', // Dark gray for subtitles
-    },
-    body1: {
-      fontSize: '14px',
-      color: 'inherit', // Standard body text color
-    },
-    body2: {
-      fontSize: '10px',
-      fontWeight: 400,
-      color: 'inherit', // Light gray for secondary text
-    },
-    button: {
-      fontWeight: 700,
-      textTransform: 'uppercase',
-      color: 'inherit',
-      backgroundColor: '#007b55',
     },
   },
-
 });
+
 
 export default theme;
 
-// background-color: ${({ theme }) => {
-//   console.log(theme);
-//   return 'red';
-// }};
-// color: ${({ theme }) => 'red'};
 
 export const GlobalStyles = createGlobalStyle`
   body {
