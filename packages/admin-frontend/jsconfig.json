@@ -7,14 +7,16 @@
         "@components/*": ["components/*"],
         "@styles/*": ["styles/*"],
         "@utils/*": ["utils/*"],
+        "@data/*": ["data/*"],
       }
     },
     "include": [
       "./styles",
       "./components",
       "./utils",
+      "./data",
       "./pages",   // Ensure your Next.js pages are included
       "../shared/src"  // Also include the shared folder so that it's part of the workspace
-    ]
+, "data/MyContext.js", "data/TableContext.js"    ]
   }
   

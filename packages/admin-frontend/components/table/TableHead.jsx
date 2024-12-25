@@ -10,9 +10,6 @@ import {
 } from '@mui/material';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
-// import { HeadCheckbox } from '@components/table/TableCheckboxes';
-// import { getRandomHexColor } from '@utils/TestUtils';
-
 
 
 function SortableHeader({ headCell: column, orderBy, order, createSortHandler, handleResizeStart, }) {
@@ -85,9 +82,8 @@ export default function EnhancedTableHead(props) {
                 color: '#475156', fontSize: 16, fontWeight: theme.fontWeight.semiBold,
                 width: '100%',
                 resize: 'horizontal',
-                // display: 'flex', 
-                // gridTemplateColumns: `repeat(${columns.length}, 1fr)`
             }}>
+
             <TableRow >
                 <TableCell padding="checkbox">
                     <Checkbox
@@ -100,26 +96,31 @@ export default function EnhancedTableHead(props) {
                         }}
                     />
                 </TableCell>
-                {columns.map((column) => (
-                    <TableCell
-                        key={column.id}
-                        align={column.numeric ? 'right' : 'left'}
-                        padding={column.disablePadding ? 'none' : 'normal'}
-                        sortDirection={orderBy === column.id ? order : false}
-                        sx={{
-                            // backgroundColor: getRandomHexColor(),
-                            minWidth: '10px',
-                            width: columnWidths[column.id] || 'auto',
-                            position: 'relative',
-                        }}
-                    >
-                        <Box>
-                            <SortableHeader handleResizeStart={handleResizeStart}
-                                headCell={column} order={order} orderBy={orderBy} createSortHandler={createSortHandler}
-                            />
-                        </Box>
-                    </TableCell>
-                ))}
+                {columns.map((column) => {
+                    console.log('col width', columnWidths[column.id])
+                    return (
+                        (
+                            <TableCell
+                                key={column.id}
+                                align={column.numeric ? 'right' : 'left'}
+                                padding={column.disablePadding ? 'none' : 'normal'}
+                                sortDirection={orderBy === column.id ? order : false}
+                                sx={{
+                                    // backgroundColor: getRandomHexColor(),
+                                    minWidth: '10px',
+                                    width: (column.id === 'none' ? '10px' : columnWidths[column.id]) || 'auto',
+                                    position: 'relative',
+                                }}>
+                                <Box>
+                                    <SortableHeader handleResizeStart={handleResizeStart}
+                                        headCell={column} order={order} orderBy={orderBy} createSortHandler={createSortHandler}
+                                    />
+                                </Box>
+                            </TableCell>
+                        )
+                    )
+                }
+                )}
             </TableRow>
         </TableHead>
     );

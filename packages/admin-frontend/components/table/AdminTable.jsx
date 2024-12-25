@@ -1,44 +1,18 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
-import { alpha, useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
-import { useTable, useResizeColumns, useFlexLayout } from 'react-table';
-
 import {
-  Button,
-  Chip,
-  Checkbox,
-  Table, TableBody, TableCell, TableContainer,
+  Table, TableContainer,
   TablePagination,
-  TableRow
 
 } from '@mui/material';
-import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
-
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
-
 import EnhancedTableToolbar from '@components/table/TableToolbar';
 import EnhancedTableHead from '@components/table/TableHead';
-import { RowCheckbox } from '@components/table/TableCheckboxes';
-import { ProfileAssets } from '@components/table/UIAssets';
-import { ProcessChip, ShippedChip, SuccessChip } from '@shared-src/StatusChips';
-import { v4 } from 'uuid';
-import { useCommon } from './TableUsecase';
-
-function createData(id, name, calories, fat, carbs, protein) {
-  return {
-    id: id,
-    name,
-    calories,
-    fat,
-    carbs,
-    protein,
-  };
-}
-
-
+import { useTableStore } from '@data/TableContext';
+import { EnhancedTableBody } from './EnhancedTableBody';
 
 
 function descendingComparator(a, b, orderBy) {
@@ -57,21 +31,14 @@ function getComparator(order, orderBy) {
     : (a, b) => -descendingComparator(a, b, orderBy);
 }
 
-EnhancedTableHead.propTypes = {
-  numSelected: PropTypes.number.isRequired,
-  onRequestSort: PropTypes.func.isRequired,
-  onSelectAllClick: PropTypes.func.isRequired,
-  order: PropTypes.oneOf(['asc', 'desc']).isRequired,
-  orderBy: PropTypes.string.isRequired,
-  rowCount: PropTypes.number.isRequired,
-};
 
 
-
-export default function AdminTable({ columns,data }) {
+export default function AdminTable({ columns, data, dataMapper }) {
   const {
-    order,orderBy,selected,page,dense,rowsPerPage,dataRows,columnWidths,
-    setDataRows,
+    order, orderBy, selected, page, dense, rowsPerPage, dataRows, columnWidths,
+    setDataRows, setColumns,
+    init,
+    setTableActualWidth,
     handleResizeStart,
     handleRequestSort,
     handleSelectAllClick,
@@ -79,32 +46,31 @@ export default function AdminTable({ columns,data }) {
     handleChangePage,
     handleChangeRowsPerPage,
     handleChangeDense,
-  } = useCommon({
-    data,
-    columns, columnWidths: {
-      name: 200,    
-      calories: 150,
-      fat: 100,     
-      carbs: 180,   
-      protein: 150, 
-      none: 15,
-    }
-  },);
+  } = useTableStore((state) => state);
   const visibleRows = React.useMemo(
     () =>
       [...dataRows]
         .sort(getComparator(order, orderBy))
-        .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage),
-    [order, orderBy, page, rowsPerPage],
+        .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+        .map((row) => dataMapper(row)),
+    [dataRows, order, orderBy, page, rowsPerPage],
   );
+  const tableRef = React.useRef(null);
 
-  const theme = useTheme();
+  React.useEffect(() => {
+
+    if (tableRef.current) {
+      setTableActualWidth(tableRef.current.offsetWidth);
+      init(data, columns, setDataRows, setColumns);
+    }
+  }, []);
+
   return (
     <Box>
       <Paper>
         <EnhancedTableToolbar numSelected={selected.length} />
         <TableContainer>
-          <Table size={dense ? 'small' : 'medium'}>
+          <Table ref={tableRef} size={dense ? 'small' : 'medium'}>
             <EnhancedTableHead
               handleResizeStart={handleResizeStart}
               columnWidths={columnWidths}
@@ -115,75 +81,7 @@ export default function AdminTable({ columns,data }) {
               onSelectAllClick={handleSelectAllClick}
               onRequestSort={handleRequestSort}
               rowCount={dataRows.length} />
-            <TableBody>
-              {visibleRows.map((row, index) => {
-                const isItemSelected = selected.includes(row.id);
-                const labelId = `enhanced-table-checkbox-${index}`;
-                return (
-                  <TableRow
-                    hover
-                    onClick={(event) => handleClick(event, row.id)}
-                    aria-checked={isItemSelected}
-                    key={row.id}
-                    selected={isItemSelected}
-                    sx={{ cursor: 'pointer' }}>
-                    <TableCell padding="checkbox">
-                      <Checkbox
-                        color="primary"
-                        checked={isItemSelected}
-                        inputProps={{
-                          'aria-labelledby': labelId,
-                        }} />
-                    </TableCell>
-                    <TableCell padding="normal" sx={{
-                      fontWeight: theme.fontWeight.semiBold,
-                    }}>
-                      {row.id}
-                    </TableCell>
-                    <TableCell
-                      component="th"
-                      id={labelId}
-                      scope="row">
-                      <ProfileAssets.InfoAvatarGroup
-                        avatarProp={{
-                          variant: 'square',
-                          src: "/banner1.png",
-                          sx: {
-                            borderRadius: '10px',
-                            objectFit: 'contain',
-                            width: '50px', height: '50px',
-                          }
-                        }}
-                        boxSx={{
-                          marginLeft: '10px'
-                        }}
-                        title="Muhammed Nabeel" subtitle="junior developer" />
-                    </TableCell>
-                    <TableCell align="left">
-                      <Typography variant="body1" color='#667085' fontWeight="bold" >
-                        {row.calories}
-                      </Typography>
-                    </TableCell>
-                    <TableCell align="left">
-                      {/* <SuccessChip label={'Delivered'}/> */}
-                      <ProcessChip label="Processing" />
-                      {/* <ShippedChip label="Shipped" /> */}
-                    </TableCell>
-                    <TableCell align="left">
-                      23/12/2021
-                    </TableCell>
-                    <TableCell align="left">
-                      <Button sx={{
-                        backgroundColor: 'black',
-                        width: '70px',
-                        fontWeight: theme.fontWeight.medium,
-                        color: 'white',
-                      }}>View</Button>
-                    </TableCell>
-                  </TableRow>
-                );
-              })}
-            </TableBody>
+            <EnhancedTableBody visibleRows={visibleRows} selected={selected} handleClick={handleClick} />
           </Table>
         </TableContainer>
         <TablePagination
@@ -203,12 +101,3 @@ export default function AdminTable({ columns,data }) {
     </Box>
   );
 }
-{/* {emptyRows > 0 && (
-                <TableRow
-                  style={{
-                    height: (dense ? 33 : 53) * emptyRows,
-                  }}
-                >
-                  <TableCell colSpan={6} />
-                </TableRow>
-              )} */}

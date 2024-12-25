@@ -1,18 +1,38 @@
-// pages/index.jsx
+'use client'
 
-// import React from 'react';
-import AdminLayout from '@components/common/AdminLayout';
-import { BarChart } from '@mui/icons-material';
-import RecipeReviewCard from '@shared/RecipeReviewCard';
-import StolenTable from '../components/table/StolenTable';
+import { useEffect } from 'react';
+import { create } from 'zustand';
+import { v4 } from 'uuid';
+// Persistent Zustand Store
+const useMyDataStore = create((set) => ({
+  data: 'hello', // Default value
+  setData: (data) => set({ data }),
+}));
+
+const init = ({setData,}) =>{
+  setData(v4())
+}
+
 const RootPage = () => {
+
+  // Subscribe to the Zustand store
+  const { data, setData } = useMyDataStore((state) => state);
+
+  useEffect(()=>{
+    init({setData});
+  },[]);
+
   return (
-    // <div className="App">
-    //   <RecipeReviewCard>Click me!</RecipeReviewCard>
-    // </div>
-    // <DashboardLayoutBasic/>
     <>
-    <StolenTable/>
+      <h3>{JSON.stringify(data)}</h3>
+      <button
+        onClick={() => {
+
+          init({setData});
+        }}
+      >
+        Change state
+      </button>
     </>
   );
 };

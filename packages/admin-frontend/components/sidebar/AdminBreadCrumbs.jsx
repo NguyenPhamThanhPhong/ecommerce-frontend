@@ -26,17 +26,18 @@ export default function AdminBreadcrumbs() {
 
     return (
         <>
-            <Typography variant="h5" sx={{
+            <Typography variant="h4" sx={{
                 paddingLeft: '3px',
                 fontWeight: theme.fontWeight.bold,
                 color: 'text.primary',
-                mb:'7px',
+                mb: '10px',
             }}>
                 {title || "Dashboard"}
             </Typography>
-            <Breadcrumbs direction={'row'}  aria-label="breadcrumb"
+            <Breadcrumbs direction={'row'} aria-label="breadcrumb"
                 separator={<Image src='/breadcrumbs-separator.svg' width={12} height={12} />}
                 sx={{
+                    mb: '10px',
                     fontSize: '16px', paddingLeft: '3px',
                     fontWeight: theme.fontWeight.bold,
                     color: 'text.primary',

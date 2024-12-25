@@ -41,8 +41,8 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
 import MessageIcon from '@mui/icons-material/Message';
-import MenuButton from '@components/common/MenuButton';
-import AdminBreadcrumbs from './AdminBreadCrumbs';
+import MenuButton from '@components/sidebar/MenuButton';
+import AdminBreadcrumbs from '../sidebar/AdminBreadCrumbs';
 import Link from 'next/link';
 import { checkPath } from '@shared-utils/PathUtils';
 
@@ -226,6 +226,7 @@ export default function AdminLayout({ children }) {
         <Box sx={{
           display: 'flex',
           alignItems: 'center',
+          pb: 2,
           justifyContent: 'space-between',
         }}>
           <SearchAutocomplete />

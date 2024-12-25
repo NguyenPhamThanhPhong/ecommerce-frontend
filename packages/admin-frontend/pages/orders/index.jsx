@@ -1,81 +1,109 @@
 import AdminTable from '@components/table/AdminTable';
 import {
   ToggleButtonGroup, ToggleButton,
-
+  Button,
   Box, Stack, Typography, Avatar, Divider,
   useTheme
 } from '@mui/material'
 import { v4 } from 'uuid';
+import FileDownloadIcon from '@mui/icons-material/FileDownload';
+import AddIcon from '@mui/icons-material/Add';
+import { Download } from '@mui/icons-material';
+import { AdminButtonGroups } from '@components/common/AdminButtonGroups';
+import OrderTable from '@components/table/usecases/TableUsecase';
 
 // Function to create data
-function createData(id, name, calories, fat, carbs, protein) {
+function createData(id, product, date, customer, total, status) {
   return {
     id: id,
-    name,
-    calories,
-    fat,
-    carbs,
-    protein,
+    product,
+    date,
+    customer,
+    total,
+    status,
   };
 }
-
-// Server-side function to fetch or generate static data
-export async function getServerSideProps() {
-  // Simulate fetching static data for the table
-  const staticData = [
-    createData(v4(), 'Product 1', 100, 10, 20, 'In Progress'),
-    createData(v4(), 'Product 2', 200, 20, 30, 'Completed'),
-    createData(v4(), 'Product 3', 300, 30, 40, 'Pending'),
-  ];
-
+function fromDataToRow({ id, product, date, customer, total, status }) {
   return {
-    props: { staticData },
-  };
+    id: id,
+    colId: {
+      label: id,
+      variant: 'text',
+    },
+    product: {
+      variant: 'avatar',
+      title: product?.title,
+      subtitle: product?.subtitle,
+      src: product?.avatar,
+    },
+    date: {
+      variant: 'text',
+      label: date,
+    },
+    customer: {
+      variant: 'text',
+      label: customer,
+    },
+    total: {
+      label: total,
+      variant: 'text',
+    },
+    status: {
+      variant: 'chip',
+      status: 'success',
+    },
+    none: {
+      variant: 'icons',
+    }
+  }
 }
+
+
 const columns = [
   {
-    id: 'name',
+    id: 'ORDER ID',
     numeric: false,
     disablePadding: false,
-    label: 'OrderId',
-    width: 150,
+    label: 'Order Id',
     resizable: true,
   },
   {
-    id: 'calories',
+    id: 'product',
     numeric: false,
     disablePadding: false,
     label: 'Product',
-    width: 150,
     resizable: true,
 
   },
   {
-    id: 'fat',
-    numeric: false,
-    disablePadding: false,
-    label: 'Total',
-    width: 150,
-    resizable: true,
-
-  },
-  {
-    id: 'carbs',
-    numeric: false,
-    disablePadding: false,
-    label: 'Status',
-    width: 150,
-    resizable: true,
-
-  },
-  {
-    id: 'protein',
+    id: 'date',
     numeric: false,
     disablePadding: false,
     label: 'Date',
-    width: 150,
     resizable: true,
 
+  },
+  {
+    id: 'customer',
+    numeric: false,
+    disablePadding: false,
+    label: 'Customer',
+    resizable: true,
+
+  },
+  {
+    id: 'total',
+    numeric: false,
+    disablePadding: false,
+    label: 'Total',
+    resizable: true,
+  },
+  {
+    id: 'status',
+    numeric: false,
+    disablePadding: false,
+    label: 'Status',
+    resizable: true,
   },
   {
     id: 'none',
@@ -86,7 +114,8 @@ const columns = [
   },
 ];
 
-export default function index({ staticData }) {
+export default function index() {
+
   const theme = useTheme();
   const variants = [
     {
@@ -111,48 +140,34 @@ export default function index({ staticData }) {
     },
 
   ]
-  const [variant, setVariant] = React.useState("All");
-  const textColor = '#00B074'
+
   return (
     <Box>
-      <ToggleButtonGroup
-        value={variant}
-        exclusive
-        onChange={(e, newVariant) => setVariant(newVariant)}
-        sx={{
-          bgcolor: 'white',
-          fontFamily:theme.fontFamily.publicSans,
-          mb: 2,
-          // gap: 4,
+      <Box sx={{
+        display: 'flex',
+        justifyContent: 'space-between',
+      }}>
+        <AdminButtonGroups variants={variants} />
+        <Stack direction='row' gap={3} sx={{
         }}>
-        {
-          variants.map((item, index) => (
-            <ToggleButton key={item.id} value={item.id} sx={{
-              py: '5px',
-              backgroundColor: theme.palette.background.paper,
-              // color: theme.palette.success.secondary,
-              color: 'secondary',
-              fontWeight: theme.fontWeight.medium,
-              border: 'none',
-              '&.Mui-selected': {
-                backgroundColor: '#F5F5F7',
-                color: theme.palette.success.secondary,
-                fontWeight:'bold',
-                borderRadius: '10px',
-              },
-              '&:hover': {
-                backgroundColor: '#F5F5F7',
-                borderRadius: '10px',
-                color: theme.palette.success.secondary,
-                fontWeight:'bold',
-              },
-            }}>{item.display}</ToggleButton>
-          ))
-        }
-        {/* <ToggleButton value="512GB">512GB ROM & 8GB RAM</ToggleButton> */}
-      </ToggleButtonGroup>
-      <AdminTable data={staticData} columns={columns}/>
-
+          <Button startIcon={<Download />} sx={{
+            backgroundColor: '#f4ecfb', height: 40,
+            fontWeight: theme.fontWeight.semiBold,
+            px: 2,
+          }}>
+            Export
+          </Button>
+          <Button variant='contained' startIcon={<AddIcon />} sx={{
+            height: 40,
+            backgroundColor: 'success',
+            color: 'white',
+            fontWeight: theme.fontWeight.semiBold,
+          }}>
+            Add Order
+          </Button>
+        </Stack>
+      </Box>
+      <OrderTable />
     </Box>
   )
 }

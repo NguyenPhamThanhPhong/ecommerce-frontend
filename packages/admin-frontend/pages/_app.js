@@ -2,6 +2,7 @@ import { Inter, Lato, Montserrat, Public_Sans, Barlow } from 'next/font/google';
 import { ThemeProvider, CssBaseline } from '@mui/material';
 import { theme, GlobalStyles } from '../styles/GlobalStyles';
 import AdminLayout from '@components/common/AdminLayout';
+import { MyProvider } from '@data/MyContext';
 // import CommonLayout from '@components/common/CommonLayout';
 
 const inter = Inter({ subsets: ['latin'] });
@@ -19,9 +20,11 @@ function MyApp({ Component, pageProps, router }) {
       <CssBaseline />
       <GlobalStyles />
       <div className={`${barlow.className} ${inter.className} ${lato.className} ${monsterrat.className} ${public_sans.className} `}>
-        <AdminLayout>
-          <Component {...pageProps} />
-        </AdminLayout>
+        <MyProvider>
+          <AdminLayout>
+            <Component {...pageProps} />
+          </AdminLayout>
+        </MyProvider>
       </div>
     </ThemeProvider>
   );

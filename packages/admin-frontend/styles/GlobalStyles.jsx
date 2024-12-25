@@ -84,6 +84,7 @@ export const theme = createTheme({
     MuiButton: {
       styleOverrides: {
         root: {
+          fontWeight:'inherit',
           borderRadius: '8px',
           textTransform: 'none', // Disable uppercase text
         },
