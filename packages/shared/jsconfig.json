@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",  // This should be the root of your current package, so '.' points to the 'admin-frontend' folder.
+    "paths": {
+      "@src/*": ["src/*"],
+      "@utils/*": ["utils/*"],
+    }
+  },
+  "include": [
+    "./src",
+    "./utils",
+  ]
+}

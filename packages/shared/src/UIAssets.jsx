@@ -3,12 +3,13 @@
 import {
     Box, Typography, Paper, Avatar, Button,
 
-    useTheme
+    useTheme,
+    Stack
 } from '@mui/material';
 
 
 
-export const ProfileAssets = {
+export const UIAssets = {
     InfoCard: ({ title, children, padding, divider, sx }) => {
         const { mt, mb } = divider || { mt: '10px', mb: '20px' };
         padding = padding || '16px';
@@ -28,7 +29,7 @@ export const ProfileAssets = {
         contained: 'contained',
         text: 'text'
     },
-    Button: ({ children, variant, startIcon, buttonSx, wrapperSx,onClick }) => {
+    Button: ({ children, variant, startIcon, buttonSx, wrapperSx, onClick }) => {
         const theme = useTheme();
         buttonSx = buttonSx || {};
         wrapperSx = wrapperSx || {};
@@ -67,12 +68,17 @@ export const ProfileAssets = {
             color: 'textThirdary'
         };
         return (
-            <Typography variant="body1" {...labelProps} >{label}: <Typography {...valueProps}>
-                {value}
-            </Typography></Typography>
+            <Stack direction='row' gap={1} display={'flex'} sx={{
+                alignItems: 'center',
+            }}>
+                <Typography variant="body1" component={'span'} {...labelProps} >{label || ''}: </Typography>
+                <Typography component={'span'} {...valueProps}>
+                    {value || ''}
+                </Typography>
+            </Stack>
         );
     },
-    InfoAvatarGroup: ({ title, subtitle, alignItems, avatarProp,  titleSx, subtitleSx,boxSx }) => {
+    InfoAvatarGroup: ({ title, subtitle, alignItems, avatarProp, titleSx, subtitleSx, boxSx }) => {
         const theme = useTheme();
         const avatarSx = avatarProp?.sx || { width: 60, height: 60, marginRight: 16 };
         titleSx = titleSx || { variant: 'h6' };

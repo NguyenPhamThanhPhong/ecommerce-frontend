@@ -35,8 +35,42 @@ export const ShippedChip = ({ label }) => {
         }} />
     )
 }
+export const WarningChip = ({ label }) => {
+    const theme = useTheme();
+    return (
+        <Chip label={label || 'Warning'} sx={{
+            fontWeight: theme.fontWeight.semiBold,
+            bgColor: '#fdeee7',
+            color: '#e46a11',
+        }} />
+    )
+}
+export const ErrorChip = ({ label }) => {
+    const theme = useTheme();
+    return (
+        <Chip label={label || 'Error'} sx={{
+            fontWeight: theme.fontWeight.semiBold,
+            bgColor: 'rgb(205, 14, 14)',
+            color: '#fdeee7',
+        }} />
+    )
+}
+export const DraftChip = ({ label }) => {
+    const theme = useTheme();
+    return (
+        <Chip label={label || 'Draft'} sx={{
+            fontWeight: theme.fontWeight.semiBold,
+            bgColor: '#f5f5f5',
+            color: '#666666',
+        }} />
+    )
+}
 export const ChipVariants = {
     "success": SuccessChip,
     "process": ProcessChip,
     "shipped": ShippedChip,
+    "warning": WarningChip,
+    "error": ErrorChip,
+    "draft": DraftChip,
+
 }

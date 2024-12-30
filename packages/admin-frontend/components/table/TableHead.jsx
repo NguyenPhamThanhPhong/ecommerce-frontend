@@ -97,7 +97,6 @@ export default function EnhancedTableHead(props) {
                     />
                 </TableCell>
                 {columns.map((column) => {
-                    console.log('col width', columnWidths[column.id])
                     return (
                         (
                             <TableCell

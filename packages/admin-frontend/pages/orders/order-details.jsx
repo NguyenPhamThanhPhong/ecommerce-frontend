@@ -10,6 +10,8 @@ import EditIcon from '@mui/icons-material/Edit';
 import { ProcessChip, SuccessChip } from '@shared-src/StatusChips';
 import ScheduleIcon from '@mui/icons-material/Schedule';
 import ReadOnlyTable from '@components/table/usecases/ReadOnlyTable';
+import { UIAssets } from '@shared-src/UIAssets';
+import LocationOnIcon from '@mui/icons-material/LocationOn';
 
 export function PaperLine({ label, value, icon }) {
   const theme = useTheme();
@@ -33,7 +35,11 @@ export function PaperLine({ label, value, icon }) {
 
 export function InfoPaper({ width }) {
   return (
-    <Paper elevation={3} sx={{ p: 2, width: width || '48%' }}>
+    <Paper elevation={3} sx={{
+      p: 2,
+      width: width || '31%',
+      minWidth: '280px'
+    }}>
       <Box sx={{
         display: 'flex',
         justifyContent: 'space-between',
@@ -55,6 +61,39 @@ export function InfoPaper({ width }) {
     </Paper>
   )
 }
+export function AddressPaper({ title, addresses, width }) {
+  const avatarProp = {
+    children: <LocationOnIcon sx={{ color: "#667085" }} />,
+    sx: {
+      width: 40, height: 40,
+      backgroundColor: '#F0F1F3'
+    }
+  }
+
+  return (
+    <Paper elevation={3} sx={{
+      p: 2,
+      width: width || '31%',
+      minWidth: '280px'
+    }}>
+      <Stack gap={2} >
+        <Typography variant="h6">Addresses</Typography>
+        <Divider sx={{ mt: 1, }} />
+        <Stack gap={1} sx={{
+        }}>
+          <UIAssets.InfoAvatarGroup
+            subtitle={'14 street, 2nd Avenue, New York, NY 10001'}
+            boxSx={{ ml: 2 }}
+            avatarProp={avatarProp} title="Shipping Address" addresses={addresses} />
+          <UIAssets.InfoAvatarGroup
+            subtitle={'14 street, 2nd Avenue, New York, NY 10001, USA, Earth 616'}
+            boxSx={{ ml: 2 }}
+            avatarProp={avatarProp} title="Shipping Address" addresses={addresses} />
+        </Stack>
+      </Stack>
+    </Paper>
+  )
+}
 
 export default function index() {
   const theme = useTheme();
@@ -64,8 +103,7 @@ export default function index() {
       fontFamily: theme.fontFamily.publicSans,
       justifyContent: 'space-between',
     }}>
-      <Stack sx={{
-        width: '62%',
+      <Stack width={'100%'} sx={{
         gap: 4,
       }}>
         <Box sx={{
@@ -75,18 +113,29 @@ export default function index() {
         }}>
           <InfoPaper />
           <InfoPaper />
+          <InfoPaper />
+
         </Box>
-        <Paper elevation={2} width={'100%'} >
-          <Stack direction={'row'} sx={{display:'flex', alignItems:'center'}}>
-            <Typography variant="h6" sx={{ p: 2 }}>Order Items</Typography>
-            <SuccessChip label={'+2 Orders'} />
-          </Stack>
-          <ReadOnlyTable />
-        </Paper>
+        <Box sx={{
+          width: '100%',
+          flexWrap: 'wrap',
+
+          display: 'flex', justifyContent: 'space-between',
+        }}>
+          <Paper elevation={2} sx={{
+            width: '66%'
+          }}>
+            <Stack direction={'row'} sx={{ display: 'flex', alignItems: 'center' }}>
+              <Typography variant="h6" sx={{ p: 2 }}>Order Items</Typography>
+              <SuccessChip label={'+2 Orders'} />
+            </Stack>
+            <ReadOnlyTable />
+          </Paper>
+          <AddressPaper />
+
+        </Box>
       </Stack>
-      <Stack width={'35%'} >
-        <InfoPaper width={'90%'} />
-      </Stack>
+
     </Box>
   )
 }

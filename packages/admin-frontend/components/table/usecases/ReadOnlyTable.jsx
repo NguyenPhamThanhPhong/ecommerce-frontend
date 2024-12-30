@@ -7,55 +7,73 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
+import { toLocaleString, toLocaleFixedString, toPercentage } from '@shared-utils/ConverterUtils';
 
 const columns = [
-  { id: 'name', label: 'Name', minWidth: 170 },
-  { id: 'code', label: 'ISO\u00a0Code', minWidth: 100 },
+  { id: 'id', label: 'ID', minWidth: 80 },
+  { id: 'product', label: 'Product', minWidth: 100 },
   {
-    id: 'population',
-    label: 'Population',
-    minWidth: 170,
+    id: 'quantity',
+    label: 'Quantity',
+    minWidth: 60,
     align: 'right',
     format: (value) => value.toLocaleString('en-US'),
   },
   {
-    id: 'size',
-    label: 'Size\u00a0(km\u00b2)',
-    minWidth: 170,
+    id: 'price',
+    label: 'Gross Price',
+    minWidth: 100,
     align: 'right',
-    format: (value) => value.toLocaleString('en-US'),
+    format: (value) => toLocaleString(value),
   },
   {
-    id: 'density',
-    label: 'Density',
-    minWidth: 170,
+    id: 'discount',
+    label: 'Discount',
+    minWidth: 60,
     align: 'right',
-    format: (value) => value.toFixed(2),
+    format: (value) => toPercentage(value),
+  },
+  {
+    id: 'total',
+    label: 'Total',
+    minWidth: 100,
+    align: 'right',
+    format: (value) => toLocaleFixedString(value),
   },
 ];
 
-function createData(name, code, population, size) {
-  const density = population / size;
-  return { name, code, population, size, density };
+function createData(product, id, quantity, price, discount) {
+  const total = quantity * price;
+  return { product, id, quantity, price, discount, total };
 }
 
 const rows = [
-  createData('India', 'IN', 1324171354, 3287263),
-  createData('China', 'CN', 1403500365, 9596961),
-  createData('Italy', 'IT', 60483973, 301340),
-  createData('United States', 'US', 327167434, 9833520),
-  createData('Canada', 'CA', 37602103, 9984670),
-  createData('Australia', 'AU', 25475400, 7692024),
-  createData('Germany', 'DE', 83019200, 357578),
-  createData('Ireland', 'IE', 4857000, 70273),
-  createData('Mexico', 'MX', 126577691, 1972550),
-  createData('Japan', 'JP', 126317000, 377973),
-  createData('France', 'FR', 67022000, 640679),
-  createData('United Kingdom', 'GB', 67545757, 242495),
-  createData('Russia', 'RU', 146793744, 17098246),
-  createData('Nigeria', 'NG', 200962417, 923768),
-  createData('Brazil', 'BR', 210147125, 8515767),
+  createData('India', 'IN', 12, 1956475, 0.215),
+  createData('China', 'CN', 12, 1956475, 0.215),
+  createData('Italy', 'IT', 12, 1956475, 0.2),
+  createData('United States', 'US', 1, 1956475, 0.2),
+  createData('Canada', 'CA', 5, 1956475, 0.2),
+
 ];
+
+const calculationRows = [
+  {
+    price: 'Gross Price',
+    total: 15,
+  },
+  {
+    price: 'VAT',
+    total: 0.00,
+  },
+  {
+    price: 'Shipping fee',
+    total: 20.00,
+  },
+  {
+    price: 'Net Total',
+    total: 731.25,
+  },
+]
 
 export default function ReadOnlyTable() {
   const [page, setPage] = React.useState(0);
@@ -92,7 +110,7 @@ export default function ReadOnlyTable() {
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row) => {
                 return (
-                  <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
+                  <TableRow hover key={row.code}>
                     {columns.map((column) => {
                       const value = row[column.id];
                       return (
@@ -106,6 +124,19 @@ export default function ReadOnlyTable() {
                   </TableRow>
                 );
               })}
+            {
+              calculationRows.map((row) => {
+                return (
+                  <TableRow hover key={row.price}>
+                    <TableCell colSpan={5} key={row.price} align='right' sx={{fontWeight:'bold',fontSize:16}}>
+                      {row.price}
+                    </TableCell>
+                    <TableCell key={row.total} align='right'>
+                      {row.total}
+                    </TableCell>
+                  </TableRow>)
+              })
+            }
           </TableBody>
         </Table>
       </TableContainer>

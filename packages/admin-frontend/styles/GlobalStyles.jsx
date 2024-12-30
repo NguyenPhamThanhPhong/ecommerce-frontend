@@ -31,7 +31,6 @@ export const theme = createTheme({
   palette: {
     primary: {
       main: '#17c6b1', // Green
-      
     },
     secondary: {
       main: '#42a5f5', // Blue
@@ -54,8 +53,8 @@ export const theme = createTheme({
       secondary: '#00B074'
     },
     text: {
-      primary: '#2f2f2f', // Dark gray text
-      secondary: '#6f6f6f', // Lighter gray text
+      primary: '#2f2f2f', 
+      secondary: '#6f6f6f',
       thirdary: '#667085',
     },
   },

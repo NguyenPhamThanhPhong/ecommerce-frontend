@@ -1,4 +1,4 @@
-import { CellCheckbox, cellVariants } from "./TableCellsAssets";
+import { CellCheckbox, cellVariants } from "../../../shared/src/TableCellsAssets";
 import * as React from 'react';
 import { TableBody, 
   TableRow,
@@ -24,7 +24,7 @@ export const EnhancedTableBody = ({visibleRows, handleClick, selected}) => {
                         {
                             Object.entries(row).map(([key, value]) => {
                                 return (
-                                    value.variant && cellVariants[value.variant](value)
+                                    value?.variant && cellVariants[value.variant](value)
                                 )
                             })
                         }

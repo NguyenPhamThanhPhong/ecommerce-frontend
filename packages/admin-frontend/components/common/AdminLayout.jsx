@@ -222,7 +222,7 @@ export default function AdminLayout({ children }) {
         </List>
 
       </Drawer>
-      <Stack component="main" sx={{ flexGrow: 1, pt: '40px', pl: '63px', pr: '34px' }}>
+      <Stack component="main" sx={{ flexGrow: 1, pt: '40px', pl: '30px', pr: '34px' }}>
         <Box sx={{
           display: 'flex',
           alignItems: 'center',

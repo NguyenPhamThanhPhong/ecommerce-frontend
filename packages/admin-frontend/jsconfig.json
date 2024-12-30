@@ -4,6 +4,7 @@
       "paths": {
         "@shared-src/*": ["../shared/src/*"],
         "@shared-utils/*": ["../shared/utils/*"],
+        "@shared-public/*": ["../shared/public/*"],
         "@components/*": ["components/*"],
         "@styles/*": ["styles/*"],
         "@utils/*": ["utils/*"],

@@ -35,7 +35,7 @@
   },
   "devDependencies": {
     "@babel/preset-react": "^7.24.7",
-    "@ecommerce/shared": "file:../shared",
+    "@ecommerce/shared": "file:./shared",
     "customize-cra": "^1.0.0",
     "react-app-rewired": "^2.2.1"
   }

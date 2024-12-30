@@ -15,17 +15,12 @@ import {
 
 } from '@mui/material';
 import Typography from '@mui/material/Typography';
-import Paper from '@mui/material/Paper';
 
-import FormControlLabel from '@mui/material/FormControlLabel';
-
-import EnhancedTableToolbar from '@components/table/TableToolbar';
-import EnhancedTableHead from '@components/table/TableHead';
 import EditIcon from '@mui/icons-material/Edit';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { ProfileAssets } from '@components/table/UIAssets';
-import { ChipVariants, ProcessChip, ShippedChip, SuccessChip } from '@shared-src/StatusChips';
+import { UIAssets } from './UIAssets';
+import { ChipVariants, ProcessChip, ShippedChip, SuccessChip } from './StatusChips';
 
 export const cellVariants = {
     "text": TextCell,
@@ -88,7 +83,7 @@ export function AvatarCell({ src, title, subtitle }) {
             component="th"
             // id={labelId}
             scope="row">
-            <ProfileAssets.InfoAvatarGroup
+            <UIAssets.InfoAvatarGroup
                 avatarProp={{
                     variant: 'square',
                     src: src || "/banner1.png",
