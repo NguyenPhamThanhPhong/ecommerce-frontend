@@ -60,7 +60,7 @@ export const theme = createTheme({
   },
   ...fonts,
   typography: {
-    fontFamily: 'Roboto, Inter, Arial, sans-serif',
+    fontFamily: 'inherit',
     h1: { fontWeight: 500 },
     h2: { fontWeight: 500 },
     body1: { fontWeight: 400 },

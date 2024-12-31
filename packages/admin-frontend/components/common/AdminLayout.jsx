@@ -131,11 +131,6 @@ const menu = [
     href: '/admins',
   },
   {
-    label: 'Payment',
-    icon: <CreditCardIcon />,
-    href: '/payments',
-  },
-  {
     label: 'Category',
     icon: <CategoryIcon />,
     href: '/categories',

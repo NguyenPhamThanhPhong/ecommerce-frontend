@@ -14,6 +14,8 @@ import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'; // Correct import
 import { DatePicker } from '@mui/x-date-pickers';
 import { isEmpty, isNotEmpty, isEmail, isPhoneNumber } from '../utils/ValidationUtils';
+import ImageIcon from '@mui/icons-material/Image';
+import Image from 'next/image';
 
 
 export const FormTextBox = ({ name, label, value, onChange, error, errorText, required, rows, multiline, formSx, width }) => {
@@ -41,7 +43,7 @@ export const FormTextBox = ({ name, label, value, onChange, error, errorText, re
 export const FormDatePicker = ({ name, label, value, onChange, error, errorText, required }) => {
     return (
         <LocalizationProvider dateAdapter={AdapterDateFns}>
-            <FormControl  error={error} sx={{ gap: 1, width: '50%' }}>
+            <FormControl error={error} sx={{ gap: 1, width: '50%' }}>
                 <FormLabel>{label + (required ? ' * ' : '')}</FormLabel>
                 <DatePicker
                     format="dd-MM-yyyy"
@@ -147,7 +149,7 @@ export function FormSelect({ labelSx, formSx, options, label, required }) {
     )
 }
 
-export function FormImagePicker({ name, value, onChange,e }) {
+export function FormImagePicker({ name, value, onChange, e }) {
     const [image, setImage] = useState(value); // Default image
 
     return (
@@ -217,4 +219,59 @@ export function FormAlert({ alertVisible, error, severity }) {
             </Alert>
         )
     )
+}
+
+export function FormThumbnailPicker({ name, value, onChange }) {
+    const [image, setImage] = useState(value); // Default image
+    const theme = useTheme();
+    return (
+        <Box
+            sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center',
+                height: 200,
+                cursor: 'pointer',
+                borderRadius: 8,
+                bgcolor: '#F9F9FC',
+            }}>
+            <Avatar
+                alt="Profile Picture"
+                variant='square'
+                src={image}
+                sx={{
+                    backgroundColor: '#00B074',
+                    objectFit: 'contain',
+                    mb: 2,
+                    width: 100,
+                    height: 100,
+                    '& .MuiAvatar-fallback': {
+                        display: 'none'
+                    },
+                }}>
+                {image ? null : <ImageIcon sx={{ width: 60, height: 60 }} />}
+            </Avatar>
+            <Button sx={{
+                bgcolor: '#F4ECFB',
+                color: theme.palette.success.main,
+                fontSize:16,
+                fontWeight: theme.fontWeight.semiBold,
+                '&:hover': {
+                    bgcolor:'pink',
+                    color:'green'
+                }
+            }}>
+                Add Image
+            </Button>
+            {/* Hidden input field inside the label */}
+            <input
+                name={name || 'image'}
+                type="file"
+                accept="image/*"
+                hidden
+                onChange={onChange}
+            />
+        </Box>
+    );
 }
