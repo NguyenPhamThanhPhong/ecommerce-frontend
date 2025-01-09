@@ -12,7 +12,7 @@ function handleClick(event) {
 
 export default function RoutingBreadcrumbs() {
   const theme = useTheme();
-  const pathNameParts = checkPath().split('/');
+  const pathNameParts = checkPath().split("?")[0].split('/');
   return (
     <Breadcrumbs aria-label="breadcrumb" sx={{
       fontSize: '16px', paddingLeft: '3px',

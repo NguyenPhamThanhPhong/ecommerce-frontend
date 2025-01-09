@@ -3,6 +3,7 @@ const path = require('path');
 // next.config.js
 
 module.exports = {
+  reactStrictMode: false,
   webpack: (config, { isServer }) => {
     config.resolve.alias = config.resolve.alias || {};
 

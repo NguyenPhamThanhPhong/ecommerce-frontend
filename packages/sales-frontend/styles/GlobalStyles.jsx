@@ -5,19 +5,14 @@ import { createGlobalStyle } from 'styled-components';
 // theme.js
 import { createTheme } from '@mui/material/styles';
 
-
-export const theme = createTheme({
-  discount: '#ffffff',
-  boxShadow: {
-    default: '0px 3px 1px -2px rgba(0,0,0,0.2),0px 2px 2px 0px rgba(0,0,0,0.14),0px 1px 5px 0px rgba(0,0,0,0.12)',
-  },
+const fonts={
   fontWeight: {
     thin: 100,
     extraLight: 200,
     light: 300,
     regular: 400,
     medium: 500,
-    semiBold: 550,
+    semiBold: 600,
     bold: 700,
     extraBold: 800,
     black: 900
@@ -28,17 +23,25 @@ export const theme = createTheme({
     montserrat: 'Montserrat, sans-serif',
     lato: 'Lato, sans-serif',
     inter: 'Inter, sans-serif',
+    barlow: 'Barlow, sans-serif',
   },
+}
+
+export const theme = createTheme({
+  discount: '#ffffff',
+  boxShadow: {
+    default: '0px 3px 1px -2px rgba(0,0,0,0.2),0px 2px 2px 0px rgba(0,0,0,0.14),0px 1px 5px 0px rgba(0,0,0,0.12)',
+  },
+  ...fonts,
   palette: {
-    common: {
-      black: '#000000',
-      white: '#ffffff',
-    },
     primary: {
       main: '#000000',
     },
     secondary: {
       main: '#ffffff',
+    },
+    thirdary: {
+      main: '#f06292', // Pink
     },
     text: {
       primary: '#212121',
@@ -56,21 +59,10 @@ export const theme = createTheme({
       default: '#EFF7FA',
       paper: '#ffffff',
     },
-    action: {
-      active: '#e0e0e0',
-      hover: '#e8e8e8',
-    },
-    info: {
-      main: '#007b55', // Green for "In Stock" and similar tags
-    },
     divider: '#e0e0e0', // Divider color,
     outline: {
       primary: '#A2A3B1',
     },
-    appbar: {
-      background: '#FFFFFF',
-      primary: '#000000',
-    }
   },
   components: {
     MuiFormControl: {
@@ -78,6 +70,7 @@ export const theme = createTheme({
         root: {
           marginTop: 0,
           fontFamily: 'inherit',
+          color:'#000000'
         },
       },
     },
@@ -85,6 +78,7 @@ export const theme = createTheme({
       styleOverrides: {
         root: {
           fontFamily: 'inherit',
+          color:'#000000'
         },
       },
     },
@@ -98,40 +92,11 @@ export const theme = createTheme({
     }
   },
   typography: {
-    fontFamily: "'Roboto', sans-serif",
-    h1: {
-      fontSize: '2rem',
-      fontWeight: 700,
-      color: 'inherit',
-      fontFamily: 'inherit',
-    },
-    h2: {
-      fontSize: '1.5rem',
-      fontWeight: 600,
-      color: 'inherit',
-      fontFamily: 'inherit',
-    },
-    h5: {
-      fontSize: '1.25rem',
-      fontWeight: 500,
-      color: 'inherit',
-    },
-    h6: {
-      fontFamily: 'inherit',
-    },
-    subtitle1: {
-      fontSize: '1rem',
-      color: '#333333', // Dark gray for subtitles
-    },
-    body1: {
-      fontSize: '14px',
-      color: 'inherit', // Standard body text color
-    },
-    body2: {
-      fontSize: '10px',
-      fontWeight: 400,
-      color: 'inherit', // Light gray for secondary text
-    },
+    fontFamily: "inherit",
+    h1: { fontWeight: 500 },
+    h2: { fontWeight: 500 },
+    body1: { fontWeight: 400 },
+    body2: { fontWeight: 300 },
     button: {
       fontWeight: 700,
       textTransform: 'uppercase',
@@ -139,7 +104,6 @@ export const theme = createTheme({
       backgroundColor: '#007b55',
     },
   },
-
 });
 
 export default theme;

@@ -6,72 +6,27 @@ import {
 } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import { ProfileAssets } from '@components/profile/assets/ProfileAssets';
-import { Filter } from 'bad-words';
-import { LocalizationProvider } from '@mui/x-date-pickers';
-import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'; // Correct import
-import { DatePicker } from '@mui/x-date-pickers';
+
 import { isEmpty, isNotEmpty, isEmail, isPhoneNumber } from '@utils/ValidationUtils';
+import { FormDatePicker, FormTextBox } from '@shared/InputAssets';
+import { useGlobalAccountContext } from '@shared-conntext/AccountContext';
+import { useSnackbarStore } from '@shared-conntext/SnackbarContext';
 
-const filter = new Filter();
 
-const ProfileTextBox = ({ name, label, value, onChange, error, errorText, required }) => {
-    onChange = onChange || (() => { });
-    return (
-        <FormControl margin="normal" error={error} sx={{
-            gap: 1,
-            width: '50%',
-        }}>
-            <FormLabel>{label + ((required) ? ' * ' : '')}</FormLabel>
-            <TextField
-                name={name}
-                error={error}
-                helperText={errorText}
-                variant="outlined"
-                value={value}
-                onChange={onChange}
-                required={required}
-            />
-        </FormControl>
-    )
-}
-const ProfileDatePicker = ({ name, label, value, onChange, error, errorText, required }) => {
-    return (
-        <LocalizationProvider dateAdapter={AdapterDateFns}>
-            <FormControl margin="normal" error={error} sx={{ gap: 1, width: '50%' }}>
-                <FormLabel>{label + (required ? ' * ' : '')}</FormLabel>
-                <DatePicker
-                    format="dd-MM-yyyy"
-                    value={value}
-                    onChange={(newValue) => onChange({ target: { name, value: newValue } })}
-                    renderInput={(params) => (
-                        <TextField
-                            {...params}
-                            name={name}
-                            error={error}
-                            helperText={errorText}
-                            required={required}
-                        />
-                    )}
-                />
-            </FormControl>
-        </LocalizationProvider>
-    );
-};
-
-export const useProfileForm = ({firstName, lastName, email, phoneNumber, dateOfBirth}) => {
+export const useProfileForm = () => {
+    const pub = useSnackbarStore(state=>state.pub);
+    const {account } = useGlobalAccountContext();
     const [formValues, setFormValues] = useState({
-        firstName: firstName || '',
-        lastName: lastName || '',
-        email: email || '',
-        phoneNumber: phoneNumber || '',
-        dateOfBirth: dateOfBirth || new Date(),
+        fullName: account?.profile?.fullName || '',
+        email: account?.email || '',
+        phone: account?.profile?.phone || '',
+        dateOfBirth: account?.profile?.dateOfBirth || new Date(),
     });
 
     const [errors, setErrors] = useState({
-        firstName: '',
-        lastName: '',
+        fullName: '',
         email: '',
-        phoneNumber: '',
+        phone: '',
         dateOfBirth: '',
     });
 
@@ -94,8 +49,6 @@ export const useProfileForm = ({firstName, lastName, email, phoneNumber, dateOfB
         setErrors((prev) => ({ ...prev, [name]: '' }));
         return true;
     };
-
-
     const handleDateChange = ({ field, required, upperBound }) => (event) => {
         const { name, value } = event.target;
         setFormValues((prev) => ({ ...prev, [name]: value }));
@@ -109,101 +62,83 @@ export const useProfileForm = ({firstName, lastName, email, phoneNumber, dateOfB
         setErrors((prev) => ({ ...prev, [name]: '' }));
         return true;
     };
-    const row1 = [
-        {
-            label: 'First Name',
-            value: formValues.firstName,
-            name: 'firstName',
-            Component: ProfileTextBox,
-            onChange: handleTextChange({ field: 'First Name', required: true }),
-            error: errors.firstName !== '',
-            errorText: errors.firstName,
-            required: true
-        },
-        {
-            label: 'Last Name',
-            value: formValues.lastName,
-            name: 'lastName',
-            Component: ProfileTextBox,
-            onChange: handleTextChange({ field: 'Last Name', required: true }),
-            error: errors.lastName !== '',
-            errorText: errors.lastName,
-            required: true
-        }
-    ]
-    const row2 = {
+    const fullNameInput = {
+        label: 'Full name',
+        value: formValues.fullName,
+        name: 'fullName',
+        Component: FormTextBox,
+        onChange: handleTextChange({ field: 'Full name', required: true }),
+        error: errors.fullName !== '',
+        errorText: errors.fullName,
+        required: true,
+        formSx: {width: '100%'}
+    };
+    const phoneInput = {
+        label: 'Phone Number',
+        value: formValues.phone,
+        name: 'phone',
+        Component: FormTextBox,
+        onChange: handleTextChange({ field: 'Phone Number', required: true, numberOnly: true }),
+        error: errors.phone !== '',
+        errorText: errors.phone,
+        required: true
+    }
+    const emailInput = {
         label: 'Email',
         value: formValues.email,
-        ComponentEnum: ProfileTextBox,
+        Component: FormTextBox,
         name: 'email',
         onChange: handleTextChange({ field: 'Email', required: true, email: true }),
         error: errors.email !== '',
         errorText: errors.email,
+        required: true,
+    }
+    const dateOfBirthInput = {
+        label: 'Date of Birth',
+        value: formValues.dateOfBirth,
+        name: 'dateOfBirth',
+        Component: FormDatePicker,
+        onChange: handleDateChange({ field: 'Date of Birth', required: true }),
+        error: isNotEmpty(errors.dateOfBirth),
+        errorText: errors.dateOfBirth,
         required: true
     }
-
-    const row3 = [
-        {
-            label: 'Phone Number',
-            value: formValues.phoneNumber,
-            name: 'phoneNumber',
-            Component: ProfileTextBox,
-            onChange: handleTextChange({ field: 'Phone Number', required: true, numberOnly: true }),
-            error: errors.phoneNumber !== '',
-            errorText: errors.phoneNumber,
-            required: true
-        },
-        {
-            label: 'Date of Birth',
-            value: formValues.dateOfBirth,
-            name: 'dateOfBirth',
-            Component: ProfileDatePicker,
-            onChange: handleDateChange({ field: 'Date of Birth', required: true }),
-            error: isNotEmpty(errors.dateOfBirth),
-            errorText: errors.dateOfBirth,
-            required: true
-        }
-    ]
-
-
+    const imageUrl = account?.profile?.avatarUrl || '';
 
     return {
         formValues,
         errors,
-        handleTextChange,
-        handleDateChange,
-        row1,
-        row2,
-        row3
+        imageUrl,
+        inputs: { phoneInput, emailInput, dateOfBirthInput, fullNameInput }
     };
 };
 
-export const ProfileFormUI = ({ row1, row2, row3, handleDateChange,formValues,errors }) => {
-    const validateForm = () => {
-        return Object.values(errors).every((error) => error === '');
-    }
-    const submitForm = ()=>{
-        if(validateForm()){
-            console.log('Form Values:', JSON.stringify(formValues));
+export const ProfileFormUI = ({fullNameInput, phoneInput, emailInput, dateOfBirthInput, formValues, errors, onSubmit}) => {
+
+    const submitForm = () => {
+        const validateForm = () => {
+            return Object.values(errors).every((error) => error === '');
         }
+        if (validateForm()) {
+            // console.log('Form Values:', JSON.stringify(formValues));
+            onSubmit();
+        }
+
     }
     return (
-        <Stack display="flex" sx={{ width: '80%' }}>
+        <Stack display="flex" sx={{ width: '80%',gap:2 }}>
             <Box component="form" sx={{ display: 'flex', gap: 2, width: '100%' }}>
-                {row1.map((row, index) => (
-                    <row.Component key={index} {...row} />
-                ))}
+                <fullNameInput.Component {...fullNameInput} />
             </Box>
             <Box component="form" sx={{ display: 'flex', gap: 2, alignItems: 'center', width: '100%' }}>
-                <ProfileTextBox {...row2} />
-                <Button variant="outlined" sx={{ width: '50%', mt: '20px', height: '53px' }}>
+                <emailInput.Component {...emailInput} />
+                <Button variant="outlined" sx={{ width: '50%', mt: '25px', height: '53px' }}>
                     Change Password
                 </Button>
             </Box>
             <Box component="form" sx={{ display: 'flex', gap: 2, alignItems: 'center', width: '100%' }}>
-                {row3.map((row, index) => (
-                    <row.Component key={index} {...row} />
-                ))}
+                <phoneInput.Component {...phoneInput} />
+                <dateOfBirthInput.Component {...dateOfBirthInput} />
             </Box>
             <ProfileAssets.Button variant="contained" onClick={submitForm}>Save Changes</ProfileAssets.Button>
         </Stack>

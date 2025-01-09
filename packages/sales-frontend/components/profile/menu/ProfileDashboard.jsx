@@ -1,27 +1,32 @@
 
 import { Box, Typography, Paper, Grid2, Avatar, Stack, useTheme } from '@mui/material';
 import { ProfileAssets } from '@components/profile/assets/ProfileAssets';
+import { useGlobalAccountContext } from '@shared-conntext/AccountContext';
+import { useEffect } from 'react';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 function DashboardContent() {
   const theme = useTheme();
+  const { account, totalOrders, totalPurchases, loadAccount, loadStatistics } = useGlobalAccountContext();
 
   const orderSumaries = [
     {
       color: "#e0f7fa",
       title: "Total Orders",
-      value: "154",
+      value: totalOrders,
       img: '/profile-dashboard-total-orders.png'
     },
     {
       color: "#fff3e0",
-      title: "Pending Orders",
-      value: "05",
+      title: "Total Purchases",
+      value: totalPurchases,
       img: '/profile-dashboard-pending-orders.png'
     },
     {
       color: "#e8f5e9",
-      title: "Completed Orders",
-      value: "149",
+      title: "Free Delivery",
+      value: totalPurchases,
       img: '/profile-dashboard-completed-orders.png'
     }
   ]
@@ -40,16 +45,14 @@ function DashboardContent() {
             <OrderCard img={order.img} key={index} color={order.color} title={order.title} count={order.value} />
           ))
         }
-
       </Box>
-
       {/* Welcome Text */}
       <Typography variant="h6" mt={3} fontFamily={'Public Sans'} fontWeight={theme.fontWeight.semiBold}>
-        Hello, Muhammed Nabeel
+        Hello, {account?.profile?.fullName}
       </Typography>
       <Typography variant="body2" color="textPrimary" fontSize={20}>
-        From your account dashboard, you can easily check & view your <a href="#">Recent Orders</a>,
-        manage your <a href="#">Shipping and Billing Addresses</a> and edit your <a href="#">Password</a> and <a href="#">Account Details</a>.
+        From your account dashboard, you can easily check & view your <Link href="#">Recent Orders</Link>,
+        manage your <Link href="#">Billing Addresses</Link> and edit your <Link href="#">Password</Link> and <Link href="#">Account Details</Link>.
       </Typography>
 
       {/* Account and Address Info */}
@@ -62,14 +65,15 @@ function DashboardContent() {
           width: '50%',
         }}>
           <ProfileAssets.InfoCard title="ACCOUNT INFO">
-            <AccountInfo />
+            <AccountInfo email={account?.email} phone={account?.profile?.phone} />
           </ProfileAssets.InfoCard>
         </Box>
         <Box sx={{
           width: '50%',
         }}>
           <ProfileAssets.InfoCard title="DEFAULT ADDRESS">
-            <AddressInfo />
+            <AddressInfo email={account?.email} name={account?.profile?.fullName}
+              phone={account?.profile?.phone} primaryAddress={account?.profile?.primaryAddress} />
           </ProfileAssets.InfoCard>
         </Box>
       </Box>
@@ -99,24 +103,25 @@ function OrderCard({ color, title, count, img }) {
   );
 }
 
-function AccountInfo() {
+function AccountInfo({ email, phone }) {
+  const router = useRouter();
   const infos = [
-    { label: 'Email', value: 'abc@gmail.com' },
-    { label: 'Phone', value: '9876543210' },
+    { label: 'Email', value: email || '' },
+    { label: 'Phone', value: phone || '' },
   ]
   return (
     <Stack>
-      <ProfileAssets.InfoAvatarGroup 
-      avatarProp={{
-        src:"/banner1.png"
-      }}
-      title="Muhammed Nabeel" subtitle="junior developer" />
+      <ProfileAssets.InfoAvatarGroup
+        avatarProp={{
+          src: "/banner1.png"
+        }}
+        title="Muhammed Nabeel" subtitle="junior developer" />
       {
         infos.map((info, index) => (
           <ProfileAssets.InfoLine key={index} label={info.label} value={info.value} />
         ))
       }
-      <ProfileAssets.Button >
+      <ProfileAssets.Button onClick={() => router.push("/profile/details")} >
         Edit Account
       </ProfileAssets.Button>
     </Stack>
@@ -124,14 +129,13 @@ function AccountInfo() {
   );
 }
 
-function AddressInfo() {
+function AddressInfo({ name, primaryAddress, phone, email }) {
+  const router = useRouter();
   const infos = [
-    { label: "Name", value: "Muhammed Nabeel" },
-    { label: "Address", value: "Mikro Grafio, 4th Gate, Calicut" },
-    { label: "Pin", value: "67372" },
-    { label: "Phone Number", value: "+917034985827" },
-    { label: "Email", value: "abc@gmail.com" },
-
+    { label: "Name", value: name },
+    { label: "Primary Address", value: primaryAddress },
+    { label: "Phone Number", value: phone },
+    { label: "Email", value: email },
   ]
   return (
     <Stack>
@@ -141,15 +145,12 @@ function AddressInfo() {
           <ProfileAssets.InfoLine key={index} label={info.label} value={info.value} />
         ))
       }
-      <ProfileAssets.Button >
+      <ProfileAssets.Button onClick={() => router.push("/profile/shipping")} >
         Change Address
       </ProfileAssets.Button>
     </Stack>
   );
 }
-
-
-
 
 export default function Dashboard() {
   return (

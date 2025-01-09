@@ -5,6 +5,8 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { Radio, RadioGroup, FormControlLabel, Box } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditLocationAltRoundedIcon from '@mui/icons-material/EditLocationAltRounded';
+import { useGlobalAccountContext } from '@shared-conntext/AccountContext';
+import { useSnackbarStore } from '@shared-conntext/SnackbarContext';
 
 const CustomRadio = ({ ...props }) => (
     <Radio
@@ -25,7 +27,6 @@ const CustomRadio = ({ ...props }) => (
         }
         checkedIcon={
             <Box
-
                 sx={{
                     width: 24,
                     height: 24,
@@ -51,22 +52,21 @@ const CustomRadio = ({ ...props }) => (
 
 
 export default function ShippingAddress() {
-    const [defaultAddress, setDefaultAddress] = React.useState('1');
+    const { account, changeAddress } = useGlobalAccountContext((state) => state);
+    const pub = useSnackbarStore(state => state.pub);
+    const addressData = [];
+    if (account?.profile?.addresses) {
 
-    const addressData = [
-        {
-            id: '1',
-            title: 'Home Address',
-            address: 'No 2, Adebayo Street, Ikeja, Lagos',
-            phone: '08012345678'
-        },
-        {
-            id: '2',
-            title: 'Company Address',
-            address: 'No 3, Amber Street, Teyvat, Mondstadt',
-            phone: '08012345678'
-        }
-    ]
+        Object.entries(account.profile.addresses).forEach(([key, address]) => {
+            addressData.push({
+                id: key,
+                title: key,
+                address: address,
+            });
+        });
+    }
+    const defaultAddress = account?.profile?.primaryAddress;
+
 
     return (
         <Stack sx={{
@@ -82,7 +82,10 @@ export default function ShippingAddress() {
                 Add Address
             </ProfileAssets.Button>
             {/* <CustomRadioGroup /> */}
-            <RadioGroup defaultValue={defaultAddress} onChange={(e)=>{setDefaultAddress(e.target.value)}} row>
+            <RadioGroup defaultValue={defaultAddress} onChange={(e) => {
+                console.log('addresses', account?.profile?.addresses)
+                changeAddress(e.target.value, account?.profile?.addresses, pub)
+            }} row>
                 {
                     addressData.map((data) => {
                         const label = (
@@ -121,7 +124,7 @@ export default function ShippingAddress() {
                                 </Stack>
                             </Box>)
                         return (
-                            <ProfileAssets.InfoCard title={label} divider={{ mb: '10px', mt: '10px' }} sx={{
+                            <ProfileAssets.InfoCard key={'1'} title={label} divider={{ mb: '10px', mt: '10px' }} sx={{
                                 mb: 4
                             }}>
                                 <Stack>

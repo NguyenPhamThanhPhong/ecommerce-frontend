@@ -3,13 +3,13 @@ const path = require('path');
 // next.config.js
 
 module.exports = {
+  reactStrictMode: false, // Disable React Strict Mode
   webpack: (config, { isServer }) => {
     config.resolve.alias = config.resolve.alias || {};
 
     config.resolve.alias['@shared'] = path.resolve(__dirname, '../shared/src');
     config.resolve.alias['@components'] = path.resolve(__dirname, './components');
     config.resolve.alias['@styles'] = path.resolve(__dirname, './styles');
-    
 
     // Important: To allow outside folder imports, we need to modify the `include` rule for JS/JSX files
     config.module.rules.push({

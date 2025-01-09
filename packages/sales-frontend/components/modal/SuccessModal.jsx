@@ -21,13 +21,14 @@ const style = {
 };
 
 
-export default function SuccessModal({ open, onClose, title, status, content }) {
+
+export default function SuccessModal({ open, onClose, title, status, content, onConfirm, onCancel, isConfirm, isCancel }) {
 
   const statusColor = status === 'success' ? theme.palette.success.dark : theme.palette.error.dark;
 
   const statusIcon = status === 'success' ?
-    <CheckIcon sx={{ color: statusColor,height: '55px', width: '50px', }} />
-    : <CloseIcon sx={{ color: statusColor,height: '55px', width: '50px', }} />;
+    <CheckIcon sx={{ color: statusColor, height: '55px', width: '50px', }} />
+    : <CloseIcon sx={{ color: statusColor, height: '55px', width: '50px', }} />;
 
   return (
     <Modal
@@ -65,22 +66,29 @@ export default function SuccessModal({ open, onClose, title, status, content }) 
         <Typography id="modal-title" variant="h6"
           mt={1}
           mb={5}
-          align="center" gutterBottom  sx={{
+          align="center" gutterBottom sx={{
             color: statusColor,
           }}>
-          Successful Payment
+          {title}
         </Typography>
         {content ||
           <Typography id="modal-description" variant="body1" align="center" gutterBottom>
             Something went wrong. Please try again.
           </Typography>}
-        <Button variant="contained" color="primary" onClick={onClose} sx={{
-          height: '45px',
-          px: 4,
-          alignSelf: 'flex-end'
-        }}>
-          Order Status
-        </Button>
+        <Box display="flex" justifyContent="space-between">
+          {/* CancelButton */}
+          {isCancel && <Button variant="contained" color="secondary" onClick={onCancel} sx={{
+            height: '45px', px: 4, alignSelf: 'flex-end', mr: 2
+          }}>
+            Cancel
+          </Button>}
+          {isConfirm && <Button variant="contained" color="primary" onClick={onConfirm} sx={{
+            height: '45px', px: 4, alignSelf: 'flex-end'
+          }}>
+            Confirm
+          </Button>}
+        </Box>
+
       </Stack>
     </Modal>
   );

@@ -102,8 +102,6 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
     ],
   }),
 );
-
-
 const menu = [
   {
     label: 'Dashboard',

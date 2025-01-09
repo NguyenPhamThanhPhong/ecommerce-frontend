@@ -2,9 +2,17 @@ import { Avatar, Box, ListItem, Pagination, Paper, Stack, useTheme } from '@mui/
 import React from 'react'
 import { ProfileAssets } from '@components/profile/assets/ProfileAssets';
 import EnhancedTable from '@components/profile/assets/table/ProfileTransactionTable';
+import { useOrderSelfContext } from '@shared-conntext/OrderContext';
 
 export default function Balance() {
     const theme = useTheme();
+    const {
+        orders, totalPage, currentPage, totalInstances, hasPrev, hasNext,
+        loadFirstPage,
+        loadPage,
+        loadNextPage,
+        loadPrevPage
+    } = useOrderSelfContext();
     return (
         <Stack width={'80%'} flexGrow={1}>
             <Paper elevation={1}>
@@ -23,7 +31,7 @@ export default function Balance() {
                         subtitleSx={{
                             fontSize: 18, fontWeight: 'medium', lineHeight: 1.2
                         }}
-                        title={'₹15000'} subtitle={'Your Wallet Balance'} />
+                        title={'₫15000'} subtitle={'Your Wallet Balance'} />
                     <ProfileAssets.Button variant="contained" wrapperSx={{
                         mt: 0,
                     }} buttonSx={{

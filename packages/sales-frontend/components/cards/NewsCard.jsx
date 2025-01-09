@@ -42,7 +42,7 @@ const IconAndText = ({ icon, text }) => {
   )
 }
 
-export function NewsCard({ cardSx, cardButton, cardMediaProps, cardImage, underText }) {
+export function NewsCard({ cardSx, cardButton, cardMediaProps, image, title, subtitle, date, content, isHtml }) {
   const theme = useTheme();
   return (
     <Card elevation={4} sx={cardSx}>
@@ -50,37 +50,38 @@ export function NewsCard({ cardSx, cardButton, cardMediaProps, cardImage, underT
         <CardMedia
           component="img"
           height="140"
-          image={cardImage || "news-1.png"}
+          image={image}
           {...cardMediaProps}
           alt="green iguana" sx={{ fontFamily: theme.fontFamily.inter }}
         />
-              <CardContent sx={{ padding: 1 }}>
-        <Box sx={{
-          display: 'flex',
-          alignItems: 'center',
-          width: '100%',
-          color: '#9E9E9E'
-        }}>
+        <CardContent sx={{ padding: 1 }}>
           <Box sx={{
             display: 'flex',
+            alignItems: 'center',
             width: '100%',
-            justifyContent: 'space-between',
+            color: '#9E9E9E'
           }}>
-            <IconAndText icon={<CalendarMonthIcon sx={{ height: 17 }} />} text="11 Jun 2024" />
-            <IconAndText icon={<ArrowForwardIcon sx={{ height: 17 }} />} text="3 mins read" />
+            <Box sx={{
+              display: 'flex',
+              width: '100%',
+              justifyContent: 'space-between',
+            }}>
+              <IconAndText icon={<CalendarMonthIcon sx={{ height: 17 }} />} text={subtitle || date} />
+              {/* <IconAndText icon={<ArrowForwardIcon sx={{ height: 17 }} />} text="3 mins read" /> */}
+            </Box>
           </Box>
-        </Box>
+          <Typography gutterBottom variant="h5" component="div" sx={{ fontWeight: 'bold', }}>
+            {title}
+          </Typography>
+          {
+            isHtml ?
+              <Box dangerouslySetInnerHTML={{ __html: content }} sx={{ color: 'text.primary', fontSize: '15px' }} />
+              : <Typography variant="body1" sx={{ color: 'text.primary',fontWeight:400 }}>
+                {content}
+              </Typography>
+          }
 
-        <Typography gutterBottom variant="h5" component="div" sx={{
-          fontWeight: 'bold',
-        }}>
-          Lizard
-        </Typography>
-        <Typography variant="body1" sx={{ color: 'text.primary' }}>
-          Lizards are a widespread group of squamate reptiles, with over 6,000
-          species, ranging across all continents except Antarctica
-        </Typography>
-      </CardContent>
+        </CardContent>
       </CardActionArea>
 
       <CardActions sx={{

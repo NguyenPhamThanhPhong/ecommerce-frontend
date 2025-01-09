@@ -70,9 +70,9 @@ export const ResponsiveAppBar = () => {
   const palette = theme.palette;
 
   return (
-    <AppBar position="static"
+    <AppBar position="absolute"
       sx={{
-        backgroundColor: palette.appbar.background,
+        backgroundColor: palette.background.paper,
         height: '70px',
         display: 'flex',
         justifyContent: 'center',

@@ -5,123 +5,120 @@ import RemoveIcon from '@mui/icons-material/Remove';
 import FlatNumberInput from '@components/inputs/FlatNumberInput';
 import { DetailDivider } from '@components/product/ProductUIAssets';
 import SuccessModal from '@components/modal/SuccessModal';
+import { useRouter } from 'next/router';
+import CartItem from '@components/cards/CartItem';
+import { useEffect } from 'react';
+import { getProducts } from '@shared-api/Products';
+import { useSnackbarStore } from '@shared-conntext/SnackbarContext';
+import { getCoupon } from '@shared-api/Coupons';
 
-const TrashButton = ({ theme }) => (
-  <Box sx={{
-    textAlign: 'center',
-    display: 'inline-flex',
-    border: `1px solid ${theme.palette.outline.primary}`,
-    padding: '4px',
-    cursor: 'pointer'
-  }}>
-    <Avatar src="/trash.svg"
-      variant='square'
-      sx={{
-        width: '28px', height: '28px',
 
-        objectFit: 'contain'
-      }}
-    />
-  </Box>
-)
-const CartOrderItem = ({  item, fontWeight }) => (
+const CartOrderItem = ({ label, value, fontWeight }) => (
   <Box sx={{
     display: 'flex', justifyContent: 'space-between',
     fontSize: 16,
     mb: 2
   }}>
-    <Typography>{item.label}</Typography>
-    <Typography sx={{ fontWeight: fontWeight }}>{item.value}</Typography>
+    <Typography>{label}</Typography>
+    <Typography sx={{ fontWeight: fontWeight }}>{value}</Typography>
   </Box>
 )
-
-const cartData = [
-  {
-    title: 'I Phone 15Pro',
-    desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. sit amet, consectetur adipiscing elit. sit amet, consectetur adipiscing elit. sit amet, consectetur adipiscing elit. sit amet, consectetur adipiscing elit.',
-    price: 159.99,
-    quantity: 2,
-  },
-  {
-    title: 'I Phone 15Pro',
-    desc: 'This is IPHONE 15 16 17, sit amet, consectetur adipiscing elit. sit amet, consectetur adipiscing elit. sit amet, consectetur adipiscing elit. sit amet, consectetur adipiscing elit.',
-    price: 159.99,
-    quantity: 2,
-  }
-]
-
-const cartOrderData = [
-  {
-    label: 'Price',
-    value: '$319.98'
-  },
-  {
-    label: 'Discount',
-    value: '$31.9'
-  },
-  {
-    label: 'Shipping',
-    value: 'Free'
-  },
-  {
-    label: 'Coupon Applied',
-    value: '$0.00'
-  },
-]
-const summaries = [
-
-  {
-    label: 'TOTAL',
-    value: '$288.08'
-  },
-  {
-    label: 'Estimated Delivery by',
-    value: '01 Feb, 2023'
-  }
-]
-
-const successModalSumaries = [
-  {
-    label: 'Payment Type',
-    value: 'Net Banking'
-  },
-  {
-    label: 'Phone number',
-    value: '099999999'
-  },
-  {
-    label: 'Email',
-    value: 'abc123@gmail.com'
-  },
-  {
-    label: 'Transaction id',
-    value: '9999999999'
-  },
-  {
-    label: "Amount Paid",
-    value: '$288.08'
-  }
-]
-
+function ModalContent({ gross, totalItems, couponApplied, coupon, total }) {
+  return (
+    <Stack sx={{ fontFamily: 'lato', px: '15px' }}>
+      <CartOrderItem label={'Gross price'} value={gross} fontWeight={'bold'} />
+      <CartOrderItem label={'After Discount'} value={totalItems} fontWeight={'bold'} />
+      <CartOrderItem label={'Coupon Applied'} value={couponApplied} fontWeight={'bold'} />
+      <DetailDivider />
+      <Typography variant="h6" gutterBottom fontWeight={'bold'}>
+        Coupon: {coupon}
+      </Typography>
+      <CartOrderItem label={'Total'} value={total} fontWeight={'bold'} />
+    </Stack>
+  )
+}
 
 export default function Cart() {
+  const router = useRouter();
+  const { query } = router;
   const theme = useTheme();
+  const pub = useSnackbarStore((state) => state.pub);
   const [open, setOpen] = React.useState(false);
+  const [cartItems, setCartItems] = React.useState([]);
+  const [coupon, setCoupon] = React.useState('');
+  const [gross, setGross] = React.useState(0);
+  const [couponApplied, setCouponApplied] = React.useState(0);
+  const [totalItems, setTotalItems] = React.useState(0);
+  const [total, setTotal] = React.useState(0);
 
   const handleOpen = () => { setOpen(true); }
   const handleClose = () => { setOpen(false); }
 
-  const modalContent = (
-    <Stack sx={{ fontFamily: 'lato', px: '15px' }}>
-      {
-        successModalSumaries.map((item, index) => (
-          <CartOrderItem key={index} item={item} />
-        ))
-      }
-    </Stack>
-  )
-  const onQuantityChange = (id,value) => {
+  const onQuantityChange = (id, value) => {
     cartData[id].quantity = value;
+  }
+  useEffect(() => {
+    if (localStorage) {
+      const cartStr = localStorage.getItem('cart');
+      if (cartStr) {
+        const cart = JSON.parse(cartStr);
+        if (cart?.coupon) {
+          setCoupon(cart.coupon);
+        }
+        if (cart?.items) {
+          let ids = [];
+          cart.items.forEach(item => {
+            ids.push(item.id);
+          });
+          // MAP: ID: QUANTITY -> [PRODUCTS WITH QUANTITY]
+          getProducts(ids, pub).then((response) => {
+            if (response) {
+              let products = response.data;
+              for (let i = 0; i < products.length; i++) {
+                products[i].quantity = cart.items[i].quantity;
+              }
+              setCartItems(products);
+            }
+          });
+        }
+      }
+    }
+  }, [])
+  useEffect(() => {
+    if (cartItems?.length) {
+      let totalItems = 0;
+      let gross = 0;
+      cartItems.forEach(item => {
+        gross += item.price * item.quantity;
+        totalItems += item.quantity
+      });
+      setGross(gross);
+      setTotalItems(totalItems);
+    }
+  }, [cartItems])
+  useEffect(() => {
+    setTotal(gross - couponApplied);
+  }, [couponApplied, gross])
+
+  function handleGetPaymentLink() {
+    const bankCode = 'ICICI';
+    const amount = 1000;
+    getPaymentUrl(bankCode, amount, pub).then((response) => {
+      if (response) {
+        const url = response.data.url;
+        window.location.href = url;
+      }
+      else {
+        handleClose();
+      }
+    })
+  }
+  function checkCoupon(coupon) {
+    getCoupon(coupon, pub).then((response) => {
+      if (response) {
+        setCouponApplied(gross * (1 - response.data.value));
+      }
+    })
   }
 
   return (
@@ -129,48 +126,15 @@ export default function Cart() {
       <Typography variant="h4" gutterBottom fontWeight={'bold'}>
         Cart <Typography component="span" variant="h6" color={theme.palette.text.cartSubTiltle} fontWeight={theme.fontWeight.thin}>2 ITEMS</Typography>
       </Typography>
-
       <Grid2 container spacing={4}>
         {/* Left Side: Cart Items */}
         <Grid2 sx={{
           width: '60%',
         }}>
-          {cartData.map((item, index) => (
-            <Box key={index} sx={{ padding: 2, marginBottom: 2, display: 'flex', }}>
-              {/* Image */}
-              <Box sx={{ width: 100, height: 100, marginRight: 2 }}>
-                <Avatar
-                  variant='square'
-                  src="/iphone-green.jpg"
-                  alt="IPhone 15Pro"
-                  style={{ width: '100%', height: '100%', objectFit: 'contain' }}
-                />
-              </Box>
-              {/* Details */}
-              <Box flexGrow={1} sx={{ flex: 1 }} fontFamily={'lato'}>
-                <Typography variant="h6" fontFamily={'lato'}>{item.title}</Typography>
-                <Typography variant="body2" color="textThirdary" mb={1} fontFamily={'lato'} fontSize={16}>
-                  {item.desc}
-                </Typography>
-                <Typography variant="body1" color="success.main">
-                  In Stock
-                </Typography>
-                {/* Quantity and Actions */}
-                <Box display={'flex'} sx={{
-                  justifyContent: 'space-between',
-                }}>
-                  <Stack direction={'row'}>
-                    <FlatNumberInput key={index} initialValue={item.quantity} id={index} onChange={onQuantityChange}  />
-                    {/* Delete and Price */}
-                    <TrashButton theme={theme} />
-                  </Stack>
-                  <Box>
-                    <Typography variant="body1" fontWeight={theme.fontWeight.thin} fontSize={10} fontFamily={'lato'} >Total of 2 items</Typography>
-                    <Typography variant="h6" fontWeight={theme.fontWeight.bold} fontSize={19} fontFamily={'lato'}>$159.99</Typography>
-                  </Box>
-                </Box>
-              </Box>
-            </Box>
+          {cartItems.map((item, index) => (
+            <CartItem key={item.id} title={item?.name} desc={item?.description}
+              price={item?.price || 0} quantity={item?.quantity || 0} discount={item?.discount || 0}
+              index={index} onQuantityChange={onQuantityChange} />
           ))}
         </Grid2>
 
@@ -183,37 +147,28 @@ export default function Cart() {
               }}>
                 Order Summary
               </Typography>
-              {
-                cartOrderData.map((item, index) => (
-                  <CartOrderItem key={index} item={item} />
-                ))
-              }
+              <CartOrderItem label={'Gross price'} value={gross} fontWeight={'bold'} />
+              <CartOrderItem label={'After Discount'} value={totalItems} fontWeight={'bold'} />
+              <CartOrderItem label={'Coupon Applied'} value={couponApplied} fontWeight={'bold'} />
               <DetailDivider />
-              {
-                summaries.map((item, index) => (
-                  <CartOrderItem key={index} item={item} fontWeight={'bold'} />))
-              }
+              <CartOrderItem label={'Total'} value={total} fontWeight={'bold'} />
               <Stack direction={'row'} mb={1.5}>
                 <TextField
                   fullWidth
-                  size="small"
-                  placeholder="Coupon Code"
-                // slotProps={{
-                //   input: {
-                //     endAdornment: 
-                //   }
-                // }}
-                />
-                <Button variant="contained" >✓</Button>
+                  size="small" onChange={(e) => setCoupon(e.target.value)}
+                  placeholder="Coupon Code" />
+                <Button variant="contained" onClick={() => checkCoupon(coupon)} >✓</Button>
               </Stack>
               <Button variant="contained" color="primary" onClick={handleOpen} fullWidth sx={{
                 height: '52px',
               }}>
                 Proceed to Checkout
               </Button>
-              <SuccessModal open={open} onClose={handleClose} 
-              status='success' title='Successful Payment'
-              content={modalContent} />
+              <SuccessModal open={open} onClose={handleClose} isConfirm={true} isCancel={true}
+                onConfirm={handleGetPaymentLink} onCancel={handleClose}
+                status='success' title='Checkout your payment'
+                content={<ModalContent gross={gross} total={total} totalItems={totalItems}
+                  coupon={coupon} couponApplied={couponApplied} />} />
             </Stack>
           </Paper>
         </Grid2>

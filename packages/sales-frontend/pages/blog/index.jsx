@@ -1,6 +1,6 @@
 import { NewsStackItem,
-    NewsCard,NewsImageOnly } from "@components/common/NewsCard";
-import { useNewsBlog } from "@components/common/NewsUsecase"
+    NewsCard,NewsImageOnly } from "@components/cards/NewsCard";
+import { useNewsBlog } from "@components/cards/NewsUsecase"
 import {
     Box, Stack
 

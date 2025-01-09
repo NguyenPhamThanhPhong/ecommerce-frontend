@@ -92,7 +92,7 @@ const BottomAppBar = () => {
   );
 };
 
-const CommonLayout = ({ children }) => {
+const CommonLayout = ({ children, isLogin }) => {
   const theme = useTheme();
   const [isNotHome, setIsNotHome] = React.useState(false);
 
@@ -102,18 +102,20 @@ const CommonLayout = ({ children }) => {
   return (
     <>
       <ResponsiveAppBar />
-      <Box sx={{ paddingTop: '36px', display: 'flex', justifyContent: 'center', marginBottom: '150px' }}>
-        {
-          isNotHome ? (
-            <Stack sx={{ width: '85%' }}>
-              <RoutingBreadcrumbs />
-              {children}
-            </Stack>
-          ) : (
-            children
-          )
-        }
-      </Box>
+      {
+        !isLogin ? (<Box sx={{ paddingTop: '36px', display: 'flex', justifyContent: 'center', marginBottom: '150px' }}>
+          {
+            isNotHome ? (
+              <Stack sx={{ width: '85%' }}>
+                <RoutingBreadcrumbs />
+                {children}
+              </Stack>
+            ) : (
+              children
+            )
+          }
+        </Box>) : children
+      }
       {/* <BottomAppBar /> */}
     </>
   );

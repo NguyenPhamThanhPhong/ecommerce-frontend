@@ -18,7 +18,7 @@ import ImageIcon from '@mui/icons-material/Image';
 import Image from 'next/image';
 
 
-export const FormTextBox = ({ name, label, value, onChange, error, errorText, required, rows, multiline, formSx, width }) => {
+export const FormTextBox = ({ name, label, value, onChange, error, errorText, required, rows, multiline, formSx,labelSx }) => {
     onChange = onChange || (() => { });
     formSx = formSx || { gap: 1, width: '50%', };
     return (
@@ -48,6 +48,7 @@ export const FormDatePicker = ({ name, label, value, onChange, error, errorText,
                 <DatePicker
                     format="dd-MM-yyyy"
                     value={value}
+                    defaultValue={new Date()}
                     onChange={(newValue) => onChange({ target: { name, value: newValue } })}
                     renderInput={(params) => (
                         <TextField

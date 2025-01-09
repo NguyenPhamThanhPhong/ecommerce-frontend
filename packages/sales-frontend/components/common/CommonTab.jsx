@@ -14,28 +14,7 @@ export default function CommonTab({tabsData}) {
         setValue(newValue);
     };
 
-    tabsData = tabsData || [
-        {
-            value: '1',
-            label: 'Highlights',
-            content: 'Item One'
-        },
-        {
-            value: '2',
-            label: 'Description',
-            content: 'Item Two'
-        },
-        {
-            value: '3',
-            label: 'Shipping',
-            content: 'Item Three'
-        },
-        {
-            value: '4',
-            label: 'Returns',
-            content: 'Item 4'
-        }
-    ]
+    tabsData = tabsData || []
 
     return (
         <Box sx={{ width: '100%', typography: 'body1' }}>

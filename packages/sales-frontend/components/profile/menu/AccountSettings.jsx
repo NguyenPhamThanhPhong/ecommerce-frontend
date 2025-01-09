@@ -1,14 +1,17 @@
-import { Box, Avatar,
-  IconButton, 
+import {
+  Box, Avatar,
+  IconButton,
   Alert
 } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import { ProfileAssets } from '@components/profile/assets/ProfileAssets';
 import { ProfileFormUI, useProfileForm } from '@components/profile/assets/ProfileForm';
-import { useState,useEffect } from 'react';
+import { useState, useEffect } from 'react';
+import { useGlobalAccountContext } from '@shared-conntext/AccountContext';
+import { useSnackbarStore } from '@shared-conntext/SnackbarContext';
 
-function ImagePicker() {
-  const [image, setImage] = useState('/sub-banner4.png'); // Default image
+function ImagePicker({ image, setImage }) {
+  // Default image
   const [error, setError] = useState('');
   const [alertVisible, setAlertVisible] = useState(false);
 
@@ -31,9 +34,8 @@ function ImagePicker() {
 
       setError('');
       setAlertVisible(false); // Hide alert if no error
-      const reader = new FileReader();
-      reader.onload = (e) => setImage(e.target.result);
-      reader.readAsDataURL(file);
+      setImage(file);  // Store the file directly, not Base64 string
+
     }
   };
 
@@ -80,7 +82,7 @@ function ImagePicker() {
       >
         <Avatar
           alt="Profile Picture"
-          src={image}
+          src={(typeof image === 'string') ? image : URL.createObjectURL(image)}
           sx={{
             width: 178,
             height: 178,
@@ -116,18 +118,22 @@ function AccountSettings() {
   // const { InfoCard, InfoLine, InfoAvatarGroup, variants } = ProfileAssets;
   const {
     formValues,
-    errors,
-    handleTextChange,
-    handleDateChange,
-    row1,
-    row2,
-    row3
-  } = useProfileForm({
-    firstName: 'Phong',
-    lastName: 'Nguyen', email: 'phong123@gmail.com', phoneNumber: '1234567890', dateOfBirth: new Date('1990-01-01')
-  });
-
-
+    errors, 
+    inputs,
+    imageUrl
+  } = useProfileForm();
+  const [image, setImage] = useState(imageUrl|| '/sub-banner4.png');
+  const { updateProfile } = useGlobalAccountContext();
+  const pub = useSnackbarStore(state => state.pub);
+  function handleSubmit() {
+    const subMitData = {
+      ...formValues,
+    }
+    if (!(image === '/sub-banner4.png' || image === null)) {
+      subMitData.avatar = image;
+    }
+    updateProfile(subMitData, pub)
+  }
 
   return (
     <Box display="inline" sx={{
@@ -139,12 +145,12 @@ function AccountSettings() {
           display: 'flex',
           alignItems: 'flex-start',
           gap: 8,
-
           padding: 2,
         }}>
-          <ImagePicker />
+          <ImagePicker image={image} setImage={setImage} />
 
-          <ProfileFormUI row1={row1} row2={row2} row3={row3} formValues={formValues} errors={errors} />
+          <ProfileFormUI {...inputs}
+            errors={errors} formValues={formValues} onSubmit={handleSubmit} />
 
         </Box>
 

@@ -1,6 +1,10 @@
-import { Checkbox, RadioGroup, FormControlLabel, Radio,
+import {
+    Checkbox, RadioGroup, FormControlLabel, Radio,
     Divider,
-    Typography, Box, Avatar, IconButton, Badge, Stack, Button } from '@mui/material';
+    ToggleButtonGroup, ToggleButton,
+    Typography, Box, Avatar, IconButton, Badge, Stack, Button,
+    useTheme
+} from '@mui/material';
 import Favorite from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
@@ -9,7 +13,7 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import { useState } from 'react';
 
-export function ProductRating({ fontSize, iconSize }) {
+export function ProductRating({ rating, fontSize, iconSize }) {
     fontSize = fontSize || 11;
     iconSize = iconSize || 22;
     return (
@@ -27,38 +31,33 @@ export function ProductRating({ fontSize, iconSize }) {
             <Typography variant="body1" sx={{
                 marginRight: -0.5,
                 fontSize: fontSize, color: '#D48D3B', fontWeight: 'bold',
-            }}>4.8</Typography>
+            }}>{rating}</Typography>
         </Button>
     );
 }
 
-export function ProductFavorite({ params }) {
+export function ProductFavorite({ checked, onChange, sx, iconSx }) {
     return (
         <Checkbox inputProps={{ 'aria-label': 'Checkbox demo' }}
-            icon={<FavoriteBorderIcon sx={{ color: '#FF5252' }} />}
-            checkedIcon={<Favorite sx={{ color: '#FF5252' }} />}
+            checked={checked}
+            onChange={onChange}
+            icon={<FavoriteBorderIcon sx={{ color: '#FF5252', ...iconSx }} />}
+            checkedIcon={<Favorite sx={{ color: '#FF5252', ...iconSx }} />}
             sx={{
                 zIndex: 1,
                 position: 'absolute',
                 display: 'inline',
-                top: 10, right: 0
+                top: 10, right: 0,
+                ...sx
             }}>
 
         </Checkbox>
     )
 }
 
-export function ProductSelector({ itemSize, itemGap, iconSize }) {
+export function ProductSelector({ images, onClick, itemSize, itemGap, iconSize }) {
     const [index, setIndex] = useState(0);
-    const items = [
-        "/iphone-black.jpg",
-        "/iphone-black.jpg",
-        "/iphone-black.jpg",
-        "/iphone-black.jpg",
-        "/iphone-black.jpg",
-        "/iphone-black.jpg"
-
-    ];
+    const items = images || [];
 
     const handleNext = () => {
         if (index < items.length - 3) {
@@ -85,7 +84,10 @@ export function ProductSelector({ itemSize, itemGap, iconSize }) {
                 fontWeight: 'bold',
                 color: '#000',
             }} /></IconButton>
-            <Box sx={{ overflow: 'hidden', width: `calc(${itemSize}px * 3 + 2 * ${itemGap}px)`, position: 'relative' }}>
+            <Box sx={{
+                overflow: 'hidden',
+                width: `calc(${itemSize}px * 3 + 2 * ${itemGap}px)`, position: 'relative'
+            }}>
                 <Box
                     sx={{
                         display: 'flex',
@@ -93,8 +95,8 @@ export function ProductSelector({ itemSize, itemGap, iconSize }) {
                         transform: `translateX(-${index * (itemSize + itemGap)}px)`,
                         width: `${items.length * (itemSize + itemGap)}px`
                     }}>
-                    {items.map((src, i) => (
-                        <Avatar key={i} variant="rounded" src={src} sx={{
+                    {items.map((image, i) => (
+                        <Avatar onClick={onClick(image)} key={i} variant="rounded" src={image.imageUrl} sx={{
                             width: itemSize, height: itemSize, flexShrink: 0,
                             marginRight: i < items.length - 1 ? `${itemGap}px` : '0'
                         }} />
@@ -181,7 +183,7 @@ export function ProductColorPicker({ onSelectChange, colorOptions, itemSize }) {
     )
 }
 
-export function ProductTag({ anchorOrigin, zIndex, fontSize, backgroundColor, color }) {
+export function ProductTag({ anchorOrigin, zIndex, fontSize, backgroundColor, color, label }) {
     const anchor = anchorOrigin || { top: 19, left: 0, }
     zIndex = zIndex || 1;
     fontSize = fontSize || 10;
@@ -203,14 +205,54 @@ export function ProductTag({ anchorOrigin, zIndex, fontSize, backgroundColor, co
                 padding: '2px 4px',
             }}
         >
-            50% OFF
+            {label}
         </Typography>
     )
 }
 
-export const DetailDivider = ({mt, mb}) => (
+export const DetailDivider = ({ mt, mb }) => (
     <Divider sx={{ marginTop: mt || '20px', marginBottom: mb || '10px', borderColor: '#bdbcbc' }} />
 )
+
+export function ProductVariants({ variants, variantId, changeVariant }) {
+    const theme = useTheme();
+    return (
+        <ToggleButtonGroup
+            value={variantId}
+            exclusive
+
+            sx={{
+                mb: 2,
+                gap: 4,
+            }}>
+            {
+                variants.map((item, index) => (
+                    <ToggleButton key={item.id} value={item.id}
+                        onClick={() => changeVariant(item.value)}
+                        sx={{
+                            backgroundColor: theme.palette.background.paper,
+                            color: theme.palette.text.primary,
+                            border: 'none',
+                            '&.Mui-selected': {
+                                backgroundColor: '#14d22e',
+                                color: 'white',
+                                border: '1px solid #000000',
+                                '&:hover': {
+                                    backgroundColor: '#14d22e',
+                                    border: '1px solid #000000',
+                                },
+                            },
+                            '&:hover': {
+                                backgroundColor: '#14d22e',
+                                border: '1px solid #000000',
+                            },
+                        }}>{item.label}</ToggleButton>
+                ))
+            }
+            {/* <ToggleButton value="512GB">512GB ROM & 8GB RAM</ToggleButton> */}
+        </ToggleButtonGroup>
+    )
+}
 
 
 
