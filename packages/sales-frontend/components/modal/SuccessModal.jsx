@@ -1,8 +1,8 @@
-import { Modal, Box, Typography, Button, IconButton, Badge, Stack } from '@mui/material';
+import { Modal, Box, Typography, Button, IconButton, Badge, Stack, useTheme } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import CheckIcon from '@mui/icons-material/Check';
-import theme from '@styles/GlobalStyles';
-
+import InfoIcon from '@mui/icons-material/Info';
+import WarningIcon from '@mui/icons-material/Warning';
 
 const style = {
   position: 'relative',
@@ -22,13 +22,30 @@ const style = {
 
 
 
-export default function SuccessModal({ open, onClose, title, status, content, onConfirm, onCancel, isConfirm, isCancel }) {
+export default function SuccessModal({ open, onClose, title, status, content, onConfirm, onCancel, isConfirm, isCancel,modalSx }) {
+  const theme = useTheme();
 
-  const statusColor = status === 'success' ? theme.palette.success.dark : theme.palette.error.dark;
+  let statusColor;
 
-  const statusIcon = status === 'success' ?
-    <CheckIcon sx={{ color: statusColor, height: '55px', width: '50px', }} />
-    : <CloseIcon sx={{ color: statusColor, height: '55px', width: '50px', }} />;
+  let statusIcon;
+
+  if (status === 'success') {
+    statusColor = theme.palette.success.dark;
+    statusIcon = <CheckIcon sx={{ color: theme.palette.success.dark, height: '55px', width: '50px', }} />
+  }
+  else if (status === 'error') {
+    statusColor = theme.palette.error.dark;
+    statusIcon = <CloseIcon sx={{ color: theme.palette.error.dark, height: '55px', width: '50px', }} />
+  }
+  else if (status === 'info') {
+    statusColor = theme.palette.info.dark;
+    statusIcon = <InfoIcon sx={{ color: theme.palette.info.dark, height: '55px', width: '50px', }} />
+  }
+  else {
+    statusColor = theme.palette.warning.dark;
+    statusIcon = <WarningIcon sx={{ color: theme.palette.warning.dark, height: '55px', width: '50px', }} />
+  }
+  modalSx = modalSx || {};
 
   return (
     <Modal
@@ -36,7 +53,7 @@ export default function SuccessModal({ open, onClose, title, status, content, on
       onClose={onClose}
       aria-labelledby="modal-title"
       aria-describedby="modal-description">
-      <Stack sx={style}>
+      <Stack sx={{...style,...modalSx}}>
         <Badge badgeContent={<IconButton onClick={onClose} >
           <CloseIcon sx={{
             color: 'black',
@@ -93,3 +110,4 @@ export default function SuccessModal({ open, onClose, title, status, content, on
     </Modal>
   );
 }
+

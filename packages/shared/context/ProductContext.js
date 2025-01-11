@@ -65,7 +65,6 @@ export default function useProductContext() {
         setProducts(response.data);
         setTotalPage(response.totalPages);
         setTotalInstances(response.totalInstances);
-        console.log('response', response);
     }
 
     const loadFirstPage = async ({ size = 5, filters }) => {
@@ -206,7 +205,6 @@ export function useFavProductContext() {
     useEffect(() => {
         setHasPrev(currentPage > 0);
         setHasNext(currentPage < totalPage - 1);
-        pub(`Found ${totalPage} pages`, 'info');
     }, [currentPage, totalPage]);
 
     function consumeResponse(response) {
@@ -214,7 +212,6 @@ export function useFavProductContext() {
         setProducts(response.data);
         setTotalPage(response.totalPages);
         setTotalInstances(response.totalInstances);
-        console.log('response', response);
     }
 
     const loadFirstPage = async (size = 5) => {

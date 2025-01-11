@@ -4,13 +4,36 @@ import { ProductRating, ProductFavorite, ProductColorPickerItem, ProductTag, Pro
 import { toPercentage, trimString } from "@shared-utils/ConverterUtils"
 import { useProductDetailContext } from '@shared-conntext/ProductContext';
 // Define color options for selection
-
+import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
+import { useEffect } from 'react';
+import { useGlobalCartContext } from '@shared-conntext/CartContext';
 
 export default function ProductCard({ product: detail }) {
   const theme = useTheme();
-  const colorOptions = ['#1E88E5', '#FF5252', '#424242', '#8BC34A'];
 
   const { product, fav, changeFav } = useProductDetailContext({ detail });
+  const [count, setCount] = React.useState(0);
+
+  const { cart, addToCart, removeFromCart } = useGlobalCartContext();
+
+  useEffect(() => {
+    if (!localStorage) return;
+    if (count <= 0) {
+      removeFromCart(product.id);
+    }
+    else if (count > 0) {
+      addToCart(product.id, count);
+    }
+  }, [count]);
+  useEffect(() => {
+    if (cart.length > 0) {
+      const item = cart.find((item) => item.id === product.id);
+      if (item?.quantity && count > 0) {
+        setCount(item.quantity);
+      }
+    }
+  }, [cart]);
+
 
   return (
     <Card sx={{
@@ -49,6 +72,22 @@ export default function ProductCard({ product: detail }) {
         <Typography variant="body2" color="text.disable" fontWeight={theme.fontWeight.light}>
           {trimString(product.description)}
         </Typography>
+        <Box display="flex" alignItems="center" justifyContent="space-between" gap={1} mt={1}>
+          <Stack direction="row" spacing={1} display={'flex'} alignItems={'center'}>
+            <IconButton size="small" onClick={() => {
+              if (count === 0) return;
+              setCount(count - 1)
+            }}
+            ><RemoveCircleIcon /></IconButton>
+            <Typography variant="body1">{count}</Typography>
+          </Stack>
+          <Button onClick={() => { setCount(count + 1) }} variant="contained" color="primary" sx={{
+            borderRadius: 2, fontSize: '12px',
+            px: '6px', py: '5px'
+          }}>
+            Add to Cart
+          </Button>
+        </Box>
       </CardContent>
     </Card>
   );

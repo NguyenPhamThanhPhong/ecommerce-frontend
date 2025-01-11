@@ -3,11 +3,8 @@ import React, { useEffect } from 'react';
 import RecipeReviewCard from '@shared/RecipeReviewCard';
 import GallerySlider from '@components/swiper/GalleryView';
 import {
-  Box, Typography,
-  ImageList, ImageListItem,
-  CardActionArea,
-  Card, CardContent, CardMedia, Button, Icon, Avatar, Stack,
-  IconButton
+  Box,
+  Stack, 
 } from '@mui/material';
 import { useTheme } from '@mui/material';
 import AirportShuttleIcon from '@mui/icons-material/AirportShuttle';
@@ -24,7 +21,9 @@ import { useSnackbarStore } from '@shared-conntext/SnackbarContext';
 import { LabelLine, IconButtonWithText, FacilityDecorators, SubBannersDecorators, BrandsDecorators } from '@components/common/HomePageAssets';
 // import ImageSwiper from '@components/ImageSwiper';
 import useBlogPostContext from '@shared-conntext/BlogPostContext';
-
+import { useGlobalCartContext } from '@shared-conntext/CartContext';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import AppShoppingCart from '@components/common/AppShoppingCart';
 
 const blogPosts = [
   {
@@ -97,24 +96,22 @@ export default function HomePage() {
     totalPage, currentPage: currentPageHot, totalInstances,
     loadFirstPage: loadFirstBlogPage, loadNextPage: loadNextBlogPage, loadPrevPage: loadPrevBlogPage } = useBlogPostContext();
   const pub = useSnackbarStore((state) => state.pub);
+  
 
-  const onClick = () => {
-
-  }
   useEffect(() => {
     loadFirstPage({});
     loadFirstPageHot();
     loadFirstPageFav({});
     loadFirstBlogPage({});
-
   }, []);
 
   return (
     <>
       <Stack sx={{
         width: '100%',
+        position: 'absolute'
       }}>
-        <Button sx={{ mt: 10, mb: 10 }} onClick={onClick}>click</Button>
+        <AppShoppingCart />
         <Banner margin={standardMargin} />
         <FacilityDecorators />
         <LabelLine margin={standardMargin} onPrev={() => { loadPrevPage({}) }}

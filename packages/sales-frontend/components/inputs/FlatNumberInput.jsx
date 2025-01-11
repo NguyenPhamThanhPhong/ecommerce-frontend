@@ -23,7 +23,7 @@ export default function FlatNumberInput({ id, initialValue, onChange }) {
             border: `1px solid ${theme.palette.outline.primary}`,
             marginRight: 2
         }}>
-            <IconButton color="primary" onClick={handleDecrement}>
+            <IconButton disabled={value<=1} color="primary" onClick={handleDecrement}>
                 <RemoveIcon />
             </IconButton>
             <Typography variant="body1" sx={{ paddingX: 1 }}>

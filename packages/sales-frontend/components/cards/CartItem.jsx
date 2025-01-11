@@ -7,10 +7,11 @@ import { DetailDivider } from '@components/product/ProductUIAssets';
 import SuccessModal from '@components/modal/SuccessModal';
 import { useRouter } from 'next/router';
 import { toLocaleFixedString } from '@shared-utils/ConverterUtils';
+import { useState } from 'react';
 
 
-const TrashButton = ({ theme }) => (
-    <Box sx={{
+const TrashButton = ({ theme, onClick }) => (
+    <Box onClick={onClick} sx={{
         textAlign: 'center',
         display: 'inline-flex',
         border: `1px solid ${theme.palette.outline.primary}`,
@@ -28,7 +29,8 @@ const TrashButton = ({ theme }) => (
     </Box>
 )
 
-export default function CartItem({ index, title, desc, price, discount, quantity, onQuantityChange }) {
+export default function CartItem({ id, image, title, desc, price, discount,
+    quantity, onQuantityChange, onRemove }) {
     const theme = useTheme();
     // console.log('key',key)
     return (
@@ -37,39 +39,41 @@ export default function CartItem({ index, title, desc, price, discount, quantity
             <Box sx={{ width: 100, height: 100, marginRight: 2 }}>
                 <Avatar
                     variant='square'
-                    src="/iphone-green.jpg"
+                    // src={image}
                     alt="IPhone 15Pro"
                     style={{ width: '100%', height: '100%', objectFit: 'contain' }}
                 />
             </Box>
             {/* Details */}
-            <Box flexGrow={1} sx={{ flex: 1 }} fontFamily={'lato'}>
-                <Typography variant="h6" fontFamily={'lato'}>{title}</Typography>
-                <Typography variant="body2" color="textThirdary" mb={1} fontFamily={'lato'} fontSize={16}>
-                    {desc}
-                </Typography>
-                <Typography variant="body1" color="success.main">
-                    In Stock
-                </Typography>
-                {/* Quantity and Actions */}
-                <Box display={'flex'} sx={{
-                    justifyContent: 'space-between',
-                }}>
-                    <Stack direction={'row'}>
-                        <FlatNumberInput initialValue={quantity} id={index} onChange={onQuantityChange} />
-                        {/* Delete and Price */}
-                        <TrashButton theme={theme} />
-                    </Stack>
-                    <Box sx={{ fontFamily: 'lato' }}>
-                        <Typography variant="body1" component='span' fontWeight={theme.fontWeight.thin}
-                            sx={{ textDecoration: 'line-through', fontSize: 10 }}>${price}</Typography>
-                        <Typography variant="body1" component='span' sx={{
-                            fontWeight: 'bold',
-                            textDecoration: 'line-through', fontSize: 10
-                        }}>₫{discount}</Typography>
-                        <Typography variant="h6" fontWeight={theme.fontWeight.bold} fontSize={19}>
-                            ₫{toLocaleFixedString(price * (1 - discount), 2)}</Typography>
+            <Box flexGrow={1} sx={{
+                flex: 1, display: 'flex',
+                alignItems: 'center', justifyContent: 'center'
+            }} fontFamily={'lato'}>
+                <Stack spacing={1} flexGrow={1}>
+                    <Typography variant="h6" fontFamily={'lato'}>{title}</Typography>
+                    <Typography variant="body2" color="textThirdary" mb={1} fontFamily={'lato'} fontSize={16}>
+                        {desc}
+                    </Typography>
+                    {/* Quantity and Actions */}
+                    <Box display={'flex'} sx={{
+                        justifyContent: 'space-between',
+                    }}>
+                        <Stack direction={'row'}>
+                            <FlatNumberInput initialValue={quantity} id={id} onChange={onQuantityChange} />
+                            {/* Delete and Price */}
+                            <TrashButton onClick={onRemove} theme={theme} />
+                        </Stack>
+
                     </Box>
+                </Stack>
+                <Box sx={{ fontFamily: 'lato' }}>
+                    <Typography variant="body1" fontWeight={theme.fontWeight.thin}
+                        sx={{ textDecoration: 'line-through', fontSize: 16 }}>${price}</Typography>
+                    <Typography variant="body1" sx={{
+                        fontWeight: 'bold', fontSize: 16
+                    }}>Discount: {discount}%</Typography>
+                    <Typography variant="h6" fontWeight={theme.fontWeight.bold} fontSize={19}>
+                        ₫{toLocaleFixedString(price * (100 - discount) / 100, 0)}</Typography>
                 </Box>
             </Box>
         </Box>

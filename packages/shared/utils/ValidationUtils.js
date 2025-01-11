@@ -79,3 +79,11 @@ export const handleFileChange = ({ setError, setAlertVisible, setImage, isSingle
         }
     }
 }
+
+
+export function validateCartShape(cart) {
+    return Array.isArray(cart) &&
+        cart.every(
+            item => typeof item.id === 'string' && typeof item.quantity === 'number'
+        );
+}

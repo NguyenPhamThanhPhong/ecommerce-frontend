@@ -106,7 +106,7 @@ const CommonLayout = ({ children, isLogin }) => {
         !isLogin ? (<Box sx={{ paddingTop: '36px', display: 'flex', justifyContent: 'center', marginBottom: '150px' }}>
           {
             isNotHome ? (
-              <Stack sx={{ width: '85%' }}>
+              <Stack sx={{ width: '85%',pt:8 }}>
                 <RoutingBreadcrumbs />
                 {children}
               </Stack>

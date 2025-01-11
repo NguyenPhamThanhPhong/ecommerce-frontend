@@ -1,9 +1,9 @@
-import { get, api, accounts, accountsSearches, accountsTokens, toForm, form, url, accountsMe, accountAddresses } from './constants/Constants';
+import { get, api, accounts, accountsSearches, tokens, toForm, form, url, accountsMe, accountAddresses } from './constants/Constants';
 
 
 export async function login(/** @type {LoginRequest} */data, pub) {
     try {
-        const response = await api.post(`${url}${accountsTokens}`, data);
+        const response = await api.post(`${url}${tokens}`, data);
         return response;
     } catch (error) {
         console.log(error)

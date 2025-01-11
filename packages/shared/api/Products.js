@@ -1,4 +1,5 @@
 import { headers } from 'next/headers';
+import qs from 'qs';
 import { get, api, products, productsSearches, toForm, url, form, productsFavorites, createPageable } from './constants/Constants';
 
 export async function createProduct(data, pub) {
@@ -25,11 +26,13 @@ export async function getProduct(code, pub) {
 export async function getProducts(ids, pub) {
     try {
         const response = await api.get(`${url}${products}`, {
-            params: { ids: ids, ...createPageable(0, 20, "name,asc") }
+            params: { ids, ...createPageable(0, 20, "name,asc") },
+            paramsSerializer: (params) => qs.stringify(params, { arrayFormat: "repeat" }),
         });
         return response.data;
     } catch (error) {
-        pub(get(error), 'error');
+        console.log('error', error);
+        pub(error, 'error');
     }
 }
 

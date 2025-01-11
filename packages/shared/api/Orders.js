@@ -1,4 +1,4 @@
-import { get, api, toForm, url, form, orders, ordersSearches } from './constants/Constants';
+import { get, api,  url,orders, ordersSearches } from './constants/Constants';
 
 export async function getOrder(code, pub) {
     try {
@@ -31,11 +31,9 @@ export async function searchOrders(pageable, filters, pub) {
     }
 }
 
-export async function createOrders(data, pub) {
+export async function createOrder(data, pub) {
     try {
-        const response = await api.post(`${url}${orders}`, toForm(data), {
-            headers: form
-        });
+        const response = await api.post(`${url}${orders}`, data);
         return response.data;
     } catch (error) {
         pub(get(error), 'error');
@@ -44,9 +42,7 @@ export async function createOrders(data, pub) {
 
 export async function updateOrders(id, data, pub) {
     try {
-        const response = await api.patch(`${url}${orders}/${id}`, toForm(data), {
-            headers: form
-        });
+        const response = await api.patch(`${url}${orders}/${id}`, data, );
         return response.data;
     } catch (error) {
         pub(get(error), 'error');

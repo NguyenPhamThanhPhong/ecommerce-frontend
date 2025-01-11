@@ -2,7 +2,7 @@ import axios from 'axios';
 export const url = 'http://localhost:8081';
 
 export const accounts = "/accounts";
-export const accountsTokens = "/accounts/tokens";
+export const tokens = "/tokens";
 export const accountsSearches = "/accounts/searches";
 export const accountsMe = "/accounts/me";
 export const accountAddresses = "/accounts/addresses";
