@@ -15,7 +15,7 @@ https://sandbox.vnpayment.vn/paymentv2/vpcpay.html
 &vnp_Version=2.1.0
 &vnp_SecureHash=b07cc59a14456105296d665542f0f5fb6de4e60cd5cc2e08e90138b7e01d7a24450e1ce9c21156580e125e04146ff223a60cfdbf7553d1ccc040f4d54c3e3e1e
 
-
+http://localhost:3007/cart/payment?vnp_Amount=12530000&vnp_BankCode=NCB&vnp_BankTranNo=VNP14789582&vnp_CardType=ATM&vnp_OrderInfo=this+is+my+fav&vnp_PayDate=20250112144422&vnp_ResponseCode=00&vnp_TmnCode=CBGIJ47H&vnp_TransactionNo=14789582&vnp_TransactionStatus=00&vnp_TxnRef=e7e7eca9-07b1-4675-aa66-a2ada1e7e649&vnp_SecureHash=f788e108deec599763df6a876a00001cd10a052b01faee0bd171c9d8298a3148d2ff62964a1db6637ae9cfc5846de24f381f299c11224bafb22194bf85794cff
 
 
 http://localhost:8081/payments/vnpay

@@ -9,7 +9,7 @@ export async function getCategory(code, pub) {
     }
 }
 
-export async function searchCategoriess(pageable, filters, pub) {
+export async function searchCategories(pageable, filters, pub) {
     try {
         const response = await api.post(`${url}${categoriesSearches}`, filters || [], {
             params: { ...pageable }

@@ -1,9 +1,9 @@
 
-export const joinConditions = {
+export const JOIN_CONDITIONS = {
     AND: 'AND',
     OR: 'OR',
 }
-export const comparisons = {
+export const COMPARISONS = {
     EQUAL: 'EQUAL',
     NOT_EQUAL: 'NOT_EQUAL',
     GREATER: 'GREATER',
@@ -18,7 +18,7 @@ export const comparisons = {
     IS_NULL: 'IS_NULL',
     IS_NOT_NULL: 'IS_NOT_NULL',
 }
-const types = {
+export const TYPES = {
     string: 'string',
     int: 'int',
     milisecs: 'milisecs',
@@ -28,6 +28,7 @@ const types = {
     float: 'float',
     boolean: 'boolean',
     array: 'array',
+    uuid:'uuid',
 
 }
 
@@ -43,17 +44,17 @@ export function createFilter(joinCondition, joinEntity, paramName, type, compari
     }
 }
 
-export function dateBefore({ joinEntity, paramName = 'availableDate', upperBound = new Date(), type = types.date }) {
-    return createFilter(joinConditions.AND, joinEntity, paramName, type, comparisons.LESS_OR_EQUAL, upperBound, false);
+export function dateBefore({ joinEntity, paramName = 'availableDate', upperBound = new Date(), type = TYPES.date }) {
+    return createFilter(JOIN_CONDITIONS.AND, joinEntity, paramName, type, COMPARISONS.LESS_OR_EQUAL, upperBound, false);
 }
 
-export function dateAfter({ joinEntity, paramName = 'availableDate', lowerBound = new Date(), type = types.date }) {
-    return createFilter(joinConditions.AND, joinEntity, paramName, type, comparisons.GREATER_OR_EQUAL, lowerBound, false);
+export function dateAfter({ joinEntity, paramName = 'availableDate', lowerBound = new Date(), type = TYPES.date }) {
+    return createFilter(JOIN_CONDITIONS.AND, joinEntity, paramName, type, COMPARISONS.GREATER_OR_EQUAL, lowerBound, false);
 }
 
-export function dateBetween({ joinEntity, paramName = 'availableDate', lowerBound = new Date(), upperBound = new Date(), type = types.date }) {
+export function dateBetween({ joinEntity, paramName = 'availableDate', lowerBound = new Date(), upperBound = new Date(), type = TYPES.date }) {
     return [
-        createFilter(joinConditions.AND, joinEntity, paramName, null, comparisons.IS_NOT_NULL, null, false),
+        createFilter(JOIN_CONDITIONS.AND, joinEntity, paramName, null, COMPARISONS.IS_NOT_NULL, null, false),
         dateAfter({ joinEntity, paramName, lowerBound, type }),
         dateBefore({ joinEntity, paramName, upperBound, type })
     ]

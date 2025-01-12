@@ -31,23 +31,21 @@ export function FilterLabel({ children, mt, fontSize, mr }) {
     );
 }
 
-export function FilterPrice({ width }) {
+export function FilterPrice({ onFromChange, onToChange }) {
     const inputBackground = 'rgba(173, 216, 230,0.2)';
     const labelFontsize = '19px';
-
-
     return (
         <Stack display="flex" gap={1} mt={1} direction='row'>
             <FormControlLabel
                 sx={{
                     marginLeft: -1,
-
                     '& .MuiFormControlLabel-label': {
                         fontSize: labelFontsize,
                         marginRight: 1,
                     }
                 }}
                 control={<TextField
+                    onChange={onFromChange || (() => { })}
                     id="outlined-number"
                     type="number"
                     label="From"
@@ -60,9 +58,8 @@ export function FilterPrice({ width }) {
                 label="$"
             />
             <FormControlLabel
+                onChange={onToChange || (() => { })}
                 sx={{
-                    '& .MuiFormControlLabel-label': {
-                    },
                     '& .MuiFormControlLabel-label': {
                         fontSize: labelFontsize,
                         marginRight: 1,
@@ -85,14 +82,18 @@ export function FilterPrice({ width }) {
 }
 
 
-export function FilterSelect({ children, mt, categories, fontSize }) {
+export function FilterSelect({ mt, options, defaultOptionId, onOptionChange }) {
     if (mt === undefined) mt = 1;
-    categories = categories || ["None", "BEST SELLING", "Mobile Phones", "Laptops", "Tablets", "Smart Watches", "Accessories"];
+    // options = options || 
     const [open, setOpen] = useState(false);
     const theme = useTheme();
+    options = options || []
     return (
         <Select
-            defaultValue={categories[0]}
+            defaultValue={defaultOptionId}
+            onChange={onOptionChange || (() => {
+
+            })}
             IconComponent={(_props) => {
                 if (_props.className.includes('MuiSelect-iconOpen'))
                     setOpen(true);
@@ -120,9 +121,9 @@ export function FilterSelect({ children, mt, categories, fontSize }) {
                 backgroundColor: 'rgba(173, 216, 230,0.2)',
             }}
         >
-            {categories.map((category, index) => (
-                <MenuItem key={index} value={category}>
-                    {category}
+            {options.map((option, index) => (
+                <MenuItem key={index} value={option?.id}>
+                    {option?.name}
                 </MenuItem>
             ))}
         </Select>

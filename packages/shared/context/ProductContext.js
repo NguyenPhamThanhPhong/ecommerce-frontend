@@ -2,7 +2,7 @@ import { create } from 'zustand';
 import { useEffect, useState } from 'react';
 import { getFavoriteProducts, getProduct, likeProduct, searchProducts, unlikeProduct } from '../api/Products';
 import { useSnackbarStore } from './SnackbarContext';
-import { dateBetween } from '../api/constants/Filters';
+import { COMPARISONS, createFilter, dateBetween, JOIN_CONDITIONS, TYPES } from '../api/constants/Filters';
 
 // export const useProductStore = create((set, get) => ({
 //     products: {},
@@ -67,23 +67,23 @@ export default function useProductContext() {
         setTotalInstances(response.totalInstances);
     }
 
-    const loadFirstPage = async ({ size = 5, filters }) => {
-        const response = await searchProducts({ page: 0, size }, filters, pub);
+    const loadFirstPage = async ({ size = 5, filters, sort }) => {
+        const response = await searchProducts({ page: 0, size, sort }, filters, pub);
         consumeResponse(response);
     }
-    const loadPage = async ({ page, size = 5, filters }) => {
-        const response = await searchProducts({ page, size }, filters, pub);
+    const loadPage = async ({ page, size = 5, filters, sort }) => {
+        const response = await searchProducts({ page, size, sort }, filters, pub);
         consumeResponse(response);
         setCurrentPage(page);
     }
-    const loadNextPage = async ({ size = 5, filters }) => {
-        const response = await searchProducts({ page: currentPage + 1, size }, filters, pub);
+    const loadNextPage = async ({ size = 5, filters, sort }) => {
+        const response = await searchProducts({ page: currentPage + 1, size, sort }, filters, pub);
         consumeResponse(response);
         const next = currentPage + 1;
         setCurrentPage(next);
     }
-    const loadPrevPage = async ({ size = 5, filters }) => {
-        const response = await searchProducts({ page: currentPage - 1, size }, filters, pub);
+    const loadPrevPage = async ({ size = 5, filters, sort }) => {
+        const response = await searchProducts({ page: currentPage - 1, size, sort }, filters, pub);
         consumeResponse(response);
         const prev = currentPage - 1;
         setCurrentPage(prev);
@@ -105,6 +105,81 @@ export default function useProductContext() {
         loadNextPage,
         loadPrevPage,
         search,
+    }
+}
+
+export function useProductSearchContext() {
+    const { products, loadFirstPage, hasPrev, hasNext, loadNextPage, loadPrevPage } = useProductContext();
+    const [searchTerm, setSearchTerm] = useState('');
+    const [brandId, setBrandId] = useState('');
+    const [categoryId, setCategoryId] = useState('');
+    const [priceFrom, setPriceFrom] = useState(0);
+    const [priceTo, setPriceTo] = useState(1_000_000_000);
+    const [rating, setRating] = useState(0);
+    const [discount, setDiscount] = useState(0);
+    const [sort, setSort] = useState('name,asc');
+
+    function calculateFilters() {
+        const filters = [];
+        if (searchTerm?.length > 0 && searchTerm !== '') {
+            filters.push(createFilter(JOIN_CONDITIONS.AND, null, 'name',
+                TYPES.string, COMPARISONS.LIKE, searchTerm, false));
+        }
+        if (brandId?.length > 0 && brandId !== '') {
+            filters.push(createFilter(JOIN_CONDITIONS.AND, null, 'brandId',
+                TYPES.uuid, COMPARISONS.EQUAL, brandId, false));
+        }
+        if (categoryId?.length > 0 && categoryId !== '') {
+            filters.push(createFilter(JOIN_CONDITIONS.AND, null, 'categoryId',
+                TYPES.uuid, COMPARISONS.EQUAL, categoryId, false));
+        }
+        if (priceFrom > 0) {
+            filters.push(createFilter(JOIN_CONDITIONS.AND, null, 'price',
+                TYPES.bigDecimal, COMPARISONS.GREATER_OR_EQUAL, priceFrom, false));
+        }
+        if (priceTo < 100_000_000) {
+            filters.push(createFilter(JOIN_CONDITIONS.AND, null, 'price',
+                TYPES.bigDecimal, COMPARISONS.LESS_OR_EQUAL, priceTo, false));
+        }
+        if (rating > 0) {
+            filters.push(createFilter(JOIN_CONDITIONS.AND, null, 'rating',
+                TYPES.bigDecimal, COMPARISONS.GREATER_OR_EQUAL, rating, false));
+        }
+        if (discount > 0) {
+            filters.push(createFilter(JOIN_CONDITIONS.AND, null, 'discountPercent',
+                TYPES.bigDecimal, COMPARISONS.GREATER_OR_EQUAL, discount, false));
+        }
+        return filters;
+    }
+
+    function loadNextPageSearch() {
+        const filters = calculateFilters()
+        loadNextPage({ filters, size: 20,sort });
+    }
+    function loadPrevPageSearch() {
+        const filters = calculateFilters()
+        loadPrevPage({ filters, size: 20,sort });
+    }
+    function loadFirstPageSearch() {
+        const filters = calculateFilters()
+        loadFirstPage({ filters, size: 20, sort });
+    }
+    function submit() {
+        const filters = calculateFilters()
+        loadFirstPage({ filters, size: 20, sort });
+    }
+    return {
+        products,
+        setSearchTerm, setBrandId, setCategoryId,
+        setPriceFrom, setPriceTo,
+        setRating, setDiscount,
+        setSortby: setSort,
+        hasNext,
+        hasPrev,
+        submit,
+        loadFirstPageSearch,
+        loadNextPageSearch,
+        loadPrevPageSearch,
     }
 }
 
@@ -250,7 +325,7 @@ export function useProductHotContext() {
     function calculateFilters() {
         const now = new Date();
         const upperBound = new Date();
-        upperBound.setDate(now.getDate() + 5);
+        upperBound.setDate(now.getDate() + 7);
         return dateBetween({ paramName: 'availableDate', lowerBound: now, upperBound: upperBound });
     }
 

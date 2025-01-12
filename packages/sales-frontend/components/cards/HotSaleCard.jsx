@@ -12,6 +12,8 @@ import { useRouter } from 'next/router';
 import { useSnackbarStore } from '@shared-conntext/SnackbarContext';
 import { useEffect, useRef, useState } from 'react';
 import { useProductDetailContext } from '@shared-conntext/ProductContext';
+import { useGlobalCartContext } from '@shared-conntext/CartContext';
+import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 
 
 function CountDownDisplay({ targetTime }) {
@@ -19,6 +21,7 @@ function CountDownDisplay({ targetTime }) {
   const theme = useTheme();
   targetTime = new Date(targetTime).getTime(); // Target time in milliseconds
   const [countDowns, setCountDowns] = useState(["00", "00", "00", "00"]);
+
   const calculateTimeLeft = (targetTime) => {
     const nowUtc = new Date().getTime();
     const timeLeft = new Date(Math.abs(targetTime - nowUtc)); // Time difference in milliseconds
@@ -34,11 +37,11 @@ function CountDownDisplay({ targetTime }) {
     if (targetTime < nowUtc)
       return;
     const interval = setInterval(() => {
-      setCountDowns(calculateTimeLeft(targetTime)); 
+      setCountDowns(calculateTimeLeft(targetTime));
     }, 1000);
 
-    return () => clearInterval(interval); 
-  }, []); 
+    return () => clearInterval(interval);
+  }, []);
   return (
     <>
       <Typography variant="body2" color="text.primary" sx={{
@@ -71,6 +74,27 @@ export default function HotSaleCard({ product: detail }) {
   const { product, fav, handleLikeProduct,
     handleUnlikeProduct, } = useProductDetailContext({ detail });
   const images = product?.images;
+  const [count, setCount] = React.useState(0);
+  const { cart, addToCart, removeFromCart } = useGlobalCartContext();
+
+  useEffect(() => {
+    if (!localStorage) return;
+    if (count <= 0) {
+      removeFromCart(product.id);
+    }
+    else if (count > 0) {
+      addToCart(product.id, count);
+    }
+  }, [count]);
+  useEffect(() => {
+    if (cart.length > 0) {
+      const item = cart.find((item) => item.id === product.id);
+      if (item?.quantity && count > 0) {
+        setCount(item.quantity);
+      }
+    }
+  }, [cart]);
+
 
   const pub = useSnackbarStore((state) => state.pub);
   const onFavChange = (e) => {
@@ -151,7 +175,7 @@ export default function HotSaleCard({ product: detail }) {
         </Box>
       </Box>
       {/* Action Icons */}
-      <Stack direction="row" spacing={2} justifyContent="space-between" sx={{ mt: 0, mb: 2, mx: '70px', width: '100%' }}>
+      <Stack direction="row" spacing={2} justifyContent="space-between" sx={{ mt: 0, mx: '70px', width: '100%' }}>
         <Checkbox checked={fav} onChange={onFavChange} size="medium" sx={{ background: '#EEEEEE', borderRadius: '50%' }}>
           <FavoriteBorderIcon sx={{ color: theme.palette.text.primary, fontSize: '18px' }} />
         </Checkbox>
@@ -165,8 +189,30 @@ export default function HotSaleCard({ product: detail }) {
           <ShoppingCartIcon sx={{ color: theme.palette.text.primary, fontSize: '18px' }} />
         </IconButton>
       </Stack>
-
       {images?.length > 0 && <ProductSelector images={images} />}
+      <Box sx={{
+        my:1,
+        width: '100%',
+        display: 'flex', alignItems: 'center', justifyContent: 'center'
+      }}>
+        <Box sx={{width:'60%'}} display="flex" alignItems="center" justifyContent="space-between" gap={1} mt={1}>
+          <Stack direction="row" spacing={1} display={'flex'} alignItems={'center'}>
+            <IconButton size="small" onClick={() => {
+              if (count === 0) return;
+              setCount(count - 1)
+            }}
+            ><RemoveCircleIcon /></IconButton>
+            <Typography variant="body1">{count}</Typography>
+          </Stack>
+          <Button onClick={() => { setCount(count + 1) }} variant="contained" color="primary" sx={{
+            borderRadius: 2, fontSize: '12px',
+            px: '6px', py: '5px'
+          }}>
+            Add to Cart
+          </Button>
+        </Box>
+      </Box>
+
     </Card>
   );
 }

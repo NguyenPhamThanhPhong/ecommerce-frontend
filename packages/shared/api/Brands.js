@@ -9,7 +9,7 @@ export async function getBrand(code, pub) {
     }
 }
 
-export async function searchBrandss(pageable, filters, pub) {
+export async function searchBrands(pageable, filters, pub) {
     try {
         const response = await api.post(`${url}${brandsSearches}`, filters || [], {
             params: { ...pageable }

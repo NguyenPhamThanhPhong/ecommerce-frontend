@@ -184,6 +184,21 @@ export function SubBannersDecorators() {
     )
 }
 
+const brands = [
+    '/brands/apple-logo.png',
+    '/brands/boat-logo.png',
+    '/brands/oppo-logo.png',
+    '/brands/samsung-logo.png',
+    '/brands/Oneplus-logo.png',
+    '/brands/asus-logo.png',
+    '/brands/Sony-logo.png',
+    '/brands/POCO-Emblem.png',
+    '/brands/jbl-logo.png',
+    '/brands/nokia-logo.png',
+    '/brands/intel-logo.png',
+    '/brands/realme-logo.png',
+]
+
 export function BrandsDecorators() {
     return (<Box height={120}
         sx={{
@@ -195,8 +210,14 @@ export function BrandsDecorators() {
             display: 'flex', justifyContent: 'space-between',
             alignItems: 'center'
         }}>
-        {Array(12).fill(1).map(
-            (_, index) => (<IconButtonWithText key={index} />)
+        {brands.map(
+            (src, index) => (<Avatar
+                variant='square'
+                key={index} src={src} sx={{
+                    width: '60px',
+                    height: '30px',
+                    objectFit: 'contain',
+                }} />)
         )
         }
     </Box>)

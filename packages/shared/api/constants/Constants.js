@@ -27,12 +27,15 @@ export const orders = "/orders";
 export const ordersSearches = "/orders/searches";
 
 export const payments = "/payments";
+export const paymentsVnpUrl = "/payments/vnpay-url";
+export const paymentsVnpay = "/payments/vnpay";
 
 export const statistics = "/statistics";
 
 
 export const json = { 'Content-Type': 'application/json' };
 export const form = { 'Content-Type': "multipart/form-data" };
+export const testPlain = { 'Content-Type': 'text/plain' };
 
 export const api = axios.create({
     timeout: 3000,

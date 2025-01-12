@@ -23,7 +23,7 @@ function MyApp({ Component, pageProps, router }) {
   useEffect(() => {
     if (loadAccount) {
       loadAccount(pub);
-      loadStatistics(pub);
+      // loadStatistics(pub);
     }
 
   }, [loadAccount, loadStatistics]);

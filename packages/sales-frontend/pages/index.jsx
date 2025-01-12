@@ -129,7 +129,7 @@ export default function HomePage() {
         </ProductGrid>
         <LabelLine margin={standardMargin} onPrev={() => { loadPrevPageFav() }}
           onNext={() => { loadNextPageFav() }} hasPrev={hasPrevFav} hasNext={hasNextFav}>
-          Hot Sales
+          Your Favorites
         </LabelLine>
         <ProductGrid index={currentPageFav} size={5} gap={2} margin={'34px 132px'} >
           {

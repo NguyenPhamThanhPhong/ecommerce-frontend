@@ -104,7 +104,7 @@ export function useCartForm() {
         createOrder({ orderDetails:submitOrderDetails, couponCode }, pub).then((response) => {
             if (response) {
                 handleClose();
-                router.push('/cart/check-out');
+                router.push(`/cart/check-out/${response?.code}`);
             }
         });
     }

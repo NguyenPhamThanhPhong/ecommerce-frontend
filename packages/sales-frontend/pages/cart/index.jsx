@@ -1,33 +1,11 @@
 import { Box, Grid2, Typography, Button, IconButton, TextField, Paper, useTheme, Avatar, Stack } from '@mui/material';
-import DeleteIcon from '@mui/icons-material/Delete';
-import AddIcon from '@mui/icons-material/Add';
-import RemoveIcon from '@mui/icons-material/Remove';
-import FlatNumberInput from '@components/inputs/FlatNumberInput';
-import { DetailDivider } from '@components/product/ProductUIAssets';
 import SuccessModal from '@components/modal/SuccessModal';
 import { useRouter } from 'next/router';
 import CartItem from '@components/cards/CartItem';
-import { useEffect, useMemo } from 'react';
-import { getProducts } from '@shared-api/Products';
-import { useSnackbarStore } from '@shared-conntext/SnackbarContext';
-import { getCoupon } from '@shared-api/Coupons';
-import { useGlobalCartContext } from '@shared-conntext/CartContext';
+import { DetailDivider } from '@components/product/ProductUIAssets';
 import { useCartForm } from '@components/forms/CartForm';
-import { CartOrderItem } from '@components/common/CartOrderItem';
-function ModalContent({ gross, totalItems, couponApplied, coupon, total }) {
-  return (
-    <Stack sx={{ fontFamily: 'lato', px: '15px' }}>
-      <CartOrderItem label={'Gross price'} value={gross} fontWeight={'bold'} />
-      <CartOrderItem label={'After Discount'} value={totalItems} fontWeight={'bold'} />
-      <CartOrderItem label={'Coupon Applied'} value={couponApplied} fontWeight={'bold'} />
-      <DetailDivider />
-      <Typography variant="h6" gutterBottom fontWeight={'bold'}>
-        Coupon: {coupon}
-      </Typography>
-      <CartOrderItem label={'Total'} value={total} fontWeight={'bold'} />
-    </Stack>
-  )
-}
+import OrderModalContent,{CartOrderItem,} from '@components/modal/OrderModalContent';
+
 
 export default function Cart() {
   const router = useRouter();
@@ -92,7 +70,7 @@ export default function Cart() {
               <SuccessModal open={open} onClose={handleClose} isConfirm={true} isCancel={true}
                 onConfirm={submit} onCancel={handleClose}
                 status='success' title='Checkout your payment'
-                content={<ModalContent gross={gross} total={total} totalItems={quantitiesSum}
+                content={<OrderModalContent gross={gross} total={total} totalItems={quantitiesSum}
                   coupon={coupon} couponApplied={couponApplied} />} />
             </Stack>
           </Paper>
