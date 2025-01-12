@@ -5,24 +5,21 @@ import {
 } from '@mui/material'
 
 
-export const AdminButtonGroups = ({ variants }) => {
+export const AdminButtonGroups = ({ variants, variant, onChange }) => {
     const theme = useTheme();
-    const [variant, setVariant] = React.useState("All");
     return (
         <ToggleButtonGroup
           value={variant}
           exclusive
-          onChange={(e, newVariant) => setVariant(newVariant)}
+          onChange={onChange || (() => {})}
           sx={{
             bgcolor: 'white',
             fontFamily: theme.fontFamily.publicSans,
-            mb: 2,
             // gap: 4,
           }}>
           {
             variants.map((item, index) => (
               <ToggleButton key={item.id} value={item.id} sx={{
-                py: '5px',
                 backgroundColor: theme.palette.background.paper,
                 // color: theme.palette.success.secondary,
                 color: 'secondary',

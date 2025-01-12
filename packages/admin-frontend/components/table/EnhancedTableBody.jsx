@@ -15,7 +15,7 @@ export const EnhancedTableBody = ({visibleRows, handleClick, selected}) => {
                 return (
                     <TableRow
                         hover
-                        onClick={(event) => handleClick(event, row.id)}
+                        onClick={(event) => handleClick(row.id)}
                         aria-checked={isItemSelected}
                         key={row.id}
                         selected={isItemSelected}

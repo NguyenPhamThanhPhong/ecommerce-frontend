@@ -1,9 +1,10 @@
+import ProductFilterModal from "@components/filters/FilterAssets";
 import AdminTable from "@components/table/AdminTable";
 import { trimString } from "@shared-utils/ConverterUtils";
 const staticData = [
-    createData("354", 'Product 1', 'Brand A', ['Category 1', 'Category 2'], 100, 10, '2024-12-31', 'Published'),
-    createData("888", 'Product 2', 'Brand B', ['Category 3'], 200, 20, '2025-01-15', 'Published'),
-    createData("444", 'Product 3', 'Brand C', ['Category 1', 'Category 3'], 300, 30, '2025-02-28', 'Published'),
+    createData("354", 'Product 1', 'Brand A', 'zczvxc', 100, 10, '2024-12-31', 'Published'),
+    createData("888", 'Product 2', 'Brand B', 'zczvxc', 200, 20, '2025-01-15', 'Published'),
+    createData("444", 'Product 3', 'Brand C', 'zczvxc', 300, 30, '2025-02-28', 'Published'),
 ];
 
 const statuses = {
@@ -17,7 +18,7 @@ const statuses = {
         status: 'draft',
         label: 'Draft',
     },
-    'low-stock':{
+    'low-stock': {
         variant: 'chip',
         status: 'proccess',
         label: 'Low Stock',
@@ -46,7 +47,7 @@ function createData(id, product, brand, categories, price, quantity, availableDa
         status,
     };
 }
-function fromDataToRow({id, product, brand, categories, price, quantity, availableDate, status}) {
+function fromDataToRow({ id, product, brand, categories, price, quantity, availableDate, status }) {
     return {
         id: id,
         colId: {
@@ -56,7 +57,7 @@ function fromDataToRow({id, product, brand, categories, price, quantity, availab
         product: {
             variant: 'avatar',
             title: product?.name,
-            subtitle: trimString(product?.description|| 'none'),
+            subtitle: trimString(product?.description || 'none'),
             src: product?.thumbNailUrl,
         },
         brand: {
@@ -87,7 +88,7 @@ function fromDataToRow({id, product, brand, categories, price, quantity, availab
 }
 const columns = [
     {
-        id: 'PRODUCT ID',
+        id: 'ID',
         numeric: false,
         disablePadding: false,
         label: 'Product Id',
@@ -110,10 +111,10 @@ const columns = [
 
     },
     {
-        id: 'categories',
+        id: 'Category',
         numeric: false,
         disablePadding: false,
-        label: 'Categories',
+        label: 'Category',
         resizable: true,
 
     },
@@ -154,9 +155,11 @@ const columns = [
     },
 ];
 
-export default function ProductTable() {
-
+export default function ProductTable({getFilters}) {
     return (
-        <AdminTable dataMapper={fromDataToRow} data={staticData} columns={columns} />
+        <AdminTable
+            FilterModal={ProductFilterModal}
+            handleApplyFilters={getFilters}
+            dataMapper={fromDataToRow} data={staticData} columns={columns} />
     )
 }

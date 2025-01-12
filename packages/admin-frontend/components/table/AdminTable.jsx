@@ -11,9 +11,8 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
 import EnhancedTableToolbar from '@components/table/TableToolbar';
 import EnhancedTableHead from '@components/table/TableHead';
-import { useTableStore } from '@data/TableContext';
+import { useTableState, useTableStore } from '@data/TableContext';
 import { EnhancedTableBody } from './EnhancedTableBody';
-
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -33,20 +32,26 @@ function getComparator(order, orderBy) {
 
 
 
-export default function AdminTable({ columns, data, dataMapper }) {
+export default function AdminTable({ columns, data, dataMapper, handleApplyFilters, FilterModal }) {
   const {
-    order, orderBy, selected, page, dense, rowsPerPage, dataRows, columnWidths,
-    setDataRows, setColumns,
+    order, orderBy,
+    setOrder, setOrderBy,
+    selected, setSelected,
+    setColumns,
+    page, setPage,
+    rowsPerPage,
+    dataRows, setDataRows, setTableActualWidth,
+    columnWidths,
     init,
-    setTableActualWidth,
-    handleResizeStart,
     handleRequestSort,
     handleSelectAllClick,
     handleClick,
     handleChangePage,
     handleChangeRowsPerPage,
-    handleChangeDense,
-  } = useTableStore((state) => state);
+    handleResizeStart,
+  } = useTableState();
+  const [isFilterModalOpen, setIsFilterModalOpen] = React.useState(false);
+
   const visibleRows = React.useMemo(
     () =>
       [...dataRows]
@@ -65,12 +70,19 @@ export default function AdminTable({ columns, data, dataMapper }) {
     }
   }, []);
 
+
+
+
   return (
     <Box>
       <Paper>
-        <EnhancedTableToolbar numSelected={selected.length} />
+        {
+          FilterModal && <FilterModal open={isFilterModalOpen} onClose={() => setIsFilterModalOpen(false)}
+            onApply={handleApplyFilters} />
+        }
+        <EnhancedTableToolbar setIsFilterModalOpen={setIsFilterModalOpen} numSelected={selected.length} />
         <TableContainer>
-          <Table ref={tableRef} size={dense ? 'small' : 'medium'}>
+          <Table ref={tableRef} size={'small'}>
             <EnhancedTableHead
               handleResizeStart={handleResizeStart}
               columnWidths={columnWidths}
@@ -94,10 +106,6 @@ export default function AdminTable({ columns, data, dataMapper }) {
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
       </Paper>
-      <FormControlLabel
-        control={<Switch checked={dense} onChange={handleChangeDense} />}
-        label="Dense padding"
-      />
     </Box>
   );
 }

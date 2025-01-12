@@ -31,8 +31,10 @@ export const cellVariants = {
 
 export function CellIcons({ onEdit, onView, onDelete }) {
     return (
-        <TableCell align="left">
+        <TableCell padding='none' align="left">
             <Stack direction={'row'} sx={{
+                bgcolor:'pink',
+                ml:0
             }} >
                 <IconButton><EditIcon /></IconButton>
                 <IconButton><VisibilityIcon /></IconButton>
@@ -58,7 +60,7 @@ export function CellCheckbox({ isItemSelected, labelId }) {
 export function TextCell({ label }) {
     const theme = useTheme();
     return (
-        <TableCell padding="normal" sx={{
+        <TableCell  sx={{
             fontWeight: theme.fontWeight.semiBold,
         }}>
             {label}

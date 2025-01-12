@@ -3,6 +3,8 @@
       "baseUrl": ".",  // This should be the root of your current package, so '.' points to the 'admin-frontend' folder.
       "paths": {
         "@shared-src/*": ["../shared/src/*"],
+        "@shared-api/*": ["../shared/api/*"],
+        "@shared-conntext/*": ["../shared/context/*"],
         "@shared-utils/*": ["../shared/utils/*"],
         "@shared-public/*": ["../shared/public/*"],
         "@components/*": ["components/*"],

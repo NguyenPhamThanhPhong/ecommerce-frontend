@@ -71,7 +71,7 @@ export default function EnhancedTableHead(props) {
     const { columns, onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort, handleResizeStart, columnWidths } =
         props;
     const createSortHandler = (property) => (event) => {
-        onRequestSort(event, property);
+        onRequestSort(property);
     };
     const theme = useTheme();
 

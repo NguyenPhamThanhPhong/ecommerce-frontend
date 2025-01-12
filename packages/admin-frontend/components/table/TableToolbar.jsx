@@ -5,13 +5,14 @@ import { alpha } from '@mui/material/styles';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 
-import { Button, Stack } from '@mui/material';
+import { Button, Modal, Stack } from '@mui/material';
 
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import DeleteIcon from '@mui/icons-material/Delete';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import DateRangeIcon from '@mui/icons-material/DateRange';
+import ProductFilterModal from '@components/filters/FilterAssets';
 
 
 function ToolbarIcons({ numSelected }) {
@@ -35,8 +36,8 @@ function ToolbarIcons({ numSelected }) {
 }
 
 
-export default function EnhancedTableToolbar(props) {
-  const { numSelected } = props;
+export default function EnhancedTableToolbar({setIsFilterModalOpen,numSelected}) {
+
   return (
     <Toolbar
       sx={[
@@ -70,13 +71,8 @@ export default function EnhancedTableToolbar(props) {
         </Typography>
       )}
       <Stack direction="row" spacing={1}>
-        <Button variant='outlined' startIcon={<DateRangeIcon />} sx={{
-          width: '160px',
-          px: '1px',
-        }}>
-          Selected Date
-        </Button>
-        <Button variant='outlined' startIcon={<FilterListIcon />} sx={{
+
+        <Button onClick={()=>setIsFilterModalOpen(true)} variant='outlined' startIcon={<FilterListIcon />} sx={{
           width: '160px',
         }}>
           Create Filter
