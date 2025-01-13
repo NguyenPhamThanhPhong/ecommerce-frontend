@@ -2,7 +2,7 @@ import { useCallback, useState } from 'react';
 import { create } from 'zustand';
 
 
-export const useTableState = () => {
+export const useTableState = ({ data }) => {
     const [temp, setTemp] = useState('15');
     const [order, setOrder] = useState('asc');
     const [orderBy, setOrderBy] = useState('id');
@@ -11,7 +11,8 @@ export const useTableState = () => {
     const [page, setPage] = useState(0);
     const [dense, setDense] = useState(false);
     const [rowsPerPage, setRowsPerPage] = useState(5);
-    const [dataRows, setDataRows] = useState([]);
+    // const [dataRows, setDataRows] = useState(data || []);
+    const dataRows = data || [];
     const [tableActualWidth, setTableActualWidth] = useState(0);
     const [columnWidths, setColumnWidthsState] = useState({});
 
@@ -22,9 +23,8 @@ export const useTableState = () => {
         }));
     }, []);
 
-    const init = useCallback((data, columns, setDataRowsFunc, setColumnsFunc) => {
-        setColumnsFunc(columns);
-        setDataRowsFunc(data);
+    const init = useCallback((columns) => {
+
         const widths = {};
         for (const column of columns) {
             widths[column.id] = (tableActualWidth - 20) / columns.length;
@@ -68,7 +68,7 @@ export const useTableState = () => {
         setSelected(newSelected);
     }, [selected]);
 
-    const handleChangePage = useCallback((newPage) => {
+    const handleChangePage = useCallback((e,newPage) => {
         setPage(newPage);
     }, []);
 
@@ -97,15 +97,15 @@ export const useTableState = () => {
     }, [columnWidths, setColumnWidths]);
 
     return {
-        temp,setTemp,
-        order,orderBy,
-        setOrder,setOrderBy,
-        selected,setSelected,
+        temp, setTemp,
+        order, orderBy,
+        setOrder, setOrderBy,
+        selected, setSelected,
         setColumns,
-        page,setPage,
-        dense,setDense,
+        page, setPage,
+        dense, setDense,
         rowsPerPage, setRowsPerPage,
-        dataRows, setDataRows,
+        dataRows,
         tableActualWidth, setTableActualWidth,
         columnWidths, setColumnWidths,
         init,

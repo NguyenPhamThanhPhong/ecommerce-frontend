@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { toSimpleDate } from './ConverterUtils';
 export function isEmpty(value) {
     return value === undefined || value === null || value === '';
 }
@@ -14,7 +15,11 @@ export function isPhoneNumber(value) {
     return /^\d{10}$/.test(value);
 }
 
-export function validateForm(name, value, setErrors, { field, required, numberOnly, email, isDate, upperBound }) {
+export function isNumeric(value) {
+    return value !== null && value !== undefined && value !== '' && !isNaN(value) && isFinite(value);
+}
+
+export function validateForm(name, value, setErrors, { field, required, numberOnly, email, isDate, upperBound, lowerBound }) {
     if (!isDate) {
         if (required && isEmpty(value)) {
             setErrors((prev) => ({ ...prev, [name]: `${field} is required.` }));
@@ -28,13 +33,26 @@ export function validateForm(name, value, setErrors, { field, required, numberOn
             setErrors((prev) => ({ ...prev, [name]: 'Please enter a valid email.' }));
             return false;
         }
+        if (lowerBound !== undefined && lowerBound !== null && value < lowerBound) {
+            setErrors((prev) => ({ ...prev, [name]: `${field} must be greater than ${lowerBound}.` }));
+            return false;
+        }
+        if (upperBound !== undefined && upperBound !== null && value > upperBound) {
+            setErrors((prev) => ({ ...prev, [name]: `${field} must be less than ${upperBound}.` }));
+            return false;
+        }
         return true;
     } else {
         if (required && !value) {
             setErrors((prev) => ({ ...prev, [name]: `${field} is required.` }));
-            if (upperBound && new Date(value) > upperBound) {
-                setErrors((prev) => ({ ...prev, [name]: `${field} must be before ${upperBound}` }));
-            }
+            return false;
+        }
+        if (upperBound && value > upperBound) {
+            setErrors((prev) => ({ ...prev, [name]: `value must be before ${toSimpleDate(upperBound)}` }));
+            return false;
+        }
+        if (lowerBound && value < lowerBound) {
+            setErrors((prev) => ({ ...prev, [name]: `value must be after ${toSimpleDate(lowerBound)}` }));
             return false;
         }
         return true;

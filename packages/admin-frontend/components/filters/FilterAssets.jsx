@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
     Modal,
     Box,
@@ -17,7 +17,7 @@ import {
 } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers";
 import CloseIcon from '@mui/icons-material/Close';
-
+import { useGlobalBrandCategoryContext } from "@shared-conntext/BrandCategoryContext";
 // export function FilterSelect({ mt, options, defaultOptionId, onOptionChange }) {
 //     if (mt === undefined) mt = 1;
 //     // options = options || 
@@ -66,7 +66,7 @@ import CloseIcon from '@mui/icons-material/Close';
 //     )
 // }
 
-export function FilterSelect({ label, value, onChange, checked, onChecked, options, handleInputChange }) {
+export function FilterSelect({ label,selectLabel, value, onChange, checked, onChecked, options, handleInputChange }) {
     return (
         <Box item xs={12}>
             <FormControlLabel
@@ -79,11 +79,11 @@ export function FilterSelect({ label, value, onChange, checked, onChecked, optio
                 label={label}
             />
             <FormControl fullWidth>
-                <InputLabel>Category</InputLabel>
+                <InputLabel>{selectLabel}</InputLabel>
                 <Select
                     value={value}
                     onChange={onChange}
-                    label="Category">
+                    label={selectLabel}>
                     <MenuItem value="">None</MenuItem>
                     {options.map((option, index) => (
                         <MenuItem key={index} value={option?.value}>
@@ -144,30 +144,30 @@ export function FilterFromTo({ label, valueFrom, valueTo, checked, onChecked, on
 }
 
 export function FilterDateFromTo({ label, valueFrom, valueTo, checked, onChecked, onChangeFrom, onChangeTo }) {
-    return(
+    return (
         <Box item xs={12}>
-        <FormControlLabel
-            control={
-                <Switch
-                    checked={checked}
-                    onChange={onChecked}
-                />
-            }
-            label={label}
-        />
-        <DatePicker
-            label="From"
-            value={valueFrom}
-            onChange={onChangeFrom}
-            renderInput={(params) => <TextField {...params} fullWidth />}
-        />
-        <DatePicker
-            label="To"
-            value={valueTo}
-            onChange={onChangeTo}
-            renderInput={(params) => <TextField {...params} fullWidth />}
-        />
-    </Box>
+            <FormControlLabel
+                control={
+                    <Switch
+                        checked={checked}
+                        onChange={onChecked}
+                    />
+                }
+                label={label}
+            />
+            <DatePicker
+                label="From"
+                value={valueFrom}
+                onChange={onChangeFrom}
+                renderInput={(params) => <TextField {...params} fullWidth />}
+            />
+            <DatePicker
+                label="To"
+                value={valueTo}
+                onChange={onChangeTo}
+                renderInput={(params) => <TextField {...params} fullWidth />}
+            />
+        </Box>
 
     )
 }
@@ -244,7 +244,7 @@ const ProductFilterModal = ({ open, onClose, onApply }) => {
 
 
                     {/* Brand Filter */}
-                    <FilterText label={"Brand Condition: " + filterState.brand.condition}
+                    <FilterBrand label={"Brand Condition: " + filterState.brand.condition}
                         checked={filterState.brand.condition === "OR"}
                         value={filterState.brand.value}
                         key={'brand'}
@@ -253,7 +253,7 @@ const ProductFilterModal = ({ open, onClose, onApply }) => {
                         filterState={filterState} handleInputChange={handleInputChange} />
 
                     {/* Category Filter */}
-                    <FilterSelect
+                    <FilterCategory
                         onChange={(e) => handleInputChange("category", "value", e.target.value)}
                         onChecked={() => handleConditionToggle("category")}
                         options={[{ label: "Electronics", value: "electronics" }, { label: "Clothing", value: "clothing" }]}
@@ -307,5 +307,34 @@ const ProductFilterModal = ({ open, onClose, onApply }) => {
         </Modal>
     );
 };
+
+export function FilterCategory({ label, value, onChange, checked, onChecked, }) {
+    const { categories, loadCategories } = useGlobalBrandCategoryContext();
+    let categoriesOptions = [{ value: "", label: "None" }];
+    if (categories?.length > 0)
+        categoriesOptions = [categoriesOptions, ...categories.map(category => ({ value: category.id, label: category.name }))];
+    useEffect(() => {
+        loadCategories();
+    }, []);
+    console.log('categories', categories);
+    // console.log('categoriesOptions', categoriesOptions);
+    return (
+        <FilterSelect label={label} value={value} onChange={onChange} selectLabel={"Category"}
+            checked={checked} onChecked={onChecked} options={categoriesOptions} />
+    )
+}
+export function FilterBrand({ label, value, onChange, checked, onChecked }) {
+    const { brands, loadBrands } = useGlobalBrandCategoryContext();
+    let brandsOptions = [{ value: "", label: "None" }];
+    if (brands?.length > 0)
+        brandsOptions = [brandsOptions, ...brands.map(brand => ({ value: brand.id, label: brand.name }))];
+    useEffect(() => {
+        loadBrands();
+    }, []);
+    return (
+        <FilterSelect label={label} value={value} onChange={onChange} selectLabel={"Brand"}
+            checked={checked} onChecked={onChecked} options={brandsOptions} />
+    )
+}
 
 export default ProductFilterModal;

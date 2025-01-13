@@ -12,6 +12,11 @@ import { Download } from '@mui/icons-material';
 import { AdminButtonGroups } from '@components/common/AdminButtonGroups';
 import { useState } from 'react';
 import SearchIcon from '@mui/icons-material/Search';
+import { COMPARISONS, createFilter, JOIN_CONDITIONS, TYPES } from '@shared-api/constants/Filters';
+import { searchProducts } from '@shared-api/Products';
+import { useSnackbarStore } from '@shared-conntext/SnackbarContext';
+import { useRouter } from 'next/router';
+import { isNumeric } from '@shared-utils/ValidationUtils';
 
 const PRODUCT_STATUSES = {
   NONE: 'NONE',
@@ -45,14 +50,118 @@ const variants = [
 ]
 export default function Product() {
   const theme = useTheme();
+  const router = useRouter();
 
+  const [products, setProducts] = useState({ data: [] });
   const [search, setSearch] = useState('');
   const [status, setStatus] = useState(PRODUCT_STATUSES.NONE);
+  const [modalFilters, setModalFilters] = useState({});
+  const pub = useSnackbarStore(state => state.pub);
   function submit() {
+    const filters = calculateFilters();
+    searchProducts({ page: 0, size: 40, }, filters, pub).then((data) => {
+      if (data) {
+        setProducts(data);
+      }
+    });
+  }
+  function calculateFiltersFromStatus() {
+    if (status === PRODUCT_STATUSES.NONE) {
+      return [];
+    }
+    if (status === PRODUCT_STATUSES.PUBLISHED) {
+      return [createFilter(JOIN_CONDITIONS.AND, null, 'availableDate',
+        TYPES.date, COMPARISONS.LESS_OR_EQUAL, new Date(), false)];
+    }
+    if (status === PRODUCT_STATUSES.DRAFT) {
+      return [createFilter(JOIN_CONDITIONS.AND, null, 'availableDate',
+        TYPES.date, COMPARISONS.GREATER, new Date(), false)];
+    }
+    if (status === PRODUCT_STATUSES.ON_SALE) {
+      return [createFilter(JOIN_CONDITIONS.AND, null, 'discountPercent',
+        TYPES.bigDecimal, COMPARISONS.GREATER, 0, false)];
+    }
+    if (status === PRODUCT_STATUSES.SOLD_OUT) {
+      return [createFilter(JOIN_CONDITIONS.AND, null, 'quantity',
+        TYPES.int, COMPARISONS.LESS_OR_EQUAL, 0, false)];
+    }
 
   }
+
+  function calculateFilters() {
+    let filters = [];
+    if (search?.length > 0 && search !== '') {
+      filters.push(createFilter(JOIN_CONDITIONS.AND, null, 'name',
+        TYPES.string, COMPARISONS.LIKE, search, false));
+    }
+    const { date, brand, category, price, quantity } = modalFilters;
+    if (date) {
+      const { from, to, condition } = date;
+      let realCondition = JOIN_CONDITIONS.AND;
+      if (condition === JOIN_CONDITIONS.OR) {
+        realCondition = JOIN_CONDITIONS.OR;
+      }
+      if (from) {
+        filters.push(createFilter(realCondition, null, 'availableDate',
+          TYPES.date, COMPARISONS.GREATER_OR_EQUAL, from, false));
+      }
+      if (to) {
+        filters.push(createFilter(realCondition, null, 'availableDate',
+          TYPES.date, COMPARISONS.LESS_OR_EQUAL, to, false));
+      }
+    }
+    if (brand) {
+      const { value, condition } = brand;
+      if (value?.length > 0 && value !== '') {
+        filters.push(createFilter(condition || 'AND', null, 'brandId',
+          TYPES.uuid, COMPARISONS.EQUAL, value, false));
+      }
+    }
+    if (category) {
+      const { value, condition } = category;
+      if (value?.length > 0 && value !== '') {
+        filters.push(createFilter(condition || 'AND', null, 'categoryId',
+          TYPES.uuid, COMPARISONS.EQUAL, value, false));
+      }
+    }
+    if (price) {
+      const { from, to, condition } = price;
+      let realCondition = JOIN_CONDITIONS.AND;
+      if (condition === JOIN_CONDITIONS.OR) {
+        realCondition = JOIN_CONDITIONS.OR;
+      }
+      if (isNumeric(from) && from > 0) {
+        filters.push(createFilter(realCondition, null, 'price',
+          TYPES.bigDecimal, COMPARISONS.GREATER_OR_EQUAL, from, false));
+      }
+      if (isNumeric(to) && to < 100_000_000) {
+        filters.push(createFilter(realCondition, null, 'price',
+          TYPES.bigDecimal, COMPARISONS.LESS_OR_EQUAL, to, false));
+      }
+    }
+    if (quantity) {
+      const { from, to, condition } = quantity;
+      let realCondition = JOIN_CONDITIONS.AND;
+      if (condition === JOIN_CONDITIONS.OR) {
+        realCondition = JOIN_CONDITIONS.OR;
+      }
+      if (isNumeric(from) && from > 0) {
+        console.log('from', from);
+        filters.push(createFilter(realCondition, null, 'quantity',
+          TYPES.int, COMPARISONS.GREATER_OR_EQUAL, from, false));
+      }
+      if (isNumeric(to) && to < 100_000_000) {
+        filters.push(createFilter(realCondition, null, 'quantity',
+          TYPES.int, COMPARISONS.LESS_OR_EQUAL, to, false));
+      }
+    }
+    console.log('pre filters', filters);
+    filters = [...filters, ...calculateFiltersFromStatus()];
+    return filters;
+  }
+
   const handleApplyFilters = (filters) => {
-    console.log("Applied Filters:", filters);
+    setModalFilters(filters);
   };
   return (
     <Box>
@@ -84,17 +193,19 @@ export default function Product() {
           }}>
             Export
           </Button>
-          <Button variant='contained' startIcon={<AddIcon />} sx={{
+          <Button variant='contained' startIcon={<AddIcon />} onClick={() => {
+            router.push("/products/add-product")
+          }} sx={{
             height: 40,
             backgroundColor: 'success',
             color: 'white',
             fontWeight: theme.fontWeight.semiBold,
           }}>
-            Add Order
+            Add Product
           </Button>
         </Stack>
       </Box>
-      <ProductTable getFilters={handleApplyFilters} />
+      <ProductTable products={products} getFilters={handleApplyFilters} />
     </Box>
   )
 }

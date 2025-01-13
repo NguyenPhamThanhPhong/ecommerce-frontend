@@ -35,24 +35,27 @@ const statuses = {
     },
 }
 
-function createData(id, product, brand, categories, price, quantity, availableDate, status) {
+function createData(id,code, product, brand, category, price, quantity, availableDate, status) {
     return {
         id,
+        code,
         product,
         brand,
-        categories,
+        category,
         price,
         quantity,
         availableDate,
         status,
     };
 }
-function fromDataToRow({ id, product, brand, categories, price, quantity, availableDate, status }) {
+function fromDataToRow({ id,code, product, brand, category, price, quantity, availableDate, status }) {
     return {
         id: id,
+        code: code,
         colId: {
-            label: id,
+            label: code,
             variant: 'text',
+
         },
         product: {
             variant: 'avatar',
@@ -64,9 +67,9 @@ function fromDataToRow({ id, product, brand, categories, price, quantity, availa
             variant: 'text',
             label: brand,
         },
-        categories: {
+        category: {
             variant: 'text',
-            label: categories,
+            label: category,
         },
         price: {
             label: price,
@@ -155,11 +158,15 @@ const columns = [
     },
 ];
 
-export default function ProductTable({getFilters}) {
+export default function ProductTable({ getFilters, products }) {
+    let mydata = products?.data.map((product) =>
+        createData(product.id,product.code, product, product.brand?.name,
+            product.category?.name, product?.price || 0,
+            product.quantity, product.availableDate, product.status));
     return (
         <AdminTable
             FilterModal={ProductFilterModal}
             handleApplyFilters={getFilters}
-            dataMapper={fromDataToRow} data={staticData} columns={columns} />
+            dataMapper={fromDataToRow} data={mydata} columns={columns} />
     )
 }

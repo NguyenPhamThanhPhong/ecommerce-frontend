@@ -35,12 +35,11 @@ function getComparator(order, orderBy) {
 export default function AdminTable({ columns, data, dataMapper, handleApplyFilters, FilterModal }) {
   const {
     order, orderBy,
-    setOrder, setOrderBy,
     selected, setSelected,
     setColumns,
     page, setPage,
     rowsPerPage,
-    dataRows, setDataRows, setTableActualWidth,
+    dataRows, setTableActualWidth,
     columnWidths,
     init,
     handleRequestSort,
@@ -49,24 +48,26 @@ export default function AdminTable({ columns, data, dataMapper, handleApplyFilte
     handleChangePage,
     handleChangeRowsPerPage,
     handleResizeStart,
-  } = useTableState();
+  } = useTableState({data});
   const [isFilterModalOpen, setIsFilterModalOpen] = React.useState(false);
 
   const visibleRows = React.useMemo(
     () =>
-      [...dataRows]
+      dataRows
         .sort(getComparator(order, orderBy))
-        .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+        .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage-1)
         .map((row) => dataMapper(row)),
-    [dataRows, order, orderBy, page, rowsPerPage],
+    [dataRows,order, orderBy, page, rowsPerPage],
   );
+
   const tableRef = React.useRef(null);
+  // console.log('visibleRows', visibleRows);
 
   React.useEffect(() => {
 
     if (tableRef.current) {
       setTableActualWidth(tableRef.current.offsetWidth);
-      init(data, columns, setDataRows, setColumns);
+      init(columns,);
     }
   }, []);
 

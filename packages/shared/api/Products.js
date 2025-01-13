@@ -3,6 +3,7 @@ import qs from 'qs';
 import { get, api, products, productsSearches, toForm, url, form, productsFavorites, createPageable } from './constants/Constants';
 
 export async function createProduct(data, pub) {
+    console.log('data', data);
     try {
         const response = await api.post(`${url}${products}`, toForm(data), {
             headers: form
@@ -46,13 +47,14 @@ export async function updateProduct(id, data, pub) {
 }
 
 export async function searchProducts(pageable, filters, pub) {
+    // console.log('searchProducts', filters);
     try {
         const response = await api.post(`${url}${productsSearches}`, filters || [], {
             params: { ...pageable }
         });
         return response.data;
     } catch (error) {
-        console.log(error);
+        // console.log(error);
         pub(get(error), 'error');
     }
 }

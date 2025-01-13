@@ -14,7 +14,7 @@ import {
 import MailIcon from '@mui/icons-material/Mail';
 
 
-export default function MenuButton({ open, label, selected, icon, }) {
+export default function MenuButton({ open, label, selected, icon,onClick }) {
     const listOpenSx = open ? { justifyContent: 'initial' } : { justifyContent: 'center' }
     const listItemIconSx = open ? { mr: 3 } : { mr: 'auto' }
     const listItemTextSx = open ? { opacity: 1, } : { opacity: 0 }
@@ -24,6 +24,7 @@ export default function MenuButton({ open, label, selected, icon, }) {
         : { backgroundColor: 'transparent', color: '#464255', fontWeight: theme.fontWeight.medium, }
     return (
         <ListItemButton
+            onClick={onClick}
             sx={[
                 {
 
