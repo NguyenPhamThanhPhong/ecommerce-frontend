@@ -1,4 +1,4 @@
-import ProductFilterModal from "@components/filters/FilterAssets";
+import ProductFilterModal from "@components/filters/ProductFilterModal";
 import AdminTable from "@components/table/AdminTable";
 import { trimString } from "@shared-utils/ConverterUtils";
 const staticData = [
@@ -35,7 +35,7 @@ const statuses = {
     },
 }
 
-function createData(id,code, product, brand, category, price, quantity, availableDate, status) {
+function createData(id, code, product, brand, category, price, quantity, availableDate, status) {
     return {
         id,
         code,
@@ -48,7 +48,7 @@ function createData(id,code, product, brand, category, price, quantity, availabl
         status,
     };
 }
-function fromDataToRow({ id,code, product, brand, category, price, quantity, availableDate, status }) {
+function fromDataToRow({ id, code, product, brand, category, price, quantity, availableDate, status }) {
     return {
         id: id,
         code: code,
@@ -160,7 +160,7 @@ const columns = [
 
 export default function ProductTable({ getFilters, products }) {
     let mydata = products?.data.map((product) =>
-        createData(product.id,product.code, product, product.brand?.name,
+        createData(product.id, product.code, product, product.brand?.name,
             product.category?.name, product?.price || 0,
             product.quantity, product.availableDate, product.status));
     return (

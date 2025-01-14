@@ -3,7 +3,7 @@ import qs from 'qs';
 import { get, api, products, productsSearches, toForm, url, form, productsFavorites, createPageable } from './constants/Constants';
 
 export async function createProduct(data, pub) {
-    console.log('data', data);
+    // console.log('data', data);
     try {
         const response = await api.post(`${url}${products}`, toForm(data), {
             headers: form

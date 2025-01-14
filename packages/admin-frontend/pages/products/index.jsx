@@ -14,9 +14,9 @@ import { useState } from 'react';
 import SearchIcon from '@mui/icons-material/Search';
 import { COMPARISONS, createFilter, JOIN_CONDITIONS, TYPES } from '@shared-api/constants/Filters';
 import { searchProducts } from '@shared-api/Products';
-import { useSnackbarStore } from '@shared-conntext/SnackbarContext';
 import { useRouter } from 'next/router';
 import { isNumeric } from '@shared-utils/ValidationUtils';
+import { useSnackbarStore } from '@shared-conntext/SnackbarContext';
 
 const PRODUCT_STATUSES = {
   NONE: 'NONE',
@@ -52,7 +52,7 @@ export default function Product() {
   const theme = useTheme();
   const router = useRouter();
 
-  const [products, setProducts] = useState({ data: [] });
+  const [orders, setOrders] = useState({ data: [] });
   const [search, setSearch] = useState('');
   const [status, setStatus] = useState(PRODUCT_STATUSES.NONE);
   const [modalFilters, setModalFilters] = useState({});
@@ -61,7 +61,7 @@ export default function Product() {
     const filters = calculateFilters();
     searchProducts({ page: 0, size: 40, }, filters, pub).then((data) => {
       if (data) {
-        setProducts(data);
+        setOrders(data);
       }
     });
   }
@@ -155,7 +155,6 @@ export default function Product() {
           TYPES.int, COMPARISONS.LESS_OR_EQUAL, to, false));
       }
     }
-    console.log('pre filters', filters);
     filters = [...filters, ...calculateFiltersFromStatus()];
     return filters;
   }
@@ -176,7 +175,7 @@ export default function Product() {
           <InputBase
             sx={{ ml: 1, flex: 1 }}
             onChange={(e) => setSearch(e.target.value)}
-            placeholder="Search Google Maps"
+            placeholder="Find something..."
             inputProps={{ 'aria-label': 'search google maps' }}
           />
           <IconButton onClick={submit} type="button" sx={{ p: '10px' }} aria-label="search">
@@ -193,19 +192,9 @@ export default function Product() {
           }}>
             Export
           </Button>
-          <Button variant='contained' startIcon={<AddIcon />} onClick={() => {
-            router.push("/products/add-product")
-          }} sx={{
-            height: 40,
-            backgroundColor: 'success',
-            color: 'white',
-            fontWeight: theme.fontWeight.semiBold,
-          }}>
-            Add Product
-          </Button>
         </Stack>
       </Box>
-      <ProductTable products={products} getFilters={handleApplyFilters} />
+      <ProductTable orders={orders} getFilters={handleApplyFilters} />
     </Box>
   )
 }

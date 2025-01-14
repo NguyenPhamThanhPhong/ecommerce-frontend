@@ -7,75 +7,12 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
-import { toLocaleString, toLocaleFixedString, toPercentage } from '@shared-utils/ConverterUtils';
 
-const columns = [
-  { id: 'id', label: 'ID', minWidth: 80 },
-  { id: 'product', label: 'Product', minWidth: 100 },
-  {
-    id: 'quantity',
-    label: 'Quantity',
-    minWidth: 60,
-    align: 'right',
-    format: (value) => value.toLocaleString('en-US'),
-  },
-  {
-    id: 'price',
-    label: 'Gross Price',
-    minWidth: 100,
-    align: 'right',
-    format: (value) => toLocaleString(value),
-  },
-  {
-    id: 'discount',
-    label: 'Discount',
-    minWidth: 60,
-    align: 'right',
-    format: (value) => toPercentage(value),
-  },
-  {
-    id: 'total',
-    label: 'Total',
-    minWidth: 100,
-    align: 'right',
-    format: (value) => toLocaleFixedString(value),
-  },
-];
 
-function createData(product, id, quantity, price, discount) {
-  const total = quantity * price;
-  return { product, id, quantity, price, discount, total };
-}
 
-const rows = [
-  createData('India', 'IN', 12, 1956475, 0.215),
-  createData('China', 'CN', 12, 1956475, 0.215),
-  createData('Italy', 'IT', 12, 1956475, 0.2),
-  createData('United States', 'US', 1, 1956475, 0.2),
-  createData('Canada', 'CA', 5, 1956475, 0.2),
 
-];
 
-const calculationRows = [
-  {
-    price: 'Gross Price',
-    total: 15,
-  },
-  {
-    price: 'VAT',
-    total: 0.00,
-  },
-  {
-    price: 'Shipping fee',
-    total: 20.00,
-  },
-  {
-    price: 'Net Total',
-    total: 731.25,
-  },
-]
-
-export default function ReadOnlyTable() {
+export default function ReadOnlyTable({columns,rows,calculationRows}) {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
 

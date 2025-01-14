@@ -88,8 +88,8 @@ export const UIAssets = {
             <Box display="flex" alignItems={alignItems} fontFamily={theme.fontFamily.publicSans} mb={2}>
                 <Avatar {...avatarProp} alt="Muhammed Nabeel" style={avatarSx} />
                 <Box sx={boxSx}>
-                    <Typography variant="h6" sx={titleSx}>{title}</Typography>
-                    <Typography variant="body1" color="textThirdary" sx={subtitleSx}>{subtitle}</Typography>
+                    {title && <Typography variant="h6" sx={titleSx}>{title}</Typography>}
+                    {subtitle && <Typography variant="body1" sx={subtitleSx}>{subtitle}</Typography>}
                 </Box>
             </Box>
         );

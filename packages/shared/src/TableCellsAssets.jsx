@@ -97,7 +97,7 @@ export function AvatarCell({ src, title, subtitle }) {
                 boxSx={{
                     marginLeft: '10px'
                 }}
-                title={title || 'john'} subtitle={subtitle || "asdjkf"} />
+                title={title || 'john'} subtitle={subtitle} />
         </TableCell>
     )
 }

@@ -5,19 +5,18 @@ import {
     useTheme,
     Avatar, IconButton, Alert,
     FormHelperText, Typography, Paper,
-    InputLabel, Select, OutlinedInput, Chip, MenuItem
+    InputLabel, Select, OutlinedInput, Chip, MenuItem,
+    FormControlLabel
 } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
-import { ProfileAssets } from './UIAssets';
-import { Filter } from 'bad-words';
-import { LocalizationProvider } from '@mui/x-date-pickers';
-import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'; // Correct import
 import { DatePicker } from '@mui/x-date-pickers';
-import { isEmpty, isNotEmpty, isEmail, isPhoneNumber } from '../utils/ValidationUtils';
 import ImageIcon from '@mui/icons-material/Image';
-import Image from 'next/image';
 import ClearIcon from '@mui/icons-material/Clear';
 import { useGlobalBrandCategoryContext } from '../context/BrandCategoryContext';
+import { useSnackbarStore } from '../context/SnackbarContext';
+import dynamic from 'next/dynamic';
+import dayjs from 'dayjs';
+
 
 export const FormTextBox = ({ name, label, value, onChange, error, errorText, required, rows, multiline, formSx, labelSx }) => {
     onChange = onChange || (() => { });
@@ -65,10 +64,10 @@ export const FormDatePicker = ({ name, label, value, onChange, error, errorText,
         <FormControl error={error} sx={formSx || { width: '50%' }}>
             <FormLabel>{label + (required ? ' * ' : '')}</FormLabel>
             <DatePicker
-                format="dd-MM-yyyy"
-                value={value}
-                defaultValue={new Date()}
-                onChange={(newValue) => onChange({ target: { name, value: newValue } })}
+                format="DD-MM-YYYY"
+                value={dayjs(value)}
+                defaultValue={dayjs(new Date())}
+                onChange={(newValue) => onChange({ target: {value: newValue?.toISOString() || '' } })}
                 renderInput={(params) => (
                     <TextField
                         {...params}
@@ -143,7 +142,7 @@ export function FormMultiSelect({ options, label, required }) {
     );
 }
 
-export function FormSelect({ labelSx,name, formSx, onChange, value, options, label, required }) {
+export function FormSelect({ labelSx, name, formSx, onChange, value, options, label, required }) {
     return (
         <FormControl sx={{ minWidth: 120, width: '100%', ...formSx }}>
             <FormLabel sx={{ fontWeight: 'bold', ...labelSx }}>{label + (required ? ' * ' : '')}</FormLabel>
@@ -166,15 +165,15 @@ export function FormSelect({ labelSx,name, formSx, onChange, value, options, lab
     )
 }
 
-export function FormCategoriesSelect({  labelSx, formSx, onChange, value, label, required }) {
+export function FormCategoriesSelect({ labelSx, formSx, onChange, value, label, required }) {
     const { categories, loadCategories } = useGlobalBrandCategoryContext();
-    let categoriesOptions = [{ value: "", label: "None" }];
+    const pub = useSnackbarStore(state => state.pub);
+    let categoriesOptions = [];
     if (categories?.length > 0)
         categoriesOptions = [categoriesOptions, ...categories.map(category => ({ value: category.id, label: category.name }))];
     useEffect(() => {
-        loadCategories();
+        loadCategories(pub);
     }, []);
-    console.log('cate', value)
     return (
         <FormSelect labelSx={labelSx} formSx={formSx} value={value} onChange={onChange}
             options={categoriesOptions} label={label} required={required} />
@@ -182,13 +181,13 @@ export function FormCategoriesSelect({  labelSx, formSx, onChange, value, label,
 }
 export function FormBrandsSelect({ labelSx, formSx, onChange, value, label, required }) {
     const { brands, loadBrands } = useGlobalBrandCategoryContext();
-    let brandsOptions = [{ value: "", label: "None" }];
+    const pub = useSnackbarStore(state => state.pub);
+    let brandsOptions = [];
     if (brands?.length > 0)
-        brandsOptions = [brandsOptions, ...brands.map(brand => ({ value: brand.id, label: brand.name }))];
+        brandsOptions = brands.map(brand => ({ value: brand.id, label: brand.name }))
     useEffect(() => {
-        loadBrands();
+        loadBrands(pub);
     }, []);
-    console.log('test', value)
     return (
         <FormSelect labelSx={labelSx} formSx={formSx} value={value} onChange={onChange}
             options={brandsOptions} label={label} required={required} />
@@ -401,3 +400,58 @@ export function FormImageGroup({ value: images, onChange: setImages }) {
         </Box>
     )
 }
+
+const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
+
+export const FormRichText = ({ onChange, label, value, required, error, errorText, rows, quillSx, formSx }) => {
+    // const [content, setContent] = useState(value||"");
+
+    const handleChange = (newValue) => {
+        const stupid = {target:{
+            value: newValue
+        }}
+        // setContent(newValue);
+        // console.log(onChange)
+        // console.log("HTML Content:", content);
+        onChange(stupid);
+
+    };
+    const minHeight = (rows || 1) * 30;
+
+    return (
+        <div>
+            <FormControl style={{
+                width: '100%',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: 1,
+                marginBottom: '1rem',
+                ...formSx
+            }}>
+                <FormLabel>{label + ((required) ? ' * ' : '')}</FormLabel>
+                {error && <FormHelperText>{errorText}</FormHelperText>}
+
+                <style>{`
+        .ql-container {
+          min-height: ${minHeight}px !important;
+          line-height: 1.5rem; /* Adjust row proportions */
+        }
+        `}
+                </style>
+                <ReactQuill
+                    style={{
+                        maxHeight: '200px', // Max height
+                        overflowY: 'auto',  // Scrollable content
+                        ...quillSx
+                    }}
+                    bounds={1}
+                    theme="snow"
+                    placeholder='Type here...'
+                    value={value} onChange={handleChange} >
+
+                </ReactQuill>
+            </FormControl>
+            {/* <button onClick={handleSave}>Save</button> */}
+        </div>
+    );
+};

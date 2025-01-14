@@ -1,17 +1,21 @@
 import { Component, useState } from 'react'
 import { isEmpty, isNotEmpty, isEmail, isPhoneNumber, validateForm } from '@shared-utils/ValidationUtils';
-import { FormBrandsSelect, FormCategoriesSelect, FormDatePicker, FormImageGroup, FormMultiSelect, FormNumberInput, FormSelect, FormTextBox, FormThumbnailPicker } from '@shared-src/InputAssets'
+import { FormBrandsSelect, FormCategoriesSelect, FormDatePicker, FormImageGroup, FormMultiSelect, FormNumberInput, FormRichText, FormSelect, FormTextBox, FormThumbnailPicker } from '@shared-src/InputAssets'
 import { TextField } from '@mui/material';
-import { createProduct } from '@shared-api/Products';
+import { createProduct, getProduct } from '@shared-api/Products';
 import { useSnackbarStore } from '@shared-conntext/SnackbarContext';
 
-export function useProductForm({ productName, description, price, discountPercent, discountUpperBound }) {
+export function useProductForm() {
+    const [productId, setProductId] = useState('');
+    const [seqNos, setSeqNos] = useState([]);
     const [formValues, setFormValues] = useState({
         productName: '',
         description: '',
+        policies: '',
+        highlights: '',
         price: 0,
         discountPercent: 0,
-        categories: [],
+        categories: '',
         brand: '',
         quantity: 0,
         stock: 0,
@@ -23,6 +27,8 @@ export function useProductForm({ productName, description, price, discountPercen
     const [errors, setErrors] = useState({
         productName: '',
         description: '',
+        policies: '',
+        highlights: '',
         price: '',
         discountPercent: '',
         categories: '',
@@ -33,18 +39,17 @@ export function useProductForm({ productName, description, price, discountPercen
     });
     function reset() {
         setFormValues({
-            productName: '', description: '', price: 0, discountPercent: 0, categories: [], brand: '', quantity: 0, stock: 0, publishDate: new Date(),
+            productName: '', description: '', policies: '', highlights: '',
+            price: 0, discountPercent: 0, categories: [], brand: '', quantity: 0, stock: 0, publishDate: new Date(),
         });
         setThumbnail({ type: 'url', value: '' });
         setImages([]);
-        setErrors({ productName: '', description: '', price: '', discountPercent: '', categories: '', brand: '', quantity: '', stock: '', publishDate: '', });
+        setErrors({ productName: '', description: '', policies: '', highlights: '', price: '', discountPercent: '', categories: '', brand: '', quantity: '', stock: '', publishDate: '', });
     }
 
     const handleInputChange = (conditions) => (e) => {
         const { name } = conditions;
         const { value } = e.target;
-        console.log(name, value);
-        if (name === 'brand') console.log('brand', value);
         setFormValues((prev) => ({ ...prev, [name]: value }));
         if (!validateForm(name, value, setErrors, conditions)) {
             return false;
@@ -53,12 +58,15 @@ export function useProductForm({ productName, description, price, discountPercen
         return true;
     };
     function submitCreate() {
+        console.log('form val', formValues.categories)
         const createRequest = {
             name: formValues.productName,
             brandId: formValues.brand,
             categoryId: formValues.categories,
             status: 'ON_SALE',
             availableDate: formValues.publishDate,
+            policies: formValues.policies,
+            highlights: formValues.highlights,
             thumbnail: thumbnail?.type !== 'url' ? thumbnail.value : null,
             productImages: images?.length > 0 ? images.map((value, index) => {
                 return value.type !== 'url' ? value.value : null;
@@ -77,6 +85,63 @@ export function useProductForm({ productName, description, price, discountPercen
         });
 
     }
+    function submitUpdate() {
+        const updateRequest = {
+            id: productId,
+            name: formValues.productName,
+            brandId: formValues.brand,
+            categoryId: formValues.categories,
+            status: 'ON_SALE',
+            availableDate: formValues.publishDate,
+            policies: formValues.policies,
+            highlights: formValues.highlights,
+            thumbnail: thumbnail?.type !== 'url' ? thumbnail.value : null,
+            appendingImages: images?.length > 0 ? images.map((value, index) => {
+                return value.type !== 'url' ? value.value : null;
+            }) : null,
+            removalIds: seqNos,
+            discountPercent: formValues.discountPercent,
+            quantity: formValues.quantity,
+            price: formValues.price,
+            stock: formValues.stock,
+            description: formValues.description,
+        }
+        createProduct(updateRequest, pub).then((res) => {
+            if (res) {
+                pub('Product created successfully', 'success');
+                reset();
+            }
+        });
+
+    }
+
+    function loadProduct(code) {
+        getProduct(code, pub).then((res) => {
+            if (res) {
+                setFormValues({
+                    productName: res.name,
+                    description: res.description,
+                    price: res.price,
+                    policies: res.policies,
+                    highlights: res.highlights,
+                    discountPercent: res.discountPercent,
+                    categories: res.categories,
+                    brand: res.brandId,
+                    quantity: res.quantity,
+                    stock: res.stock,
+                    publishDate: res.availableDate,
+                });
+                setSeqNos(res.productImages.map((value, index) => {
+                    return value?.seqNo;
+                }));
+                setProductId(res.id);
+                setThumbnail({ type: 'url', value: res.thumbnail });
+                setImages(res.productImages.map((value, index) => {
+                    return { type: 'url', value: value?.imageUrl };
+                }));
+            }
+        })
+    };
 
     const productNameInput = {
         label: 'Product Name',
@@ -93,12 +158,11 @@ export function useProductForm({ productName, description, price, discountPercen
     const priceInput = {
         label: 'Price',
         value: formValues.price,
-
         Component: FormNumberInput,
         onChange: handleInputChange({ name: 'price', field: 'price', lowerBound: 0 }),
         error: errors.price !== '',
         errorText: errors.price,
-        formSx: { gap: 1, width: '100%', mb: 1, },
+        formSx: { width: '45%' }
     }
     const discountPercentInput = {
         label: 'Discount Percentage',
@@ -107,7 +171,7 @@ export function useProductForm({ productName, description, price, discountPercen
         onChange: handleInputChange({ name: 'discountPercent', field: 'Discount Percentage', lowerBound: 0, upperBound: 100 }),
         error: errors.discountPercent !== '',
         errorText: errors.discountPercent,
-        formSx: { gap: 1, width: '100%', mb: 1 },
+        formSx: { width: '45%' }
     }
 
     const descriptionInput = {
@@ -121,6 +185,27 @@ export function useProductForm({ productName, description, price, discountPercen
         formSx: { gap: 1, width: '100%' },
         multiline: true,
     }
+    const policiesInput = {
+        label: 'Policies',
+        value: formValues.policies,
+        Component: FormRichText,
+        onChange: handleInputChange({ name: 'policies', }),
+        error: false,
+        errorText: '',
+        rows: 2,
+        formSx: { gap: 1, },
+    }
+    const highlightsInput = {
+        label: 'Highlights',
+        value: formValues.highlights,
+        Component: FormRichText,
+        onChange: handleInputChange({ name: 'highlights', }),
+        error: false,
+        errorText: '',
+        rows: 2,
+        formSx: { gap: 1, },
+    }
+
     const brandInput = {
         label: 'Brand',
         value: formValues.brand,
@@ -139,7 +224,7 @@ export function useProductForm({ productName, description, price, discountPercen
         errorText: errors.category,
         formSx: { gap: 1, width: '100%' },
     }
-    const availableDate = {
+    const publishDate = {
         label: 'Available Date',
         value: formValues.publishDate,
         Component: FormDatePicker,
@@ -182,16 +267,20 @@ export function useProductForm({ productName, description, price, discountPercen
         formValues, errors,
         productName: productNameInput,
         description: descriptionInput,
+        policies: policiesInput,
+        highlights: highlightsInput,
         brand: brandInput,
         category: categoryInput,
         price: priceInput,
         discountPercent: discountPercentInput,
         quantity: quantityInput,
         stock: stockInput,
-        publishDate: availableDate,
+        publishDate: publishDate,
         thumbnail: thumbnailInput,
         imageGroup: imageGroupInput,
         submitCreate,
+        submitUpdate,
+        loadProduct,
         reset,
 
     };

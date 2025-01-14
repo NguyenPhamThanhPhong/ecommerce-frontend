@@ -32,11 +32,10 @@ function getComparator(order, orderBy) {
 
 
 
-export default function AdminTable({ columns, data, dataMapper, handleApplyFilters, FilterModal }) {
+export default function AdminTable({ label, columns, data, dataMapper, handleApplyFilters, FilterModal }) {
   const {
     order, orderBy,
-    selected, setSelected,
-    setColumns,
+    selected, 
     page, setPage,
     rowsPerPage,
     dataRows, setTableActualWidth,
@@ -81,7 +80,7 @@ export default function AdminTable({ columns, data, dataMapper, handleApplyFilte
           FilterModal && <FilterModal open={isFilterModalOpen} onClose={() => setIsFilterModalOpen(false)}
             onApply={handleApplyFilters} />
         }
-        <EnhancedTableToolbar setIsFilterModalOpen={setIsFilterModalOpen} numSelected={selected.length} />
+        <EnhancedTableToolbar label={label} setIsFilterModalOpen={setIsFilterModalOpen} numSelected={selected.length} />
         <TableContainer>
           <Table ref={tableRef} size={'small'}>
             <EnhancedTableHead

@@ -11,7 +11,14 @@ export function toPercentage(value, digits = 2) {
     return (value * 100).toFixed(digits) + '%';
 }
 
+export function fromIsoToSimpleDate(value) {
+    return new Date(value).toLocaleDateString();
+}
+
 export function trimString(value, length = 30) {
+    if(value === null || value === undefined) {
+        return '';
+    }
     return value.length > length ? value.substring(0, length) + '...' : value;
 }
 

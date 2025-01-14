@@ -9,30 +9,34 @@ import { DatePicker } from '@mui/x-date-pickers';
 import ProductImageGroupInput from '@components/inputs/ImageGroupInput';
 import { ResetButton, SubmitButton } from '@shared-src/ButtonAssets';
 import AdminBreadcrumbs from '@components/sidebar/AdminBreadCrumbs';
+import { FormRichText } from '@shared-src/InputAssets';
+
+
 
 const ProductPage = () => {
   const {
-    formValues, errors, productName, description,
+    productName, description,
+    highlights, policies,
     brand, category,
     price, discountPercent,
     imageGroup, thumbnail,
     quantity, stock,
-    publishDate, availableTo,
-    submitCreate,reset,
-  } = useProductForm({ productName: 'hallo' });
+    publishDate,
+    submitCreate, reset,
+  } = useProductForm();
 
   return (
     <>
       <Stack direction={'row'} sx={{ pb: 2, gap: 2 }}>
-        <ResetButton label="Reset" />
+        <ResetButton label="Reset" onClick={reset} />
         <SubmitButton label="Save Product" onClick={submitCreate} />
+        {/* <MyRichTextEditor /> */}
+
       </Stack>
       <Box sx={{
         display: 'flex', justifyContent: 'space-between', gap: 2,
       }}>
         <Stack sx={{ width: '70%', backgroundColor: '#f9f9f9', minHeight: '100vh' }}>
-
-
           {/* Media Section */}
           <Paper sx={{ p: 3, mb: 3 }}>
             <Typography variant="h6" sx={{ mb: 2 }}>
@@ -40,6 +44,15 @@ const ProductPage = () => {
             </Typography>
             <productName.Component {...productName} />
             <description.Component {...description} />
+            <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+              <Box width={'47%'} >
+                <highlights.Component {...highlights} />
+              </Box>
+              <Box width={'47%'} >
+                <policies.Component {...policies} />
+              </Box>
+            </Box>
+            {/* <policies.Component /> */}
           </Paper>
           <Paper sx={{ p: 3, mb: 3, display: 'flex', gap: 4 }}>
             {/* <ProductImageGroupInput /> */}
@@ -57,34 +70,15 @@ const ProductPage = () => {
             <Typography variant="h6" sx={{ mb: 2 }}>
               Pricing
             </Typography>
-            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+            <Box sx={{
+              display: 'flex', gap: 1,
+              alignItems: 'center', justifyContent: 'space-between'
+            }}>
               {/* <TextField label="Base Price" placeholder="Type base price here..." fullWidth /> */}
               <price.Component {...price} />
+              <discountPercent.Component {...discountPercent} />
               {/* Discount type */}
-              <Box sx={{ display: 'flex', gap: 2 }}>
-                <TextField
-                  label="Discount Type"
-                  select
-                  fullWidth>
-                  <MenuItem value="none">None</MenuItem>
-                  <MenuItem value="percentage">Percentage</MenuItem>
-                  <MenuItem value="fixed">Fixed Amount</MenuItem>
-                </TextField>
-                <TextField label="Discount Percentage (%)" placeholder="Type discount percentage..." fullWidth />
-              </Box>
-              {/* Tax */}
-              <Box sx={{ display: 'flex', gap: 2 }}>
-                <TextField
-                  label="Tax Class"
-                  select
-                  fullWidth
-                >
-                  <MenuItem value="standard">Standard</MenuItem>
-                  <MenuItem value="reduced">Reduced</MenuItem>
-                  <MenuItem value="zero">Zero</MenuItem>
-                </TextField>
-                <TextField label="VAT Amount (%)" placeholder="Type VAT amount..." fullWidth />
-              </Box>
+
             </Box>
           </Paper>
         </Stack>

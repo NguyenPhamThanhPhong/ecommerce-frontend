@@ -1,8 +1,8 @@
 import AdminTable from '@components/table/AdminTable';
 import {
-  Button,
-  Box, Stack,
-  useTheme
+    Button,
+    Box, Stack,
+    useTheme
 } from '@mui/material'
 import { v4 } from 'uuid';
 import { Download } from '@mui/icons-material';
@@ -11,21 +11,33 @@ import OrderTable from '@components/table/usecases/OrderTable';
 import { AddOrderButton } from '@shared-src/ButtonAssets';
 import UserTable from '@components/table/usecases/UserTable';
 
+const CUSTOMER_STATUSES = {
+    NONE: 'NONE',
+    BLOCKED: 'BLOCKED',
+    ACTIVE: 'ACTIVE',
+    DELETED: 'DELETED',
+}
+const variants = [
+    {
+        id: CUSTOMER_STATUSES.NONE,
+        display: 'None',
+    },
+    {
+        id: CUSTOMER_STATUSES.BLOCKED,
+        display: 'BLOCKED',
+    },
+    {
+        id: CUSTOMER_STATUSES.DELETED,
+        display: 'DELETED',
+    },
+    {
+        id: CUSTOMER_STATUSES.ACTIVE,
+        display: 'ACTIVE',
+    },
+]
+
 export default function Customer() {
     const theme = useTheme();
-    const variants = [
-        {
-          id: 'All',
-          display: 'All',
-        },
-        {
-          id: 'Active',
-          display: 'Active',
-        },
-        {
-          id: 'Blocked',
-          display: 'Blocked',
-        },]
     return (
         <Box>
             <Box sx={{

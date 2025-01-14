@@ -36,7 +36,7 @@ function ToolbarIcons({ numSelected }) {
 }
 
 
-export default function EnhancedTableToolbar({setIsFilterModalOpen,numSelected}) {
+export default function EnhancedTableToolbar({label,setIsFilterModalOpen,numSelected}) {
 
   return (
     <Toolbar
@@ -65,9 +65,8 @@ export default function EnhancedTableToolbar({setIsFilterModalOpen,numSelected})
           sx={{ flex: '1 1 100%' }}
           variant="h6"
           id="tableTitle"
-          component="div"
-        >
-          Transaction Details
+          component="div">
+          {label}
         </Typography>
       )}
       <Stack direction="row" spacing={1}>
