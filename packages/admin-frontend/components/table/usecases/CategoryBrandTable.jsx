@@ -43,36 +43,7 @@ function createData(id, category, sold, stock, createdAt,) {
         createdAt,
     };
 }
-function fromDataToRow({ id, category, sold, stock, createdAt, }) {
-    return {
-        id: id,
-        colId: {
-            label: id,
-            variant: 'text',
-        },
-        category: {
-            variant: 'avatar',
-            title: category?.name,
-            subtitle: trimString(category?.description || 'none'),
-            src: category?.thumbNailUrl,
-        },
-        sold: {
-            variant: 'text',
-            label: sold,
-        },
-        stock: {
-            variant: 'text',
-            label: stock,
-        },
-        createdAt: {
-            variant: 'text',
-            label: createdAt,
-        },
-        none: {
-            variant: 'icons',
-        }
-    }
-}
+
 const columns = [
     {
         id: 'id',
@@ -103,7 +74,6 @@ const columns = [
         disablePadding: false,
         label: 'Stock',
         resizable: true,
-
     },
     {
         id: 'createdAt',
@@ -121,9 +91,42 @@ const columns = [
     },
 ];
 
-export default function CategoryBrandTable() {
-
+export default function CategoryBrandTable({ label, onView, onEdit, onDelete, onDeleteMultiple }) {
+    function fromDataToRow({ id, category, sold, stock, createdAt, }) {
+        return {
+            id: id,
+            colId: {
+                label: id,
+                variant: 'text',
+            },
+            category: {
+                variant: 'avatar',
+                title: category?.name,
+                subtitle: trimString(category?.description || 'none'),
+                src: category?.thumbNailUrl,
+            },
+            sold: {
+                variant: 'text',
+                label: sold,
+            },
+            stock: {
+                variant: 'text',
+                label: stock,
+            },
+            createdAt: {
+                variant: 'text',
+                label: createdAt,
+            },
+            none: {
+                variant: 'icons',
+                onView: () => onView(id),
+                onEdit: () => onEdit(id),
+                onDelete: () => onDelete(id),
+            }
+        }
+    }
     return (
-        <AdminTable dataMapper={fromDataToRow} data={staticData} columns={columns} />
+        <AdminTable label={label}
+            dataMapper={fromDataToRow} data={staticData} columns={columns} />
     )
 }

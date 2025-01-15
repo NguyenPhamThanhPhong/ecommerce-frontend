@@ -5,12 +5,12 @@ import { useEffect, useState } from 'react'
 import { isEmpty, isNotEmpty, isEmail, isPhoneNumber, validateForm, handleFileChange } from '@shared-utils/ValidationUtils';
 import { FormAlert, FormDatePicker, FormImagePicker, FormMultiSelect, FormSelect, FormTextBox } from '@shared-src/InputAssets'
 
-export function useBrandCategoryForm({id, name, description, email, image, }) {
+export function useBrandCategoryForm({ }) {
     const [formValues, setFormValues] = useState({
-        name: name || '',
-        description: description || '',
-        image: image || null,
-        email: email || '',
+        name: '',
+        description: '',
+        image: null,
+        email: '',
     });
     const [alertVisible, setAlertVisible] = useState(false);
     const [alertProps, setAlertProps] = useState({ message: 'error', severity: 'error' });
@@ -19,8 +19,8 @@ export function useBrandCategoryForm({id, name, description, email, image, }) {
         name: '',
         description: '',
         image: '',
-
     });
+    const [thumbnail, setThumbnail] = useState({ type: 'url', value: '' });
 
     const handleInputChange = (conditions) => (e) => {
         const { name, value } = e.target;
@@ -48,6 +48,24 @@ export function useBrandCategoryForm({id, name, description, email, image, }) {
             return () => clearTimeout(timeout);
         }
     }, [alertVisible]);
+
+    function reset(){
+        setFormValues({
+            name: '',
+            description: '',
+            image: null,
+            email: '',
+        });
+        setErrors({
+            name: '',
+            description: '',
+            image: '',
+        });
+    }
+
+    function submitCreate(){
+        
+    }
 
     const nameInput = {
         label: 'Name',
@@ -79,6 +97,8 @@ export function useBrandCategoryForm({id, name, description, email, image, }) {
         value: formValues.image,
         name: 'image',
         Component: FormImagePicker,
+        alertVisible: alertVisible,
+        setAlertVisible: setAlertVisible,
         onChange: onFileChange,
         error: errors.image !== '',
         errorText: errors.image,
@@ -92,7 +112,6 @@ export function useBrandCategoryForm({id, name, description, email, image, }) {
         description: descriptionInput,
         image: imageInput,
         alert: { alertVisible, ...alertProps },
-        id: id
     };
 
 }

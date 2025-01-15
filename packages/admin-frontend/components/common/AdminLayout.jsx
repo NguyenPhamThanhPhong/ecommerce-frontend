@@ -125,9 +125,9 @@ const menu = [
     href: '/customers',
   },
   {
-    label: 'Admin Panel',
+    label: 'Staffs',
     icon: <AdminPanelSettingsIcon />,
-    href: '/admins',
+    href: '/staffs',
   },
   {
     label: 'Category',

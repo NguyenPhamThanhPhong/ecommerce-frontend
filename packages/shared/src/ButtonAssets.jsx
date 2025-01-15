@@ -15,7 +15,7 @@ import ClearIcon from '@mui/icons-material/Clear';
 
 
 
-export function ExportButton({ onClick }) {
+export function ExportButton({ label, onClick }) {
     const theme = useTheme();
     return (
         <Button startIcon={<Download />} sx={{
@@ -23,7 +23,7 @@ export function ExportButton({ onClick }) {
             fontWeight: theme.fontWeight.semiBold,
             px: 2,
         }}>
-            Export
+            {label|| 'export'}
         </Button>
 
     )

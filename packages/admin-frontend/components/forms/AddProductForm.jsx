@@ -2,11 +2,60 @@ import { Component, useState } from 'react'
 import { isEmpty, isNotEmpty, isEmail, isPhoneNumber, validateForm } from '@shared-utils/ValidationUtils';
 import { FormBrandsSelect, FormCategoriesSelect, FormDatePicker, FormImageGroup, FormMultiSelect, FormNumberInput, FormRichText, FormSelect, FormTextBox, FormThumbnailPicker } from '@shared-src/InputAssets'
 import { TextField } from '@mui/material';
-import { createProduct, getProduct } from '@shared-api/Products';
+import { createProduct, getProduct, updateProduct } from '@shared-api/Products';
 import { useSnackbarStore } from '@shared-conntext/SnackbarContext';
 
-export function useProductForm() {
-    const [productId, setProductId] = useState('');
+const testProd = {
+    "id": "12345",
+    "code": 302011,
+    "createdAt": "2021-09-01T12:00:00Z",
+    "name": "Sample Product",
+    "policies": "<p>Sample Policies</p>",
+    "highlights": "<p>Sample Highlights</p>",
+    "brand": {
+        "id": "550e8400-e29b-41d4-a716-446655440000",
+        "code": 1001,
+        "description": "Brand Description",
+        "imageUrl": "http://example.com/brand.jpg",
+        "name": "Brand Name"
+    },
+    "category": {
+        "id": "550e8400-e29b-41d4-a716-446655440000",
+        "code": 2001,
+        "description": "Category Description",
+        "name": "Category Name"
+    },
+    "status": "ON_SALE",
+    "availableDate": "2021-09-01T12:00:00Z",
+    "thumbnailUrl": "http://example.com/product-thumbnail.jpg",
+    "productImages": [
+        {
+            "seqNo": 1,
+            "name": "Image 1",
+            "colour": "Red",
+            "createdAt": "2021-09-01T12:00:00Z",
+            "deletedAt": null,
+            "imageUrl": "http://example.com/image1.jpg"
+        },
+        {
+            "seqNo": 2,
+            "name": "Image 2",
+            "colour": "Blue",
+            "createdAt": "2021-09-01T12:00:00Z",
+            "deletedAt": null,
+            "imageUrl": "http://example.com/image2.jpg"
+        }
+    ],
+    "discountPercent": 10.00,
+    "rating": 4.5,
+    "quantity": 100,
+    "price": 99.99,
+    "stock": 50,
+    "description": "This is a sample product description."
+}
+
+export function useProductForm(isUpdate) {
+    const [initial, setInitial] = useState(null);
     const [seqNos, setSeqNos] = useState([]);
     const [formValues, setFormValues] = useState({
         productName: '',
@@ -15,7 +64,7 @@ export function useProductForm() {
         highlights: '',
         price: 0,
         discountPercent: 0,
-        categories: '',
+        category: '',
         brand: '',
         quantity: 0,
         stock: 0,
@@ -31,20 +80,24 @@ export function useProductForm() {
         highlights: '',
         price: '',
         discountPercent: '',
-        categories: '',
+        category: '',
         brand: '',
         quantity: '',
         stock: '',
         publishDate: '',
     });
     function reset() {
+        if (isUpdate && initial) {
+            bindForm(initial);
+            return;
+        }
         setFormValues({
             productName: '', description: '', policies: '', highlights: '',
-            price: 0, discountPercent: 0, categories: [], brand: '', quantity: 0, stock: 0, publishDate: new Date(),
+            price: 0, discountPercent: 0, category: [], brand: '', quantity: 0, stock: 0, publishDate: new Date(),
         });
         setThumbnail({ type: 'url', value: '' });
         setImages([]);
-        setErrors({ productName: '', description: '', policies: '', highlights: '', price: '', discountPercent: '', categories: '', brand: '', quantity: '', stock: '', publishDate: '', });
+        setErrors({ productName: '', description: '', policies: '', highlights: '', price: '', discountPercent: '', category: '', brand: '', quantity: '', stock: '', publishDate: '', });
     }
 
     const handleInputChange = (conditions) => (e) => {
@@ -58,11 +111,11 @@ export function useProductForm() {
         return true;
     };
     function submitCreate() {
-        console.log('form val', formValues.categories)
+        console.log('form val', formValues.category)
         const createRequest = {
             name: formValues.productName,
             brandId: formValues.brand,
-            categoryId: formValues.categories,
+            categoryId: formValues.category,
             status: 'ON_SALE',
             availableDate: formValues.publishDate,
             policies: formValues.policies,
@@ -86,27 +139,39 @@ export function useProductForm() {
 
     }
     function submitUpdate() {
+        let removalSeqNos = []
+        if (images.length > 0) {
+            const existFile = images.filter((value, index) => {
+                return value.type !== 'url';
+            }).length > 0;
+            if (existFile) {
+                removalSeqNos = seqNos;
+            }
+        }
+
         const updateRequest = {
-            id: productId,
+            id: initial?.id,
             name: formValues.productName,
             brandId: formValues.brand,
-            categoryId: formValues.categories,
+            categoryId: formValues.category,
             status: 'ON_SALE',
             availableDate: formValues.publishDate,
             policies: formValues.policies,
             highlights: formValues.highlights,
             thumbnail: thumbnail?.type !== 'url' ? thumbnail.value : null,
-            appendingImages: images?.length > 0 ? images.map((value, index) => {
-                return value.type !== 'url' ? value.value : null;
+            appendingImages: images?.length > 0 ? images.filter((value, index) => {
+                return value.type !== 'url';
+            }).map((value, index) => {
+                return value.value;
             }) : null,
-            removalIds: seqNos,
+            removalIds: removalSeqNos,
             discountPercent: formValues.discountPercent,
             quantity: formValues.quantity,
             price: formValues.price,
             stock: formValues.stock,
             description: formValues.description,
         }
-        createProduct(updateRequest, pub).then((res) => {
+        updateProduct(updateRequest, pub).then((res) => {
             if (res) {
                 pub('Product created successfully', 'success');
                 reset();
@@ -114,33 +179,38 @@ export function useProductForm() {
         });
 
     }
+    function bindForm(res) {
+        if (res) {
+            setFormValues({
+                productName: res.name,
+                description: res.description,
+                price: res.price,
+                policies: res.policies,
+                highlights: res.highlights,
+                discountPercent: res.discountPercent,
+                category: res.category,
+                brand: res.brandId,
+                quantity: res.quantity,
+                stock: res.stock,
+                publishDate: res.availableDate,
+            });
+            setSeqNos(res.productImages.map((value, index) => {
+                return value?.seqNo;
+            }));
+            setThumbnail({ type: 'url', value: res.thumbnail });
+            setImages(res.productImages.map((value, index) => {
+                return { type: 'url', value: value?.imageUrl };
+            }));
+        }
+    }
 
     function loadProduct(code) {
+        console.log('loading product', code);
         getProduct(code, pub).then((res) => {
-            if (res) {
-                setFormValues({
-                    productName: res.name,
-                    description: res.description,
-                    price: res.price,
-                    policies: res.policies,
-                    highlights: res.highlights,
-                    discountPercent: res.discountPercent,
-                    categories: res.categories,
-                    brand: res.brandId,
-                    quantity: res.quantity,
-                    stock: res.stock,
-                    publishDate: res.availableDate,
-                });
-                setSeqNos(res.productImages.map((value, index) => {
-                    return value?.seqNo;
-                }));
-                setProductId(res.id);
-                setThumbnail({ type: 'url', value: res.thumbnail });
-                setImages(res.productImages.map((value, index) => {
-                    return { type: 'url', value: value?.imageUrl };
-                }));
-            }
+            bindForm(res);
+            setInitial(res);
         })
+
     };
 
     const productNameInput = {

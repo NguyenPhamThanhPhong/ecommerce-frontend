@@ -16,7 +16,6 @@ export async function createProduct(data, pub) {
 
 export async function getProduct(code, pub) {
     try {
-        pub('Fetching product: ' + `${url}${products}/${code}`, 'info');
         const response = await api.get(`${url}${products}/${code}`);
         return response.data;
     } catch (error) {
@@ -37,9 +36,11 @@ export async function getProducts(ids, pub) {
     }
 }
 
-export async function updateProduct(id, data, pub) {
+export async function updateProduct(data, pub) {
     try {
-        const response = await api.patch(`${url}${products}/${id}`, data);
+        const response = await api.put(`${url}${products}`, toForm(data),{
+            headers: form
+        });
         return response.data;
     } catch (error) {
         pub(get(error), 'error');

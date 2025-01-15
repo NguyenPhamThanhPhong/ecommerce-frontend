@@ -15,6 +15,13 @@ export function isPhoneNumber(value) {
     return /^\d{10}$/.test(value);
 }
 
+export function isDateBetween(value, lowerBound, upperBound) {
+    const date = new Date(value);
+    const lower = new Date(lowerBound);
+    const upper = new Date(upperBound);
+    return date >= lower && date <= upper;
+}
+
 export function isNumeric(value) {
     return value !== null && value !== undefined && value !== '' && !isNaN(value) && isFinite(value);
 }
@@ -60,6 +67,7 @@ export function validateForm(name, value, setErrors, { field, required, numberOn
 }
 
 export const handleFileChange = ({ setError, setAlertVisible, setImage, isSingle }) => (event) => {
+    console.log(event.target.files)
     for (const file of event.target.files) {
         if (file) {
             console.log({
@@ -73,27 +81,22 @@ export const handleFileChange = ({ setError, setAlertVisible, setImage, isSingle
                 isSingle,
             })
             // Validate the file type (image only)
+            console.log('file', file)
             if (!file.type.startsWith('image/')) {
                 setError('Please select a valid image file.');
                 setAlertVisible(true); // Show alert
                 return;
             }
-
-            // Optional: Validate file size (e.g., max 2MB)
-            if (file.size > 2) {
-                setError('File size should be under 2MB.');
-                setAlertVisible(true); // Show alert
-                return;
-            }
-
+            // // Optional: Validate file size (e.g., max 2MB)
+            // if (file.size > 120000000) {
+            //     setError('File size should be under 2MB.');
+            //     setAlertVisible(true); // Show alert
+            //     return;
+            // }
             setError('');
             setAlertVisible(false); // Hide alert if no error
-            const reader = new FileReader();
-            reader.onload = (e) => setImage(e.target.result);
-            reader.readAsDataURL(file);
-            if (isSingle) {
-                return;
-            }
+            setImage(file);  // Store the file directly, not Base64 string
+
         }
     }
 }

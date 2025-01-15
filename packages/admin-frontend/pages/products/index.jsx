@@ -13,10 +13,11 @@ import { AdminButtonGroups } from '@components/common/AdminButtonGroups';
 import { useState } from 'react';
 import SearchIcon from '@mui/icons-material/Search';
 import { COMPARISONS, createFilter, JOIN_CONDITIONS, TYPES } from '@shared-api/constants/Filters';
-import { searchProducts } from '@shared-api/Products';
+import { deleteProduct, searchProducts } from '@shared-api/Products';
 import { useRouter } from 'next/router';
 import { isNumeric } from '@shared-utils/ValidationUtils';
 import { useSnackbarStore } from '@shared-conntext/SnackbarContext';
+import { AddOrderButton } from '@shared-src/ButtonAssets';
 
 const PRODUCT_STATUSES = {
   NONE: 'NONE',
@@ -52,7 +53,7 @@ export default function Product() {
   const theme = useTheme();
   const router = useRouter();
 
-  const [orders, setOrders] = useState({ data: [] });
+  const [products, setProducts] = useState({ data: [] });
   const [search, setSearch] = useState('');
   const [status, setStatus] = useState(PRODUCT_STATUSES.NONE);
   const [modalFilters, setModalFilters] = useState({});
@@ -61,7 +62,7 @@ export default function Product() {
     const filters = calculateFilters();
     searchProducts({ page: 0, size: 40, }, filters, pub).then((data) => {
       if (data) {
-        setOrders(data);
+        setProducts(data?.data);
       }
     });
   }
@@ -158,10 +159,28 @@ export default function Product() {
     filters = [...filters, ...calculateFiltersFromStatus()];
     return filters;
   }
-
+  function deleteRow(id) {
+    deleteProduct(id, pub).then((res) => {
+      if (res) {
+        const newProducts = products.data.filter((product) => product.id !== id);
+        setProducts({ data: newProducts });
+      }
+    });
+  }
+  function deleteMultiple(selected) {
+    selected.forEach((id) => {
+      deleteProduct(id, pub).then((res) => {
+        if (res) {
+          const newProducts = products.data.filter((product) => product.id !== id);
+          setProducts({ data: newProducts });
+        }
+      });
+    });
+  }  
   const handleApplyFilters = (filters) => {
     setModalFilters(filters);
   };
+  // console.log('products', products);
   return (
     <Box>
       <Box sx={{
@@ -192,9 +211,11 @@ export default function Product() {
           }}>
             Export
           </Button>
+          <AddOrderButton onClick={()=>router.push(`/products/add-product`)} label={'Add New Product'} />
+
         </Stack>
       </Box>
-      <ProductTable orders={orders} getFilters={handleApplyFilters} />
+      <ProductTable onDelete={deleteRow} products={products} getFilters={handleApplyFilters} />
     </Box>
   )
 }

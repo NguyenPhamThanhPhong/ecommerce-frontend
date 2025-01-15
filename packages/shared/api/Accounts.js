@@ -32,6 +32,7 @@ export async function getAccount(id, pub) {
 }
 
 export async function updateAccount(data, pub) {
+    console.log('request', data);
     try {
         const response = await api.patch(`${url}${accounts}`, toForm(data), {
             headers: form

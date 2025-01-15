@@ -2,16 +2,16 @@ import { useEffect, useState } from 'react'
 import { isEmpty, isNotEmpty, isEmail, isPhoneNumber, validateForm, handleFileChange } from '@shared-utils/ValidationUtils';
 import { FormAlert, FormDatePicker, FormImagePicker, FormMultiSelect, FormSelect, FormTextBox } from '@shared-src/InputAssets'
 
-export function useCustomerForm({ name, description, email, birthDate, image, phone, password, confirmPassword }) {
+export function useCustomerForm({ }) {
     const [formValues, setFormValues] = useState({
-        name: name || '',
-        description: description || '',
-        email: email || '',
-        image: image || null,
-        birthDate: birthDate || new Date(),
-        phone: phone || '099999',
-        password: password || '',
-        confirmPassword: confirmPassword || '',
+        name:'',
+        description: '',
+        email:'',
+        image:null,
+        birthDate: new Date(),
+        phone: '099999',
+        password:'',
+        confirmPassword: '',
 
     });
     const [alertVisible, setAlertVisible] = useState(false);
@@ -43,6 +43,19 @@ export function useCustomerForm({ name, description, email, birthDate, image, ph
         setImage: (image) => setFormValues((prev) => ({ ...prev, image })),
         isSingle: true,
     });
+    function reset (){
+        setFormValues({
+            name: '',
+            description: '',
+            email: '',
+            image: null,
+            birthDate: new Date(),
+            phone: '',
+            password: '',
+            confirmPassword: '',
+        });
+
+    }
     // Timeout effect for alert visibility
     useEffect(() => {
         if (alertVisible) {
@@ -88,6 +101,7 @@ export function useCustomerForm({ name, description, email, birthDate, image, ph
         error: errors.email !== '',
         errorText: errors.email,
         formSx: { gap: 1, width: '100%', mb: 1 },
+        required: true,
     }
 
     const passwordInput = {
@@ -99,6 +113,7 @@ export function useCustomerForm({ name, description, email, birthDate, image, ph
         error: errors.password !== '',
         errorText: errors.password,
         formSx: { gap: 1, width: '100%' },
+        required: true
     }
     const confirmPasswordInput = {
         label: 'Confirm Password',
@@ -109,6 +124,7 @@ export function useCustomerForm({ name, description, email, birthDate, image, ph
         error: errors.confirmPassword !== '',
         errorText: errors.confirmPassword,
         formSx: { gap: 1, width: '100%' },
+        required: true
     }
     const phoneInput = {
         label: 'Phone',
@@ -128,6 +144,8 @@ export function useCustomerForm({ name, description, email, birthDate, image, ph
         onChange: handleInputChange({ field: 'Birth Date', isDate: true, required: true }),
         error: errors.birthDate !== '',
         errorText: errors.birthDate,
+        formSx: { gap: 1},
+
     }
     const imageInput = {
         label: 'Image',
@@ -153,6 +171,5 @@ export function useCustomerForm({ name, description, email, birthDate, image, ph
         alert: { alertVisible, ...alertProps },
         image: imageInput
     };
-
 }
 

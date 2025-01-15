@@ -2,11 +2,12 @@ import { useCustomerForm } from '@components/forms/AddCustomerForm';
 import { UIAssets } from '@shared-src/UIAssets';
 import { Box, Alert, Stack } from '@mui/material';
 import { FormAlert } from '@shared-src/InputAssets';
+import { ResetButton, SubmitButton } from '@shared-src/ButtonAssets';
 
 export default function CreateCustomer() {
   const { formValues, errors,
     name, description, email, phone, password, confirmPassword,
-    birthDate, alert, image, } = useCustomerForm({});
+    birthDate, image, } = useCustomerForm({});
   return (
     <UIAssets.InfoCard title={'Please fill in Customer Information'} >
       {/* Avatar Section */}
@@ -17,7 +18,6 @@ export default function CreateCustomer() {
         position: 'relative',
         padding: 2,
       }}>
-        <FormAlert {...alert} />
         <image.Component {...image} />
         <Stack flex={1}>
           <Box sx={{ display: 'flex', gap: 2 }}>
@@ -30,9 +30,13 @@ export default function CreateCustomer() {
           </Box>
           <Box sx={{ display: 'flex', gap: 2 }}>
             <password.Component {...password} />
-            <confirmPassword.Component {...confirmPassword} />
           </Box>
-
+          <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 2, mt: 2 }}>
+            <Stack direction={'row'} gap={4}>
+              <ResetButton label={'Reset'} />
+              <SubmitButton label={'Save Customer'} />
+            </Stack>
+          </Box>
         </Stack>
       </Box>
 

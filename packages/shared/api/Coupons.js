@@ -22,7 +22,7 @@ export async function searchCoupons(pageable, filters, pub) {
 
 export async function createCoupons(data, pub) {
     try {
-        const response = await api.post(`${url}${coupons}`, data, {
+        const response = await api.post(`${url}`, data, {
             headers: form
         });
         return response.data;
@@ -31,9 +31,10 @@ export async function createCoupons(data, pub) {
     }
 }
 
-export async function updateCoupons(id, data, pub) {
+export async function updateCoupons(data, pub) {
+    console.log(data);
     try {
-        const response = await api.patch(`${url}${coupons}/${id}`,data);
+        const response = await api.patch(`${url}${coupons}`,data);
         return response.data;
     } catch (error) {
         pub(get(error), 'error');

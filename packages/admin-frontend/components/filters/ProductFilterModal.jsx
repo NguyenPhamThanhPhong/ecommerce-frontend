@@ -8,7 +8,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import { FilterSelect, FilterText, FilterBrand, FilterCategory, FilterDateFromTo, FilterFromTo } from "@components/filters/FilterAssets";
 
 
-export function ProductFilterModal({ open, onClose, onApply }) {
+export default function ProductFilterModal({ open, onClose, onApply }) {
     const [filterState, setFilterState] = useState({
         date: { from: null, to: null, condition: "AND" },
         brand: { value: "", condition: "AND" },

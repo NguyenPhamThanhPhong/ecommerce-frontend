@@ -42,7 +42,7 @@ export async function updateCategories(id, data, pub) {
     }
 }
 
-export async function deleteCategories(id, pub) {
+export async function deleteCategory(id, pub) {
     try {
         const response = await api.delete(`${url}${categories}/${id}`);
         return response.data;

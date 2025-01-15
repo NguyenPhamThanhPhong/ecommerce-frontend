@@ -38,7 +38,7 @@ export const form = { 'Content-Type': "multipart/form-data" };
 export const testPlain = { 'Content-Type': 'text/plain' };
 
 export const api = axios.create({
-    timeout: 3000,
+    timeout: 20000,
     withCredentials: true,
 });
 

@@ -16,6 +16,7 @@ import { useGlobalBrandCategoryContext } from '../context/BrandCategoryContext';
 import { useSnackbarStore } from '../context/SnackbarContext';
 import dynamic from 'next/dynamic';
 import dayjs from 'dayjs';
+import { ExportButton } from './ButtonAssets';
 
 
 export const FormTextBox = ({ name, label, value, onChange, error, errorText, required, rows, multiline, formSx, labelSx }) => {
@@ -59,6 +60,7 @@ export function FormNumberInput({ name, label, value, onChange, error, errorText
 
 export const FormDatePicker = ({ name, label, value, onChange, error, errorText, required, formSx }) => {
     return (
+        // console.log({ value }),
         // <LocalizationProvider dateAdapter={AdapterDateFns}>
         // </LocalizationProvider>
         <FormControl error={error} sx={formSx || { width: '50%' }}>
@@ -67,7 +69,7 @@ export const FormDatePicker = ({ name, label, value, onChange, error, errorText,
                 format="DD-MM-YYYY"
                 value={dayjs(value)}
                 defaultValue={dayjs(new Date())}
-                onChange={(newValue) => onChange({ target: {value: newValue?.toISOString() || '' } })}
+                onChange={(newValue) => onChange({ target: { value: newValue?.toISOString() || '' } })}
                 renderInput={(params) => (
                     <TextField
                         {...params}
@@ -170,7 +172,7 @@ export function FormCategoriesSelect({ labelSx, formSx, onChange, value, label, 
     const pub = useSnackbarStore(state => state.pub);
     let categoriesOptions = [];
     if (categories?.length > 0)
-        categoriesOptions = [categoriesOptions, ...categories.map(category => ({ value: category.id, label: category.name }))];
+        categoriesOptions = categories.map(category => ({ value: category.id, label: category.name }))
     useEffect(() => {
         loadCategories(pub);
     }, []);
@@ -194,10 +196,14 @@ export function FormBrandsSelect({ labelSx, formSx, onChange, value, label, requ
     )
 }
 
+// export functionFo
 
-export function FormImagePicker({ name, value, onChange, e }) {
-    const [image, setImage] = useState(value); // Default image
-
+export function FormImagePicker({ name, value, onChange, alertVisible, error, errorText, }) {
+    // console.log({ name, value, onChange, e })
+    let calculatedValue = value;
+    if (value !== null && value !== undefined) {
+        calculatedValue = (typeof value === 'string') ? value : URL.createObjectURL(value);
+    }
     return (
         <Box
             sx={{
@@ -208,9 +214,12 @@ export function FormImagePicker({ name, value, onChange, e }) {
                 height: 'auto',
                 position: 'relative',
                 cursor: 'pointer',
-            }}
-        >
-            {/* Avatar with the image */}
+            }}>
+            {alertVisible && error && (
+                <Alert severity="error" sx={{ position: 'absolute', top: -50 }}>
+                    {errorText}
+                </Alert>
+            )}
             <Box
                 component="label"
                 sx={{
@@ -219,11 +228,10 @@ export function FormImagePicker({ name, value, onChange, e }) {
                     alignItems: 'center',
                     position: 'relative',
                     cursor: 'pointer',
-                }}
-            >
+                }}>
                 <Avatar
                     alt="Profile Picture"
-                    src={image}
+                    src={calculatedValue}
                     sx={{
                         width: 178,
                         height: 178,
@@ -231,20 +239,18 @@ export function FormImagePicker({ name, value, onChange, e }) {
                 />
                 {/* Hidden input field inside the label */}
                 <input
-                    name={name || 'image'}
                     type="file"
                     accept="image/*"
                     hidden
                     onChange={onChange}
                 />
             </Box>
-
             {/* IconButton placed outside the label */}
             <IconButton
                 sx={{
                     position: 'absolute',
                     bottom: 0,
-                    right: 0,
+                    right: 40,
                     backgroundColor: '#000000',
                     color: 'white',
                 }}
@@ -265,6 +271,64 @@ export function FormAlert({ alertVisible, error, severity }) {
             </Alert>
         )
     )
+}
+
+export function FormSimpleThumbnailPicker({ name, value, onChange }) {
+    const theme = useTheme();
+    // Handle thumbnail input
+    const handleThumbnailChange = (event) => {
+        const file = event.target.files?.[0];
+        if (file) {
+            setThumbnail({ type: 'binary', value: file });
+        } else {
+            setThumbnail({ type: 'url', value: event.target.value });
+        }
+        // setThumbnail(thumbnail?.value);
+    };
+
+    return (
+        <Box
+            component="label"
+            sx={{
+                display: 'flex',
+                alignItems: 'center',
+                position: 'relative',
+                cursor: 'pointer',
+            }}>
+            <Avatar
+                variant='square'
+                alt="Profile Picture"
+                // src={value}
+                sx={{
+                    width: '100%',
+                    height: 'auto',
+                    minHeight: '180px',
+                    borderRadius: 3,
+                    border: '1px dashed black',
+                }}>
+                <Stack display={'flex'} alignItems={'center'}>
+                    <ImageIcon sx={{ width: '50px', height: '50px' }} />
+                    <Typography>
+                        Click to add an image
+                    </Typography>
+                    <ExportButton label="Add image" />
+                </Stack>
+
+            </Avatar>
+            <input
+                type="file"
+                accept="image/*"
+                style={{
+                    position: 'absolute',
+                    width: '100%',
+                    height: '100%',
+                    opacity: 0,
+                    cursor: 'pointer',
+                }}
+            // onChange={onChange}
+            />
+        </Box>
+    );
 }
 
 
@@ -407,9 +471,11 @@ export const FormRichText = ({ onChange, label, value, required, error, errorTex
     // const [content, setContent] = useState(value||"");
 
     const handleChange = (newValue) => {
-        const stupid = {target:{
-            value: newValue
-        }}
+        const stupid = {
+            target: {
+                value: newValue
+            }
+        }
         // setContent(newValue);
         // console.log(onChange)
         // console.log("HTML Content:", content);

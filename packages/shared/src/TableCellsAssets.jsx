@@ -36,9 +36,9 @@ export function CellIcons({ onEdit, onView, onDelete }) {
                 bgcolor:'pink',
                 ml:0
             }} >
-                <IconButton><EditIcon /></IconButton>
-                <IconButton><VisibilityIcon /></IconButton>
-                <IconButton><DeleteIcon /></IconButton>
+                <IconButton onClick={onEdit}><EditIcon /></IconButton>
+                <IconButton onClick={onView}><VisibilityIcon /></IconButton>
+                <IconButton onClick={onDelete}><DeleteIcon /></IconButton>
             </Stack>
         </TableCell>
     )

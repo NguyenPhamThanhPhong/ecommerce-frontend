@@ -49,11 +49,11 @@ export async function updateOrders(id, data, pub) {
     }
 }
 
-export async function deleteOrders(id, pub) {
+export async function deleteOrder(id, pub) {
     try {
         const response = await api.delete(`${url}${orders}/${id}`, {
         });
-        return response.data;
+        return response;
     } catch (error) {
         pub(get(error), 'error');
     }

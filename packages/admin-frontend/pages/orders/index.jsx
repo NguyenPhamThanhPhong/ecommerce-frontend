@@ -13,7 +13,7 @@ import { AdminButtonGroups } from '@components/common/AdminButtonGroups';
 import { useState } from 'react';
 import SearchIcon from '@mui/icons-material/Search';
 import { COMPARISONS, createFilter, JOIN_CONDITIONS, TYPES } from '@shared-api/constants/Filters';
-import { searchOrders } from '@shared-api/Orders';
+import { deleteOrder, searchOrders } from '@shared-api/Orders';
 import { useRouter } from 'next/router';
 import { isNumeric } from '@shared-utils/ValidationUtils';
 import { useSnackbarStore } from '@shared-conntext/SnackbarContext';
@@ -48,13 +48,15 @@ const variants = [
 
 export default function index() {
   const theme = useTheme();
+  const [orders,setOrders] = useState([]);
   const [search, setSearch] = useState('');
   const [status, setStatus] = useState(ORDER_STATUSES.NONE);
   const [modalFilters, setModalFilters] = useState({});
   const pub = useSnackbarStore(state => state.pub);
   function calculateFiltersFromStatus() {
     if (status === ORDER_STATUSES.NONE) {
-      return [];
+      return [createFilter(JOIN_CONDITIONS.AND, null, 'deletedAt',
+        TYPES.milisecs, COMPARISONS.IS_NULL, 0, false)];
     }
     if (status === ORDER_STATUSES.PENDING) {
       return [createFilter(JOIN_CONDITIONS.AND, 'payment', 'status',
@@ -70,14 +72,16 @@ export default function index() {
     }
     if (status === ORDER_STATUSES.DELETED) {
       return [createFilter(JOIN_CONDITIONS.AND, null, 'deletedAt',
-        TYPES.string, COMPARISONS.IS_NOT_NULL, 0, false)];
+        TYPES.milisecs, COMPARISONS.IS_NOT_NULL, 0, false)];
     }
   }
   function calculateFilters() {
     let filters = [];
     if (search?.length > 0 && search !== '') {
-      filters.push(createFilter(JOIN_CONDITIONS.AND, '', 'name',
+      filters.push(createFilter(JOIN_CONDITIONS.OR, 'profile', 'fullName',
         TYPES.string, COMPARISONS.LIKE, search, false));
+        filters.push(createFilter(JOIN_CONDITIONS.OR, 'profile', 'phone',
+          TYPES.string, COMPARISONS.LIKE, search, false));
     }
     const { date, price, } = modalFilters;
     if (date) {
@@ -87,11 +91,11 @@ export default function index() {
         realCondition = JOIN_CONDITIONS.OR;
       }
       if (from) {
-        filters.push(createFilter(realCondition, null, 'availableDate',
+        filters.push(createFilter(realCondition, null, 'createdAt',
           TYPES.date, COMPARISONS.GREATER_OR_EQUAL, from, false));
       }
       if (to) {
-        filters.push(createFilter(realCondition, null, 'availableDate',
+        filters.push(createFilter(realCondition, null, 'createdAt',
           TYPES.date, COMPARISONS.LESS_OR_EQUAL, to, false));
       }
     }
@@ -115,11 +119,24 @@ export default function index() {
     return filters;
   }
 
+  function handleApplyFilters(filters) {
+    setModalFilters(filters);
+  }
+
+  function deleteRow(id) {
+    deleteOrder(id, pub).then((res) => {
+        if (res?.status === 200) {
+            const newOrders = staffs.filter((product) => product.id !== id);
+            setStaffs({ data: newOrders });
+        }
+    });
+}
+
   function submit() {
     const filters = calculateFilters();
     searchOrders({ page: 0, size: 40, }, filters, pub).then((data) => {
       if (data) {
-        setOrders(data);
+        setOrders(data.data);
       }
     });
   }
@@ -155,7 +172,7 @@ export default function index() {
           </Button>
         </Stack>
       </Box>
-      <OrderTable />
+      <OrderTable getFilters={setModalFilters} orders={orders} onDelete={deleteRow} />
     </Box>
   )
 }
