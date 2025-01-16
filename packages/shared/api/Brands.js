@@ -20,7 +20,7 @@ export async function searchBrands(pageable, filters, pub) {
     }
 }
 
-export async function createBrands(data, pub) {
+export async function createBrand(data, pub) {
     try {
         const response = await api.post(`${url}${brands}`, toForm(data), {
             headers: form
@@ -31,16 +31,16 @@ export async function createBrands(data, pub) {
     }
 }
 
-export async function updateBrands(id, data, pub) {
+export async function updateBrand(data, pub) {
     try {
-        const response = await api.patch(`${url}${brands}/${id}`, toForm(data));
+        const response = await api.put(`${url}${brands}`, toForm(data));
         return response.data;
     } catch (error) {
         pub(get(error), 'error');
     }
 }
 
-export async function deleteBrands(id, pub) {
+export async function deleteBrand(id, pub) {
     try {
         const response = await api.delete(`${url}${brands}/${id}`, {});
         return response.data;

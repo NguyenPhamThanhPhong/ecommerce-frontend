@@ -12,7 +12,7 @@ import TableRow from '@mui/material/TableRow';
 
 
 
-export default function ReadOnlyTable({columns,rows,calculationRows}) {
+export default function ReadOnlyTable({ columns, rows, calculationRows }) {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
@@ -62,10 +62,10 @@ export default function ReadOnlyTable({columns,rows,calculationRows}) {
                 );
               })}
             {
-              calculationRows.map((row) => {
+              calculationRows && calculationRows.map((row) => {
                 return (
                   <TableRow hover key={row.price}>
-                    <TableCell colSpan={5} key={row.price} align='right' sx={{fontWeight:'bold',fontSize:16}}>
+                    <TableCell colSpan={5} key={row.price} align='right' sx={{ fontWeight: 'bold', fontSize: 16 }}>
                       {row.price}
                     </TableCell>
                     <TableCell key={row.total} align='right'>

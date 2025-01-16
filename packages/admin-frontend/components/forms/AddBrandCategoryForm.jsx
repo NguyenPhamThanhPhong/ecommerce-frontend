@@ -3,13 +3,17 @@ import React from 'react'
 
 import { useEffect, useState } from 'react'
 import { isEmpty, isNotEmpty, isEmail, isPhoneNumber, validateForm, handleFileChange } from '@shared-utils/ValidationUtils';
-import { FormAlert, FormDatePicker, FormImagePicker, FormMultiSelect, FormSelect, FormTextBox } from '@shared-src/InputAssets'
+import { FormAlert, FormDatePicker, FormImagePicker, FormMultiSelect, FormSelect, FormSimpleThumbnailPicker, FormTextBox } from '@shared-src/InputAssets'
+import { createBrand, getBrand, updateBrand } from '@shared-api/Brands';
+import { createCategory, getCategory, updateCategory } from '@shared-api/Categories';
+import { useSnackbarStore } from '@shared-conntext/SnackbarContext';
 
-export function useBrandCategoryForm({ }) {
+export function useBrandCategoryForm({ isUpdate, brand, category }) {
+    const [initial, setInitial] = useState({})
+    const pub = useSnackbarStore((state) => state.pub);
     const [formValues, setFormValues] = useState({
         name: '',
         description: '',
-        image: null,
         email: '',
     });
     const [alertVisible, setAlertVisible] = useState(false);
@@ -18,7 +22,7 @@ export function useBrandCategoryForm({ }) {
     const [errors, setErrors] = useState({
         name: '',
         description: '',
-        image: '',
+        email: '',
     });
     const [thumbnail, setThumbnail] = useState({ type: 'url', value: '' });
 
@@ -31,12 +35,20 @@ export function useBrandCategoryForm({ }) {
         setErrors((prev) => ({ ...prev, [name]: '' }));
         return true;
     };
-    const onFileChange = handleFileChange({
-        setError: (error) => setErrors((prev) => ({ ...prev, image: error })),
-        setAlertVisible,
-        setImage: (image) => setFormValues((prev) => ({ ...prev, image })),
-        isSingle: true,
-    });
+
+    function validate() {
+        let valid = true;
+        Object.keys(formValues).forEach((key) => {
+            if (key === 'image') {
+                return;
+            }
+            if (isEmpty(formValues[key])) {
+                setErrors((prev) => ({ ...prev, [key]: 'This field is required' }));
+                valid = false;
+            }
+        });
+        return valid;
+    }
     // Timeout effect for alert visibility
     useEffect(() => {
         if (alertVisible) {
@@ -49,23 +61,109 @@ export function useBrandCategoryForm({ }) {
         }
     }, [alertVisible]);
 
-    function reset(){
+    function reset() {
+        if (isUpdate) {
+            setFormValues({
+                name: initial.name,
+                description: initial.description,
+                email: initial.email,
+            })
+            setThumbnail({ type: 'url', value: initial.imageUrl });
+            return;
+        }
         setFormValues({
             name: '',
             description: '',
-            image: null,
             email: '',
         });
         setErrors({
             name: '',
             description: '',
-            image: '',
         });
+        setThumbnail({ type: 'url', value: null });
     }
 
-    function submitCreate(){
-        
+    function submitCreate() {
+        const valid = validate();
+        if (!valid) {
+            const errorText = Object.values(errors).filter(isNotEmpty).join('\n');
+            pub(errorText, 'error');
+        }
+        const request = {
+            name: formValues.name,
+            description: formValues.description,
+            image: typeof thumbnail?.value === 'string' ? null : thumbnail?.value,
+        }
+        if (brand) {
+            createBrand(request, pub).then((res) => {
+                if (res) {
+                    reset();
+                    pub('Brand created successfully', 'success');
+                }
+            });
+        } else if (category) {
+            createCategory(request, pub).then((res) => {
+                if (res) {
+                    reset();
+                    pub('Category created successfully', 'success');
+                }
+            });
+        }
     }
+    function submitUpdate() {
+        const valid = validate();
+        if (!valid) {
+            const errorText = Object.values(errors).filter(isNotEmpty).join('\n');
+            pub(errorText, 'error');
+        }
+        const request = {
+            id: initial?.id,
+            name: formValues.name,
+            description: formValues.description,
+            image: typeof thumbnail?.value === 'string' ? null : thumbnail?.value,
+        }
+        if (brand) {
+            updateBrand(request, pub).then((res) => {
+                if (res) {
+                    reset();
+                    pub('Brand updated successfully', 'success');
+                }
+            });
+        } else if (category) {
+            updateCategory(request, pub).then((res) => {
+                if (res) {
+                    reset();
+                    pub('Category updated successfully', 'success');
+                }
+            });
+        }
+    }
+    function load(code) {
+        if (brand) {
+            getBrand(code).then((res) => {
+                if (res) {
+                    setInitial(res);
+                    setFormValues({
+                        name: res.name,
+                        description: res.description,
+                    });
+                    setThumbnail({ type: 'url', value: res.imageUrl });
+                }
+            });
+        } else if (category) {
+            getCategory(code).then((res) => {
+                if (res) {
+                    setInitial(res);
+                    setFormValues({
+                        name: res.name,
+                        description: res.description,
+                    });
+                    setThumbnail({ type: 'url', value: res.imageUrl });
+                }
+            });
+        }
+    }
+
 
     const nameInput = {
         label: 'Name',
@@ -94,14 +192,10 @@ export function useBrandCategoryForm({ }) {
 
     const imageInput = {
         label: 'Image',
-        value: formValues.image,
+        value: thumbnail,
         name: 'image',
-        Component: FormImagePicker,
-        alertVisible: alertVisible,
-        setAlertVisible: setAlertVisible,
-        onChange: onFileChange,
-        error: errors.image !== '',
-        errorText: errors.image,
+        Component: FormSimpleThumbnailPicker,
+        onChange: setThumbnail,
         formSx: { gap: 1, width: '100%' },
     }
 
@@ -111,6 +205,7 @@ export function useBrandCategoryForm({ }) {
         name: nameInput,
         description: descriptionInput,
         image: imageInput,
+        submitCreate, submitUpdate, load, reset,
         alert: { alertVisible, ...alertProps },
     };
 

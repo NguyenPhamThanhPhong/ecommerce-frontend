@@ -91,19 +91,34 @@ const columns = [
     },
 ];
 
-export default function CategoryBrandTable({ label, onView, onEdit, onDelete, onDeleteMultiple }) {
-    function fromDataToRow({ id, category, sold, stock, createdAt, }) {
+export default function CategoryBrandTable({ label,items, onView, onEdit, onDelete, onDeleteMultiple }) {
+    let myData = [];
+    if (items) {
+        myData = items.map((item) => {
+            return {
+                id: item.id,
+                code: item.code,
+                category: item,
+                sold: 0,
+                stock: 0,
+                createdAt: item.createdAt,
+            }
+        })
+    }
+
+    function fromDataToRow({ id,code, category, sold, stock, createdAt, }) {
         return {
             id: id,
+            code: code,
             colId: {
-                label: id,
+                label: code,
                 variant: 'text',
             },
             category: {
                 variant: 'avatar',
                 title: category?.name,
                 subtitle: trimString(category?.description || 'none'),
-                src: category?.thumbNailUrl,
+                src: category?.imageUrl,
             },
             sold: {
                 variant: 'text',
@@ -119,14 +134,17 @@ export default function CategoryBrandTable({ label, onView, onEdit, onDelete, on
             },
             none: {
                 variant: 'icons',
-                onView: () => onView(id),
-                onEdit: () => onEdit(id),
+                onView: () => onView(code),
+                onEdit: () => onEdit(code),
                 onDelete: () => onDelete(id),
             }
         }
     }
+
+    
     return (
         <AdminTable label={label}
-            dataMapper={fromDataToRow} data={staticData} columns={columns} />
+        
+            dataMapper={fromDataToRow} data={myData} columns={columns} />
     )
 }

@@ -4,7 +4,6 @@ import { Box, Alert, Stack, FormControlLabel, Switch } from '@mui/material';
 import { FormAlert } from '@shared-src/InputAssets';
 import { ResetButton, SubmitButton } from '@shared-src/ButtonAssets';
 import { useState } from 'react';
-import KeyValueInput from './KeyValueInput';
 
 export default function AddCustomer() {
   const { formValues, errors,

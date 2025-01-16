@@ -19,13 +19,14 @@ import dayjs from 'dayjs';
 import { ExportButton } from './ButtonAssets';
 
 
-export const FormTextBox = ({ name, label, value, onChange, error, errorText, required, rows, multiline, formSx, labelSx }) => {
+export const FormTextBox = ({ name, label, value, onChange, error, errorText, required, rows, multiline, formSx, labelSx, disabled }) => {
     onChange = onChange || (() => { });
     formSx = formSx || { gap: 1, width: '50%', };
     return (
         <FormControl error={error} sx={formSx}>
             <FormLabel>{label + ((required) ? ' * ' : '')}</FormLabel>
             <TextField
+                disabled={disabled}
                 placeholder='Type here...'
                 name={name}
                 error={error}
@@ -263,7 +264,7 @@ export function FormImagePicker({ name, value, onChange, alertVisible, error, er
 }
 
 export function FormAlert({ alertVisible, error, severity }) {
-    console.log({ alertVisible, error, severity })
+    // console.log({ alertVisible, error, severity })
     return (
         alertVisible && (
             <Alert severity={'error'} sx={{ position: 'absolute', top: -50 }}>
@@ -273,19 +274,21 @@ export function FormAlert({ alertVisible, error, severity }) {
     )
 }
 
-export function FormSimpleThumbnailPicker({ name, value, onChange }) {
+export function FormSimpleThumbnailPicker({ value, onChange }) {
     const theme = useTheme();
-    // Handle thumbnail input
+
     const handleThumbnailChange = (event) => {
         const file = event.target.files?.[0];
         if (file) {
-            setThumbnail({ type: 'binary', value: file });
+            onChange({ type: 'binary', value: file });
         } else {
-            setThumbnail({ type: 'url', value: event.target.value });
+            onChange({ type: 'url', value: event.target.value });
         }
-        // setThumbnail(thumbnail?.value);
+        // onChange(thumbnail?.value);
     };
-
+    function reset() {
+        onChange({ type: 'url', value: null });
+    }
     return (
         <Box
             component="label"
@@ -298,7 +301,8 @@ export function FormSimpleThumbnailPicker({ name, value, onChange }) {
             <Avatar
                 variant='square'
                 alt="Profile Picture"
-                // src={value}
+                src={value?.type === 'binary' ?
+                    URL.createObjectURL(value?.value) : value?.value}
                 sx={{
                     width: '100%',
                     height: 'auto',
@@ -325,7 +329,7 @@ export function FormSimpleThumbnailPicker({ name, value, onChange }) {
                     opacity: 0,
                     cursor: 'pointer',
                 }}
-            // onChange={onChange}
+                onChange={handleThumbnailChange}
             />
         </Box>
     );

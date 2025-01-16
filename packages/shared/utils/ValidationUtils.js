@@ -22,6 +22,17 @@ export function isDateBetween(value, lowerBound, upperBound) {
     return date >= lower && date <= upper;
 }
 
+export function isDateBefore(value, upperBound) {
+    const date = new Date(value);
+    const upper = new Date(upperBound);
+    return date <= upper;
+}
+export function isDateAfter(value, lowerBound) {
+    const date = new Date(value);
+    const lower = new Date(lowerBound);
+    return date >= lower;
+}
+
 export function isNumeric(value) {
     return value !== null && value !== undefined && value !== '' && !isNaN(value) && isFinite(value);
 }

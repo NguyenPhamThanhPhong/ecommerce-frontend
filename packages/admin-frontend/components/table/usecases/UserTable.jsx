@@ -101,9 +101,8 @@ const columns = [
     },
 ];
 
-export default function UserTable({ label, users, onDelete, }) {
+export default function UserTable({ label, users, onDelete,onView, onEdit }) {
     const router = useRouter();
-
     function fromDataToRow({ id, code, name, avatar, email, phone, dateOfBirth, status, availableDate }) {
         return {
             id: id,
@@ -136,8 +135,8 @@ export default function UserTable({ label, users, onDelete, }) {
             },
             none: {
                 variant: 'icons',
-                onEdit: () => { router.push(`/staffs/${code}`) },
-                onView: () => { router.push(`/staffs/${code}`) },
+                onEdit: () => { onEdit(code) },
+                onView: () => { onView(code) },
                 onDelete: () => { onDelete(id) },
             },
         }
@@ -156,7 +155,7 @@ export default function UserTable({ label, users, onDelete, }) {
     }
 
     return (
-        <AdminTable label={label} 
+        <AdminTable label={label}  
             dataMapper={fromDataToRow} data={myData} columns={columns} />
     )
 }

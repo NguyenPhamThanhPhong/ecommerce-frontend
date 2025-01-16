@@ -9,8 +9,6 @@ import StaffFormUI from '@components/forms/ui/StaffFormUI';
 export default function Staff() {
     const theme = useTheme();
     return (
-        <>
-            <StaffFormUI isUpdate={true} />
-        </>
+        <StaffFormUI isUpdate={true} />
     )
 }

@@ -2,35 +2,32 @@ import { useEffect, useState } from 'react'
 import { isEmpty, isNotEmpty, isEmail, isPhoneNumber, validateForm, handleFileChange } from '@shared-utils/ValidationUtils';
 import { FormAlert, FormDatePicker, FormImagePicker, FormMultiSelect, FormSelect, FormTextBox } from '@shared-src/InputAssets'
 import { minus20Years, plus20Years } from '@shared-utils/CalculationUtils';
-import CreateCustomer from 'pages/customers/add-customer';
 import { useSnackbarStore } from '@shared-conntext/SnackbarContext';
-import { createAccount } from '@shared-api/Accounts';
+import { createAccount, updateAccount } from '@shared-api/Accounts';
+import { useGlobalAccountContext } from '@shared-conntext/AccountContext';
 
-export function useCustomerForm({ isUpdate, }) {
+export function useSettingsForm({ }) {
+    const {account, loadAccount } = useGlobalAccountContext();
     const pub = useSnackbarStore(state => state.pub);
     const [formValues, setFormValues] = useState({
-        name: '',
-        email: '',
-        image: null,
-        birthDate: new Date(),
-        phone: '0',
-        password: '',
+        name: account?.profile?.fullName,
+        email: account?.email,
+        image: account?.profile?.avatarUrl,
+        birthDate: account?.profile?.birthDate,
+        phone: account?.profile?.phone,
 
     });
     const [alertVisible, setAlertVisible] = useState(false);
-    const [alertProps, setAlertProps] = useState({ message: 'error', severity: 'error' });
-
     const [errors, setErrors] = useState({
         name: '',
         email: '',
         image: '',
         birthDate: '',
         phone: '',
-        password: '',
     });
-
     const handleInputChange = (conditions) => (e) => {
-        const { name, value } = e.target;
+        const {name} = conditions;
+        const {  value } = e.target;
         setFormValues((prev) => ({ ...prev, [name]: value }));
         if (!validateForm(name, value, setErrors, conditions)) {
             return false;
@@ -45,14 +42,16 @@ export function useCustomerForm({ isUpdate, }) {
         isSingle: true,
     });
     function reset() {
-        setFormValues({
-            name: '',
-            email: '',
-            image: null,
-            birthDate: new Date(),
-            phone: '',
-            password: '',
-        });
+        if (account?.id) {
+            setFormValues({
+                name: account?.profile?.fullName,
+                email: account?.email,
+                image: account?.profile?.avatarUrl,
+                birthDate: account?.profile?.birthDate,
+                phone: account?.profile?.phone,
+            })
+            return;
+        }
     }
     // Timeout effect for alert visibility
     useEffect(() => {
@@ -68,28 +67,22 @@ export function useCustomerForm({ isUpdate, }) {
 
     function submit() {
         const request = {
-            email: formValues.email,
-            password: formValues.password,
-            enableDate: minus20Years(),
-            disableDate: plus20Years(),
-            isVerified: true,
-            role: 'ROLE_CUSTOMER',
-            profile: {
-                fullName: formValues.name,
-                avatar: formValues.image,
-                phone: formValues.phone,
-                dateOfBirth: formValues.birthDate,
-            }
+            id: account?.id,
+            fullName: formValues.name,
+            avatar: typeof formValues.image === 'string' ? null : formValues.image,
+            phone: formValues.phone,
+            dateOfBirth: formValues.birthDate,
         }
-        createAccount(request, pub).then((res) => {
+        updateAccount(request, pub).then((res) => {
             if (res) {
                 pub('Customer created successfully', 'success');
                 reset();
             }
         });
     }
-
-
+    function load(){
+        loadAccount(pub);
+    }
 
     const nameInput = {
         label: 'Name',
@@ -114,18 +107,6 @@ export function useCustomerForm({ isUpdate, }) {
         errorText: errors.email,
         formSx: { gap: 1, width: '100%', mb: 1 },
         required: true,
-    }
-
-    const passwordInput = {
-        label: 'Password',
-        value: formValues.password,
-        name: 'password',
-        Component: FormTextBox,
-        onChange: handleInputChange({ name: 'password', }),
-        error: errors.password !== '',
-        errorText: errors.password,
-        formSx: { gap: 1, width: '100%' },
-        required: true
     }
 
     const phoneInput = {
@@ -166,9 +147,7 @@ export function useCustomerForm({ isUpdate, }) {
         name: nameInput,
         email: emailInput,
         phone: phoneInput,
-        password: passwordInput,
         birthDate: birthDateInput,
-        alert: { alertVisible, ...alertProps },
         submit, reset,
         image: imageInput
     };

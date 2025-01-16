@@ -46,6 +46,9 @@ import AdminBreadcrumbs from '../sidebar/AdminBreadCrumbs';
 import Link from 'next/link';
 import { checkPath } from '@shared-utils/PathUtils';
 import { useRouter } from 'next/router';
+import SettingsIcon from '@mui/icons-material/Settings';
+import { useGlobalAccountContext } from '@shared-conntext/AccountContext';
+
 
 const drawerWidth = 240;
 
@@ -145,9 +148,9 @@ const menu = [
     href: '/coupons',
   },
   {
-    label: 'Banner',
-    icon: <ViewCarouselIcon />,
-    href: '/banners',
+    label: 'Settings',
+    icon: <SettingsIcon />,
+    href: '/settings',
   }
 ]
 
@@ -173,6 +176,7 @@ export const AppIconButton = ({ icon, onClick }) => {
 
 
 export default function AdminLayout({ children }) {
+  const {account} = useGlobalAccountContext();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
   const router = useRouter();
@@ -208,7 +212,7 @@ export default function AdminLayout({ children }) {
         <List >
           {menu.map((item, index) => (
             <ListItem key={item} disablePadding sx={{ display: 'block', my: 1 }}>
-              <MenuButton onClick={()=>{router.push(item?.href)}} {...item} open={open} selected={isPathSelected(item, pathName)} />
+              <MenuButton onClick={() => { router.push(item?.href) }} {...item} open={open} selected={isPathSelected(item, pathName)} />
             </ListItem>
           ))}
         </List>
@@ -230,7 +234,7 @@ export default function AdminLayout({ children }) {
             }}>
             <Avatar />
             <Typography variant="body1" component={'span'}>Hello
-              <Typography variant="body1" component={'span'} sx={{ fontWeight: 'bold' }}> John Doe</Typography>
+              <Typography variant="body1" component={'span'} sx={{ fontWeight: 'bold' }}>{account?.profile?.fullName}</Typography>
             </Typography>
             <AppIconButton icon={<NotificationsNoneIcon sx={{
               color: '#464255',

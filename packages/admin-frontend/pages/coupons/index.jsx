@@ -13,7 +13,7 @@ import { Download } from '@mui/icons-material';
 import { AdminButtonGroups } from '@components/common/AdminButtonGroups';
 import OrderTable from '@components/table/usecases/OrderTable';
 import { AddOrderButton } from '@shared-src/ButtonAssets';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSnackbarStore } from '@shared-conntext/SnackbarContext';
 import { searchCoupons, deleteCoupons } from '@shared-api/Coupons';
 import SearchIcon from '@mui/icons-material/Search';
@@ -26,6 +26,7 @@ const COUPON_STATUSES = {
     ACTIVE: 'ACTIVE',
     EXPRIRED: 'EXPRIRED',
     DELETED: 'DELETED',
+    NOT_RELEASE_YET: 'NOT_RELEASE_YET',
 }
 const variants = [
     {
@@ -35,6 +36,10 @@ const variants = [
     {
         id: COUPON_STATUSES.ACTIVE,
         display: 'ACTIVE',
+    },
+    {
+        id: COUPON_STATUSES.NOT_RELEASE_YET,
+        display: 'NOT RELEASE YET',
     },
     {
         id: COUPON_STATUSES.EXPRIRED,
@@ -50,15 +55,24 @@ const variants = [
 export default function Coupon() {
     const router = useRouter();
     const theme = useTheme();
-    const [categories, setCategories] = useState({ data: [] });
+    const [coupons, setCoupons] = useState([]);
     const [search, setSearch] = useState('');
     const [status, setStatus] = useState(COUPON_STATUSES.ALL);
 
     const pub = useSnackbarStore(state => state.pub);
 
+    useEffect(() => {
+        const filters = [];
+        searchCoupons({ page: 0, size: 40, }, filters, pub).then((data) => {
+            if (data) {
+                setCoupons(data?.data);
+            }
+        });
+    }, []);
+
     function calculateFilterDeletedAt(isNull) {
         return createFilter(JOIN_CONDITIONS.AND, null, 'deletedAt',
-            TYPES.date, isNull ? COMPARISONS.IS_NULL : COMPARISONS.IS_NOT_NULL, 0, false);
+            TYPES.milisecs, isNull ? COMPARISONS.IS_NULL : COMPARISONS.IS_NOT_NULL, 0, false);
     }
     function calculateFiltersFromStatus() {
         if (status === COUPON_STATUSES.ALL) {
@@ -66,6 +80,23 @@ export default function Coupon() {
         }
         if (status === COUPON_STATUSES.DELETED) {
             return [calculateFilterDeletedAt(false)];
+        }
+        if (status === COUPON_STATUSES.ACTIVE) {
+            return [calculateFilterDeletedAt(true),
+            createFilter(JOIN_CONDITIONS.AND, null, 'startDate',
+                TYPES.date, COMPARISONS.LESS_OR_EQUAL, new Date(), false),
+            createFilter(JOIN_CONDITIONS.AND, null, 'endDate',
+                TYPES.date, COMPARISONS.GREATER_OR_EQUAL, new Date(), false)];
+        }
+        if (status === COUPON_STATUSES.EXPRIRED) {
+            return [calculateFilterDeletedAt(true),
+            createFilter(JOIN_CONDITIONS.AND, null, 'endDate',
+                TYPES.date, COMPARISONS.LESS_OR_EQUAL, new Date(), false)];
+        }
+        if (status === COUPON_STATUSES.NOT_RELEASE_YET) {
+            return [calculateFilterDeletedAt(true),
+            createFilter(JOIN_CONDITIONS.AND, null, 'startDate',
+                TYPES.date, COMPARISONS.GREATER_OR_EQUAL, new Date(), false)];
         }
     }
 
@@ -84,7 +115,7 @@ export default function Coupon() {
         const filters = calculateFilters();
         searchCoupons({ page: 0, size: 40, }, filters, pub).then((data) => {
             if (data) {
-                setCategories(data);
+                setCoupons(data?.data);
             }
         });
     }
@@ -92,7 +123,7 @@ export default function Coupon() {
         deleteCoupons(id, pub).then((res) => {
             if (res) {
                 const newProducts = products.data.filter((product) => product.id !== id);
-                setCategories({ data: newProducts });
+                setCoupons({ data: newProducts });
             }
         });
     }
@@ -101,7 +132,7 @@ export default function Coupon() {
             deleteCoupons(id, pub).then((res) => {
                 if (res) {
                     const newProducts = products.data.filter((product) => product.id !== id);
-                    setCategories({ data: newProducts });
+                    setCoupons({ data: newProducts });
                 }
             });
         });
@@ -128,19 +159,17 @@ export default function Coupon() {
                     </IconButton>
                 </Paper>
                 <AdminButtonGroups variant={status} onChange={(e) => setStatus(e.target.value)} variants={variants} />
-                <Stack direction='row' gap={3} sx={{
-                }}>
+                <Stack direction='row' gap={3}>
                     <Button startIcon={<Download />} sx={{
                         backgroundColor: '#f4ecfb', height: 40,
-                        fontWeight: theme.fontWeight.semiBold,
-                        px: 2,
+                        fontWeight: theme.fontWeight.semiBold, px: 2,
                     }}>
                         Export
                     </Button>
-                    <AddOrderButton onClick={()=>router.push(`/coupons/add-coupons`)} label={'Add New Coupon'} />
+                    <AddOrderButton onClick={() => router.push(`/coupons/add-coupons`)} label={'Add New Coupon'} />
                 </Stack>
             </Box>
-            <CouponTable />
+            <CouponTable coupons={coupons} onDelete={deleteRow} />
         </Box>
     )
 }

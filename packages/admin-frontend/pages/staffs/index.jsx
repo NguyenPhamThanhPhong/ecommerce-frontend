@@ -13,10 +13,12 @@ import { AdminButtonGroups } from '@components/common/AdminButtonGroups';
 import OrderTable from '@components/table/usecases/OrderTable';
 import { AddOrderButton } from '@shared-src/ButtonAssets';
 import UserTable from '@components/table/usecases/UserTable';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSnackbarStore } from '@shared-conntext/SnackbarContext';
 import SearchIcon from '@mui/icons-material/Search';
-import { deleteAccount } from '@shared-api/Accounts';
+import { deleteAccount, searchAccounts } from '@shared-api/Accounts';
+import { COMPARISONS, createFilter, JOIN_CONDITIONS, TYPES } from '@shared-api/constants/Filters';
+import { useRouter } from 'next/router';
 
 
 const STAFF_STATUSES = {
@@ -45,6 +47,7 @@ const variants = [
 ]
 
 export default function Staff() {
+    const router = useRouter();
     const theme = useTheme();
     const [staffs, setStaffs] = useState({ data: [] });
     const [search, setSearch] = useState('');
@@ -52,9 +55,18 @@ export default function Staff() {
     const [modalFilters, setModalFilters] = useState({});
     const pub = useSnackbarStore(state => state.pub);
 
+    useEffect(() => {
+        const filters = [];
+        searchAccounts({ page: 0, size: 40, }, filters, pub).then((data) => {
+            if (data) {
+                setStaffs(data);
+            }
+        });
+    }, []);
+
     function calculateFilterDeletedAt(isNull) {
         return createFilter(JOIN_CONDITIONS.AND, null, 'deletedAt',
-            TYPES.date, isNull ? COMPARISONS.IS_NULL : COMPARISONS.IS_NOT_NULL, 0, false);
+            TYPES.milisecs, isNull ? COMPARISONS.IS_NULL : COMPARISONS.IS_NOT_NULL, 0, false);
     }
 
     function calculateFiltersFromStatus() {
@@ -84,7 +96,7 @@ export default function Staff() {
                 TYPES.string, COMPARISONS.EQUAL, 'ROLE_STAFF', false),
         ];
         if (search?.length > 0 && search !== '') {
-            filters.push(createFilter(JOIN_CONDITIONS.AND, 'profile', 'name',
+            filters.push(createFilter(JOIN_CONDITIONS.OR, 'profile', 'name',
                 TYPES.string, COMPARISONS.LIKE, search, false));
             filters.push(createFilter(JOIN_CONDITIONS.OR, null, 'email',
                 TYPES.string, COMPARISONS.LIKE, search, false));
@@ -106,10 +118,10 @@ export default function Staff() {
     }
     function deleteRow(id) {
         deleteAccount(id, pub).then((res) => {
-            // if (res?.status === 200) {
-            //     const newStaffs = staffs.filter((product) => product.id !== id);
-            //     setStaffs({ data: newStaffs });
-            // }
+            if (res?.status === 200 && staffs?.data) {
+                const newStaffsData = staffs.data.filter((product) => product.id !== id);
+                setStaffs({ data: newStaffsData });
+            }
         });
     }
     function deleteMultiple(selected) {
@@ -151,10 +163,13 @@ export default function Staff() {
                     }}>
                         Export
                     </Button>
-                    <AddOrderButton label={'Add New Customer'} />
+                    <AddOrderButton label={'Add New Staff'} onClick={() => router.push("/staffs/add-staff")} />
                 </Stack>
             </Box>
-            <UserTable label={'Staffs'} onDelete={deleteRow} />
+            <UserTable users={staffs} label={'Staffs'}
+                onView={(code) => router.push(`/staffs/${code}`)}
+                onEdit={(code) => router.push(`/staffs/${code}`)}
+                onDelete={deleteRow} />
         </Box>
     )
 }

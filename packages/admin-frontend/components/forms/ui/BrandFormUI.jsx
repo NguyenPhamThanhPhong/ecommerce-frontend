@@ -5,16 +5,16 @@ import { useRouter } from 'next/router';
 import React, { useEffect } from 'react'
 
 
-export default function CategoryFormUI({ isUpdate }) {
+export default function BrandFormUI({isUpdate}) {
     const theme = useTheme();
     const router = useRouter();
-    const { categoryCode } = router.query;
+    const { brandCode } = router.query;
     const { name, description, image,
         load, submitCreate, submitUpdate, reset,
-    } = useBrandCategoryForm({ isUpdate, category: true });
+    } = useBrandCategoryForm({ isUpdate, brand: true });
     useEffect(() => {
-        if (isUpdate && categoryCode) {
-            load(categoryCode);
+        if (isUpdate && brandCode) {
+            load(brandCode);
         }
     }, [])
 
@@ -32,7 +32,7 @@ export default function CategoryFormUI({ isUpdate }) {
                             Thumbnail
                         </Typography>
                         <Typography variant='body1' sx={{ color: '#777980' }}>
-                            Upload a thumbnail for the Category
+                            Upload a thumbnail for the Brand
                         </Typography>
                         <image.Component {...image} />
                         {/* <FormSimpleThumbnailPicker /> */}
@@ -44,7 +44,7 @@ export default function CategoryFormUI({ isUpdate }) {
                         mx: '26px', my: '37px'
                     }}>
                         <Typography variant='h5' sx={{ fontWeight: 'bold' }}>
-                            Thumbnail
+                            Brand
                         </Typography>
                         <name.Component {...name} />
                         <description.Component {...description} />

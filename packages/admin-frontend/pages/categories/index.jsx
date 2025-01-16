@@ -13,13 +13,13 @@ import { AdminButtonGroups } from '@components/common/AdminButtonGroups';
 import OrderTable from '@components/table/usecases/OrderTable';
 import { AddOrderButton } from '@shared-src/ButtonAssets';
 import UserTable from '@components/table/usecases/UserTable';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSnackbarStore } from '@shared-conntext/SnackbarContext';
 import { COMPARISONS, createFilter, JOIN_CONDITIONS, TYPES } from '@shared-api/constants/Filters';
 import { deleteAccount, searchAccounts } from '@shared-api/Accounts';
 import SearchIcon from '@mui/icons-material/Search';
 import { useRouter } from 'next/router';
-import { deleteCategory } from '@shared-api/Categories';
+import { deleteCategory, searchCategories } from '@shared-api/Categories';
 
 
 
@@ -46,15 +46,24 @@ const variants = [
 export default function Category() {
   const router = useRouter();
   const theme = useTheme();
-  const [categories, setCategories] = useState({ data: [] });
+  const [categories, setCategories] = useState();
   const [search, setSearch] = useState('');
   const [status, setStatus] = useState(CATEGORY_STATUSES.NONE);
 
   const pub = useSnackbarStore(state => state.pub);
 
+  useEffect(() => {
+    const filters = []
+    searchCategories({ page: 0, size: 40, }, filters, pub).then((data) => {
+      if (data?.data?.length>0) {
+        setCategories(data.data);
+      }
+    });
+  }, [categories]);
+
   function calculateFilterDeletedAt(isNull) {
     return createFilter(JOIN_CONDITIONS.AND, null, 'deletedAt',
-      TYPES.date, isNull ? COMPARISONS.IS_NULL : COMPARISONS.IS_NOT_NULL, 0, false);
+      TYPES.milisecs, isNull ? COMPARISONS.IS_NULL : COMPARISONS.IS_NOT_NULL, 0, false);
   }
   function calculateFiltersFromStatus() {
     if (status === CATEGORY_STATUSES.NONE) {
@@ -78,9 +87,9 @@ export default function Category() {
   }
   function submit() {
     const filters = calculateFilters();
-    searchAccounts({ page: 0, size: 40, }, filters, pub).then((data) => {
-      if (data) {
-        setCategories(data);
+    searchCategories({ page: 0, size: 40, }, filters, pub).then((data) => {
+      if (data?.data?.length>0) {
+        setCategories(data.data);
       }
     });
   }
@@ -136,6 +145,7 @@ export default function Category() {
         </Stack>
       </Box>
       <CategoryBrandTable onView={(code) => router.push(`/categories/${code}`)}
+        items={categories}
         onEdit={(code) => router.push(`/categories/${code}`)}
         onDelete={(id)=>deleteRow(id)} label={'Categories'} />
     </Box>

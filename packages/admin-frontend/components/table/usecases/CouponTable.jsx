@@ -1,12 +1,6 @@
 import AdminTable from "@components/table/AdminTable";
+import { isDateBetween } from "@shared-utils/ValidationUtils";
 import { useRouter } from "next/router";
-
-const staticData = [
-    createData(1, 'SUMMER2024', 20, 500, 100, '2024-06-15 00:00:00', '2024-09-30 23:59:59', 'ACTIVE', '2024-06-10 10:30:00'),
-    createData(2, 'WELCOME10', 10, 100, 50, '2024-01-01 00:00:00', '2024-12-31 23:59:59', 'ACTIVE', '2024-01-01 00:00:00'),
-    createData(3, 'BLACKFRIDAY', 30, 200, 150, '2024-11-29 00:00:00', '2024-11-30 23:59:59', 'INACTIVE', '2024-11-28 15:00:00'),
-    // Add more data entries as needed
-];
 
 const statuses = {
     'ACTIVE': {
@@ -20,19 +14,7 @@ const statuses = {
         label: 'Expired',
     },
 }
-function createData(id, code, discount, upperBound, minimumRequirement, availableTime, expiry, status, createdAt) {
-    return {
-        id: id,
-        code,
-        discount,
-        upperBound,
-        availableTime,
-        expiry,
-        minimumRequirement,
-        status,
-        createdAt
-    };
-}
+
 
 const columns = [
     {
@@ -64,13 +46,6 @@ const columns = [
         resizable: true,
     },
     {
-        id: 'expiry',
-        numeric: false,
-        disablePadding: false,
-        label: 'Expiry',
-        resizable: true,
-    },
-    {
         id: 'status',
         numeric: false,
         disablePadding: false,
@@ -88,7 +63,7 @@ const columns = [
 export default function CouponTable({ coupons, onDelete, }) {
     let router = useRouter();
 
-    function fromDataToRow({ id, code, discount, upperBound, availableTime, expiry, status,}) {
+    function fromDataToRow({ id, code, discount, upperBound, availableTime,  status, }) {
         return {
             id: id,
             code: code,
@@ -108,14 +83,11 @@ export default function CouponTable({ coupons, onDelete, }) {
                 label: availableTime,
                 variant: 'text',
             },
-            expiry: {
-                label: expiry,
-                variant: 'text',
-            },
+
             status: statuses[status],
             none: {
                 variant: 'icons',
-                onDelete: () => onDelete(code),
+                onDelete: () => onDelete(id),
                 onEdit: () => router.push(`/coupons/${code}`),
                 onView: () => router.push(`/coupons/${code}`),
             }
@@ -124,12 +96,21 @@ export default function CouponTable({ coupons, onDelete, }) {
     let myData = [];
     if (coupons?.length > 0) {
         myData = coupons.map((coupon) => {
-            return fromDataToRow(coupon?.code, coupon?.discount, coupon?.usageLimit, 
-                coupon?.startDate, coupon?.endDate, 'ACTIVE', coupon?.createdAt);
+            const status = isDateBetween(new Date(), coupon.startDate, coupon.endDate) ? 'ACTIVE' : 'INACTIVE';
+            return {
+                id: coupon.id,
+                code: coupon.code,
+                discount: coupon.value,
+                upperBound: coupon.usageLimit,
+                availableTime: coupon.startDate + ' - ' + coupon.endDate,
+                status: status,
+            }
         })
     }
 
     return (
-        <AdminTable  label={'Coupons'} dataMapper={fromDataToRow} data={staticData} columns={columns} />
+        <AdminTable label={'Coupons'} dataMapper={fromDataToRow} data={myData}
+
+            columns={columns} />
     )
 }

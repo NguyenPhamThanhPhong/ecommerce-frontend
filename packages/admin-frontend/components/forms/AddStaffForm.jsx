@@ -15,8 +15,6 @@ export function useStaffForm({ isUpdate }) {
         birthDate: new Date(),
         phone: '099999',
         password: '',
-        confirmPassword: '',
-
     });
     const pub = useSnackbarStore(state => state.pub);
     const [alertVisible, setAlertVisible] = useState(false);
@@ -31,7 +29,6 @@ export function useStaffForm({ isUpdate }) {
         birthDate: '',
         phone: '',
         password: '',
-        confirmPassword: '',
     });
 
     const handleInputChange = (conditions) => (e) => {
@@ -55,7 +52,6 @@ export function useStaffForm({ isUpdate }) {
         const profile = data.profile
         setFormValues({
             name: profile?.name,
-
             email: data.email,
             image: profile?.avatarUrl,
             enableDate: new Date(data.enableDate),
@@ -63,7 +59,6 @@ export function useStaffForm({ isUpdate }) {
             birthDate: new Date(data.birthDate),
             phone: profile?.phone,
             password: profile?.password,
-            confirmPassword: profile?.password,
         });
     }
 
@@ -77,7 +72,6 @@ export function useStaffForm({ isUpdate }) {
             birthDate: new Date(),
             phone: '',
             password: '',
-            confirmPassword: '',
         });
         if (isUpdate) {
             bindForm(initial);
@@ -101,10 +95,6 @@ export function useStaffForm({ isUpdate }) {
                 valid = false;
             }
         });
-        if (formValues.password !== formValues.confirmPassword) {
-            setErrors((prev) => ({ ...prev, confirmPassword: 'Passwords do not match' }));
-            valid = false;
-        }
         return valid;
     }
     function submitCreate() {
@@ -130,6 +120,7 @@ export function useStaffForm({ isUpdate }) {
         createAccount(request, pub).then((res) => {
             if (res) {
                 reset();
+                pub('Staff created successfully', 'success');
             }
         });
     }
@@ -209,7 +200,7 @@ export function useStaffForm({ isUpdate }) {
         value: formValues.phone,
         name: 'phone',
         Component: FormTextBox,
-        onChange: handleInputChange({ field: 'Phone', required: true, numberOnly: true }),
+        onChange: handleInputChange({name: 'phone', field: 'Phone', required: true, numberOnly: true }),
         error: errors.phone !== '',
         errorText: errors.phone,
         formSx: { gap: 1, width: '100%', mb: 1 },
@@ -219,7 +210,7 @@ export function useStaffForm({ isUpdate }) {
         value: formValues.birthDate,
         name: 'birthDate',
         Component: FormDatePicker,
-        onChange: handleInputChange({ field: 'Birth Date', isDate: true, required: true }),
+        onChange: handleInputChange({name: 'birthDate', field: 'Birth Date', isDate: true, required: true }),
         error: errors.birthDate !== '',
         errorText: errors.birthDate,
         formSx: { gap: 1 },
@@ -266,9 +257,9 @@ export function useStaffForm({ isUpdate }) {
         password: passwordInput,
         submitCreate,
         submitUpdate,
+        loadStaff,
         reset,
         birthDate: birthDateInput,
-        alert: { alertVisible, ...alertProps },
         enableDate: enableDateInput,
         disableDate: disableDateInput,
         image: imageInput

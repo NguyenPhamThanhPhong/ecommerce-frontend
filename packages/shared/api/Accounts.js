@@ -1,4 +1,8 @@
-import { get, api, accounts, accountsSearches, tokens, toForm, form, url, accountsMe, accountAddresses } from './constants/Constants';
+import {
+    get, api, accounts, accountsSearches,
+    acountPasswordOTP, accountPassword,
+    tokens, toForm, form, url, accountsMe, accountAddresses
+} from './constants/Constants';
 
 
 export async function login(/** @type {LoginRequest} */data, pub) {
@@ -22,9 +26,9 @@ export async function createAccount(data, pub) {
     }
 }
 
-export async function getAccount(id, pub) {
+export async function getAccount(code, pub) {
     try {
-        const response = await api.get(`${url}${accounts}/${id}`);
+        const response = await api.get(`${url}${accounts}/${code}`);
         return response.data;
     } catch (error) {
         pub(get(error), 'error');
@@ -43,11 +47,28 @@ export async function updateAccount(data, pub) {
             get(error), 'error');
     }
 }
+export async function getOTP(data, pub) {
+    try {
+        const response = await api.post(`${url}${acountPasswordOTP}`, data);
+        return true;
+    } catch (error) {
+        pub(get(error), 'error');
+    }
+}
+export async function verifyOTP(data, pub) {
+    try {
+        const response = await api.post(`${url}${accountPassword}`, data);
+        return true;
+    } catch (error) {
+        pub(get(error), 'error');
+    }
+}
+
 
 export async function deleteAccount(id, pub) {
     try {
         const response = await api.delete(`${url}${accounts}/${id}`);
-        return response.data;
+        return response;
     } catch (error) {
         pub(get(error), 'error');
     }
@@ -78,9 +99,9 @@ export async function updateAddresses({ primaryAddress, addresses }, pub) {
 
     try {
         console.log(primaryAddress, addresses)
-        const response = await api.put(`${url}${accountAddresses}`, addresses, { 
-            params: {defaultAddress: primaryAddress}
-         });
+        const response = await api.put(`${url}${accountAddresses}`, addresses, {
+            params: { defaultAddress: primaryAddress }
+        });
         return response;
     } catch (error) {
         pub(get(error), 'error');

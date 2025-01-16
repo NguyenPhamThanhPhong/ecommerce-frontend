@@ -23,8 +23,8 @@ const public_sans = Public_Sans({ subsets: ['latin'], });
 const barlow = Barlow({ subsets: ['latin'], weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'] });
 
 function MyApp({ Component, pageProps, router }) {
-  const noLayoutRoutes = ['/login', '/register', '/auth'];
-  const isNoLayout = noLayoutRoutes.includes(router.pathname);
+  const noLayoutRoutes = ['/login', '/change-password', '/new-password'];
+  const isNoLayout = noLayoutRoutes.some((route) => router.pathname.includes(route));
   const { loadAccount } = useGlobalAccountContext();
   const pub = useSnackbarStore(state => state.pub);
   useEffect(() => {
@@ -40,25 +40,31 @@ function MyApp({ Component, pageProps, router }) {
       <CssBaseline />
       <GlobalStyles />
       <div className={`${barlow.className} ${inter.className} ${lato.className} ${monsterrat.className} ${public_sans.className} `}>
-        <AdminLayout>
-          <SnackbarManager />
-          <LocalizationProvider dateAdapter={AdapterDayjs}
-            adapterLocale="en"
-            dateFormats={{
-              keyboardDate: 'DD/MM/YYYY', // For keyboard input and display
-              normalDate: 'DD/MM/YYYY', // Default format for display
-              dayOfMonth: 'DD', // Used for the day of the month in picker
-              month: 'MMM', // Used for month in picker
-              year: 'YYYY', // Used for year in picker
-              monthAndYear: 'MMM YYYY', // Used for month and year in picker
-              monthAndDate: 'MMM DD', // Used for month and date in picker
-              monthAndYearAndDate: 'MMM DD, YYYY', // Used for month and year and date in picker
-              minutes: 'mm', // Used for minutes in time picker
-            }}
-          >
-            <Component {...pageProps} />
-          </LocalizationProvider>
-        </AdminLayout>
+        <SnackbarManager />
+        {
+          isNoLayout ?
+            <Component {...pageProps} /> :
+            (
+              <AdminLayout>
+                <LocalizationProvider dateAdapter={AdapterDayjs}
+                  adapterLocale="en"
+                  dateFormats={{
+                    keyboardDate: 'DD/MM/YYYY', // For keyboard input and display
+                    normalDate: 'DD/MM/YYYY', // Default format for display
+                    dayOfMonth: 'DD', // Used for the day of the month in picker
+                    month: 'MMM', // Used for month in picker
+                    year: 'YYYY', // Used for year in picker
+                    monthAndYear: 'MMM YYYY', // Used for month and year in picker
+                    monthAndDate: 'MMM DD', // Used for month and date in picker
+                    monthAndYearAndDate: 'MMM DD, YYYY', // Used for month and year and date in picker
+                    minutes: 'mm', // Used for minutes in time picker
+                  }}
+                >
+                  <Component {...pageProps} />
+                </LocalizationProvider>
+              </AdminLayout>
+            )
+        }
       </div>
     </ThemeProvider>
   );

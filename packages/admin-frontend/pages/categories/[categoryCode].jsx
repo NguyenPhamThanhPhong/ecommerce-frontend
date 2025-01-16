@@ -5,8 +5,6 @@ import { FormThumbnailPicker } from '@shared-src/InputAssets'
 import React from 'react'
 
 export default function CategoryUpdate() {
-    const theme = useTheme();
-    const { name, description, image } = useBrandCategoryForm({});
     return (
         <CategoryFormUI isUpdate={true} />
     )

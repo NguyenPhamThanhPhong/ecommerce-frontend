@@ -6,6 +6,8 @@ export const tokens = "/tokens";
 export const accountsSearches = "/accounts/searches";
 export const accountsMe = "/accounts/me";
 export const accountAddresses = "/accounts/addresses";
+export const acountPasswordOTP = "/accounts/password-otp";
+export const accountPassword = "/accounts/password";
 
 export const blogs = "/blogs";
 export const blogsSearches = "/blogs/searches";

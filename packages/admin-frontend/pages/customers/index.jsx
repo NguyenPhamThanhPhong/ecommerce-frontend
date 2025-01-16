@@ -13,7 +13,7 @@ import { AdminButtonGroups } from '@components/common/AdminButtonGroups';
 import OrderTable from '@components/table/usecases/OrderTable';
 import { AddOrderButton } from '@shared-src/ButtonAssets';
 import UserTable from '@components/table/usecases/UserTable';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSnackbarStore } from '@shared-conntext/SnackbarContext';
 import { COMPARISONS, createFilter, JOIN_CONDITIONS, TYPES } from '@shared-api/constants/Filters';
 import { deleteAccount, searchAccounts } from '@shared-api/Accounts';
@@ -54,6 +54,16 @@ export default function Customer() {
     const [status, setStatus] = useState(CUSTOMER_STATUSES.NONE);
     const [modalFilters, setModalFilters] = useState({});
     const pub = useSnackbarStore(state => state.pub);
+
+    useEffect(() => {
+        const filters = calculateFilters();
+        searchAccounts({ page: 0, size: 40, }, filters, pub).then((data) => {
+            if (data?.data?.length > 0) {
+                setCustomers(data);
+            }
+        }
+        );
+    }, [customers]);
 
     function calculateFilterDeletedAt(isNull) {
         return createFilter(JOIN_CONDITIONS.AND, null, 'deletedAt',
@@ -162,7 +172,9 @@ export default function Customer() {
                     }} />
                 </Stack>
             </Box>
-            <UserTable users={customers} label={"Customers"} onDelete={deleteRow} />
+            <UserTable onView={(code) => router.push(`customers/${code}`)}
+                onEdit={(code) => router.push(`customers/${code}`)}
+                users={customers} label={"Customers"} onDelete={deleteRow} />
         </Box>
     )
 }

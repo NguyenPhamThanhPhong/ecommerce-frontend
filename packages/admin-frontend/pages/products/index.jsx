@@ -10,7 +10,7 @@ import {
 import AddIcon from '@mui/icons-material/Add';
 import { Download } from '@mui/icons-material';
 import { AdminButtonGroups } from '@components/common/AdminButtonGroups';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import SearchIcon from '@mui/icons-material/Search';
 import { COMPARISONS, createFilter, JOIN_CONDITIONS, TYPES } from '@shared-api/constants/Filters';
 import { deleteProduct, searchProducts } from '@shared-api/Products';
@@ -53,7 +53,7 @@ export default function Product() {
   const theme = useTheme();
   const router = useRouter();
 
-  const [products, setProducts] = useState({ data: [] });
+  const [products, setProducts] = useState([]);
   const [search, setSearch] = useState('');
   const [status, setStatus] = useState(PRODUCT_STATUSES.NONE);
   const [modalFilters, setModalFilters] = useState({});
@@ -62,10 +62,19 @@ export default function Product() {
     const filters = calculateFilters();
     searchProducts({ page: 0, size: 40, }, filters, pub).then((data) => {
       if (data) {
-        setProducts(data?.data);
+        setProducts(data);
       }
     });
   }
+
+  useEffect(() => {
+    const filters = []
+    searchProducts({ page: 0, size: 40, }, filters, pub).then((data) => {
+      if (data?.data?.length > 0) {
+        setProducts(data.data);
+      }
+    })}, []);
+
   function calculateFiltersFromStatus() {
     if (status === PRODUCT_STATUSES.NONE) {
       return [];
@@ -91,6 +100,8 @@ export default function Product() {
 
   function calculateFilters() {
     let filters = [];
+
+
     if (search?.length > 0 && search !== '') {
       filters.push(createFilter(JOIN_CONDITIONS.AND, null, 'name',
         TYPES.string, COMPARISONS.LIKE, search, false));

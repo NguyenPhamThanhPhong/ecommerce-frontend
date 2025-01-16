@@ -20,7 +20,7 @@ export async function searchCategories(pageable, filters, pub) {
     }
 }
 
-export async function createCategories(data, pub) {
+export async function createCategory(data, pub) {
     try {
         const response = await api.post(`${url}${categories}`, toForm(data), {
             headers: form
@@ -31,9 +31,9 @@ export async function createCategories(data, pub) {
     }
 }
 
-export async function updateCategories(id, data, pub) {
+export async function updateCategory(data, pub) {
     try {
-        const response = await api.patch(`${url}${categories}/${id}`, toForm(data), {
+        const response = await api.put(`${url}${categories}`, toForm(data), {
             headers: form
         });
         return response.data;

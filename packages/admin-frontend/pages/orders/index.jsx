@@ -10,7 +10,7 @@ import {
 import AddIcon from '@mui/icons-material/Add';
 import { Download } from '@mui/icons-material';
 import { AdminButtonGroups } from '@components/common/AdminButtonGroups';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import SearchIcon from '@mui/icons-material/Search';
 import { COMPARISONS, createFilter, JOIN_CONDITIONS, TYPES } from '@shared-api/constants/Filters';
 import { deleteOrder, searchOrders } from '@shared-api/Orders';
@@ -46,13 +46,24 @@ const variants = [
   },
 ]
 
-export default function index() {
+export default function OrderPage() {
   const theme = useTheme();
-  const [orders,setOrders] = useState([]);
+  const [orders, setOrders] = useState([]);
   const [search, setSearch] = useState('');
   const [status, setStatus] = useState(ORDER_STATUSES.NONE);
   const [modalFilters, setModalFilters] = useState({});
   const pub = useSnackbarStore(state => state.pub);
+
+  useEffect(() => {
+    const filters = []
+    searchOrders({ page: 0, size: 40, }, filters, pub).then((data) => {
+      if (data) {
+        setOrders(data.data);
+      }
+    });
+  }, []);
+
+
   function calculateFiltersFromStatus() {
     if (status === ORDER_STATUSES.NONE) {
       return [createFilter(JOIN_CONDITIONS.AND, null, 'deletedAt',
@@ -80,8 +91,8 @@ export default function index() {
     if (search?.length > 0 && search !== '') {
       filters.push(createFilter(JOIN_CONDITIONS.OR, 'profile', 'fullName',
         TYPES.string, COMPARISONS.LIKE, search, false));
-        filters.push(createFilter(JOIN_CONDITIONS.OR, 'profile', 'phone',
-          TYPES.string, COMPARISONS.LIKE, search, false));
+      filters.push(createFilter(JOIN_CONDITIONS.OR, 'profile', 'phone',
+        TYPES.string, COMPARISONS.LIKE, search, false));
     }
     const { date, price, } = modalFilters;
     if (date) {
@@ -125,12 +136,12 @@ export default function index() {
 
   function deleteRow(id) {
     deleteOrder(id, pub).then((res) => {
-        if (res?.status === 200) {
-            const newOrders = staffs.filter((product) => product.id !== id);
-            setStaffs({ data: newOrders });
-        }
+      if (res?.status === 200) {
+        const newOrders = staffs.filter((product) => product.id !== id);
+        setStaffs({ data: newOrders });
+      }
     });
-}
+  }
 
   function submit() {
     const filters = calculateFilters();
