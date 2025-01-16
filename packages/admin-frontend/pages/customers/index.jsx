@@ -18,6 +18,7 @@ import { useSnackbarStore } from '@shared-conntext/SnackbarContext';
 import { COMPARISONS, createFilter, JOIN_CONDITIONS, TYPES } from '@shared-api/constants/Filters';
 import { deleteAccount, searchAccounts } from '@shared-api/Accounts';
 import SearchIcon from '@mui/icons-material/Search';
+import { useRouter } from 'next/router';
 
 const CUSTOMER_STATUSES = {
     NONE: 'NONE',
@@ -47,6 +48,7 @@ const variants = [
 
 export default function Customer() {
     const theme = useTheme();
+    const router = useRouter();
     const [customers, setCustomers] = useState({ data: [] });
     const [search, setSearch] = useState('');
     const [status, setStatus] = useState(CUSTOMER_STATUSES.NONE);
@@ -55,7 +57,7 @@ export default function Customer() {
 
     function calculateFilterDeletedAt(isNull) {
         return createFilter(JOIN_CONDITIONS.AND, null, 'deletedAt',
-            TYPES.date, isNull ? COMPARISONS.IS_NULL : COMPARISONS.IS_NOT_NULL, 0, false);
+            TYPES.milisecs, isNull ? COMPARISONS.IS_NULL : COMPARISONS.IS_NOT_NULL, 0, false);
     }
 
     function calculateFiltersFromStatus() {
@@ -82,7 +84,7 @@ export default function Customer() {
     function calculateFilters() {
         let filters = [
             createFilter(JOIN_CONDITIONS.AND, null, 'role',
-                TYPES.string, COMPARISONS.EQUAL, 'ROLE_CUSTOMER', false),
+                TYPES.role, COMPARISONS.EQUAL, 'ROLE_CUSTOMER', false),
         ];
         if (search?.length > 0 && search !== '') {
             filters.push(createFilter(JOIN_CONDITIONS.AND, 'profile', 'name',
@@ -154,10 +156,13 @@ export default function Customer() {
                     }}>
                         Export
                     </Button>
-                    <AddOrderButton label={'Add New Customer'} />
+                    <AddOrderButton label={'Add New Customer'} onClick={() => {
+                        router.push('/customers/add-customer');
+                        console.log('Add new customer');
+                    }} />
                 </Stack>
             </Box>
-            <UserTable label={"Customers"} onDelete={deleteRow} />
+            <UserTable users={customers} label={"Customers"} onDelete={deleteRow} />
         </Box>
     )
 }

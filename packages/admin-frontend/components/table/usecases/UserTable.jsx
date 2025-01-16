@@ -1,5 +1,6 @@
 import AdminTable from "@components/table/AdminTable";
 import { trimString } from "@shared-utils/ConverterUtils";
+import { isDateBetween } from "@shared-utils/ValidationUtils";
 import { useRouter } from "next/router";
 
 const doomAvatar = 'https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50?s=200';
@@ -145,7 +146,7 @@ export default function UserTable({ label, users, onDelete, }) {
     if (users?.data) {
         myData = users.data.map((customer) => {
             const profile = customer.profile;
-            return createData(customer.id, profile?.fullName,
+            return createData(customer.id,customer?.code, profile?.fullName,
                 profile?.avatarUrl, customer?.email,
                 profile?.phone, profile?.dateOfBirth,
                 isDateBetween(new Date(), new Date('2023-11-18'), new Date('2023-12-05')) ? 'Active' : 'Unactive',

@@ -23,7 +23,7 @@ export function ExportButton({ label, onClick }) {
             fontWeight: theme.fontWeight.semiBold,
             px: 2,
         }}>
-            {label|| 'export'}
+            {label || 'export'}
         </Button>
 
     )
@@ -32,12 +32,14 @@ export function ExportButton({ label, onClick }) {
 export function AddOrderButton({ label, onClick }) {
     const theme = useTheme();
     return (
-        <Button variant='contained' startIcon={<AddIcon />} sx={{
-            height: 40,
-            backgroundColor: 'success',
-            color: 'white',
-            fontWeight: theme.fontWeight.semiBold,
-        }}>
+        <Button variant='contained' startIcon={<AddIcon />}
+            onClick={onClick}
+            sx={{
+                height: 40,
+                backgroundColor: 'success',
+                color: 'white',
+                fontWeight: theme.fontWeight.semiBold,
+            }}>
             {label}
         </Button>
     )

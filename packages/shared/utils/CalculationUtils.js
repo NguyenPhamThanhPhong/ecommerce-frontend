@@ -27,3 +27,15 @@ export function calculateCouponApplied(gross, coupon) {
 export function calculateTotal(gross, couponApplied) {
     return gross - couponApplied;
 }
+
+export function minus20Years() {
+    const d = new Date();
+    d.setFullYear(d.getFullYear() - 20);
+    return d.toISOString();
+}
+
+export function plus20Years() {
+    const d = new Date();
+    d.setFullYear(d.getFullYear() + 20);
+    return d.toISOString();
+}

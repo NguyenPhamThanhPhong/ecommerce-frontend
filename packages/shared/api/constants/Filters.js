@@ -29,6 +29,9 @@ export const TYPES = {
     boolean: 'boolean',
     array: 'array',
     uuid:'uuid',
+    paymentStatus: 'paymentStatus',
+    role: 'role',
+    productStatus: 'productStatus',
 
 }
 

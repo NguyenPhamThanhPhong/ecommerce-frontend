@@ -68,13 +68,15 @@ export function toForm(obj) {
                     if (value.hasOwnProperty(key)) {
                         stack.push({
                             value: value[key],
-                            parentKey: parentKey ? `${parentKey}[${key}]` : key,
+                            parentKey: parentKey ? `${parentKey}.${key}` : key,
                         });
                     }
                 }
             }
         } else {
-            formData.append(parentKey, value);
+            if (value !== null && value !== undefined) {
+                formData.append(parentKey, value);
+            }
         }
     }
 
