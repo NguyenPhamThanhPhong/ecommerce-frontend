@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { getFavoriteProducts, getProduct, likeProduct, searchProducts, unlikeProduct } from '../api/Products';
 import { useSnackbarStore } from './SnackbarContext';
 import { COMPARISONS, createFilter, dateBetween, JOIN_CONDITIONS, TYPES } from '../api/constants/Filters';
+import { set } from 'date-fns';
 
 // export const useProductStore = create((set, get) => ({
 //     products: {},
@@ -56,7 +57,7 @@ export default function useProductContext() {
     useEffect(() => {
         setHasPrev(currentPage > 0);
         setHasNext(currentPage < totalPage - 1);
-        pub(`Found ${totalPage} pages`, 'info');
+        // pub(`Found ${totalPage} pages`, 'info');
     }, [currentPage, totalPage]);
 
     function consumeResponse(response) {
@@ -108,8 +109,12 @@ export default function useProductContext() {
     }
 }
 
-export function useProductSearchContext() {
-    const { products, loadFirstPage, hasPrev, hasNext, loadNextPage, loadPrevPage } = useProductContext();
+export function useProductSearchContext({ size }) {
+    const pub = useSnackbarStore(state => state.pub);
+    const [totalPages, setTotalPages] = useState(0);
+    const [page, setPage] = useState(0);
+    const [fetchedDefault, setFetchedDefault] = useState(false);
+    const [products, setProducts] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
     const [brandId, setBrandId] = useState('');
     const [categoryId, setCategoryId] = useState('');
@@ -119,17 +124,39 @@ export function useProductSearchContext() {
     const [discount, setDiscount] = useState(0);
     const [sort, setSort] = useState('name,asc');
 
+    function handlePageChange(event, page) {
+        setPage(page);
+        searchProducts({ page: page - 1, size: size, sort: sort },[], pub).then((res) => {
+            if (res) {
+                setProducts(res.data);
+                setTotalPages(res.totalPages);
+            }
+        });
+    }
+    useEffect(() => {
+        if (fetchedDefault === false) {
+            searchProducts({ page: 0, size, sort }, [], pub).then((res) => {
+                if (res) {
+                    setProducts(res.data);
+                    setTotalPages(res.totalPages);
+                }
+            });
+            setFetchedDefault(true);
+        }
+    }, [])
+
+
     function calculateFilters() {
         const filters = [];
         if (searchTerm?.length > 0 && searchTerm !== '') {
             filters.push(createFilter(JOIN_CONDITIONS.AND, null, 'name',
                 TYPES.string, COMPARISONS.LIKE, searchTerm, false));
         }
-        if (brandId?.length > 0 && brandId !== '') {
+        if (brandId?.length > 0) {
             filters.push(createFilter(JOIN_CONDITIONS.AND, null, 'brandId',
                 TYPES.uuid, COMPARISONS.EQUAL, brandId, false));
         }
-        if (categoryId?.length > 0 && categoryId !== '') {
+        if (categoryId?.length > 0) {
             filters.push(createFilter(JOIN_CONDITIONS.AND, null, 'categoryId',
                 TYPES.uuid, COMPARISONS.EQUAL, categoryId, false));
         }
@@ -151,35 +178,26 @@ export function useProductSearchContext() {
         }
         return filters;
     }
-
-    function loadNextPageSearch() {
-        const filters = calculateFilters()
-        loadNextPage({ filters, size: 20,sort });
-    }
-    function loadPrevPageSearch() {
-        const filters = calculateFilters()
-        loadPrevPage({ filters, size: 20,sort });
-    }
-    function loadFirstPageSearch() {
-        const filters = calculateFilters()
-        loadFirstPage({ filters, size: 20, sort });
-    }
     function submit() {
         const filters = calculateFilters()
-        loadFirstPage({ filters, size: 20, sort });
+        searchProducts({ page: page - 1, size: size, sort: sort },filters, pub).then((res) => {
+            if (res) {
+                setProducts(res.data);
+                setTotalPages(res.totalPages);
+            }
+        });
+
     }
     return {
         products,
         setSearchTerm, setBrandId, setCategoryId,
         setPriceFrom, setPriceTo,
         setRating, setDiscount,
+        page,
+        totalPages,
+        handlePageChange,
         setSortby: setSort,
-        hasNext,
-        hasPrev,
         submit,
-        loadFirstPageSearch,
-        loadNextPageSearch,
-        loadPrevPageSearch,
     }
 }
 

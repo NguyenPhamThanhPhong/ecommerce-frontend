@@ -3,9 +3,6 @@ import {
 	FormControl, InputLabel, Select,
 	MenuItem, Checkbox, FormGroup, FormControlLabel,
 	Slider, Divider, Avatar, Stack, Card,
-	TextField,
-	InputAdornment,
-	ClickAwayListener
 } from '@mui/material';
 import { useEffect, useMemo, useState } from 'react';
 import { noFallbackAvatarUtil } from '@styles/styleUtils';
@@ -23,13 +20,10 @@ export default function ProductFilterSidebar({ onPriceFromChange, onPriceToChang
 			'#EDD500', '#03AE00', '#0012B8', '#AA00AD', '#E40060',];
 	const pub = useSnackbarStore(state => state.pub);
 	const { brands, categories, loadBrands, loadCategories } = useGlobalBrandCategoryContext();
-	let brandsOptions = [];
-	if (brands?.length > 0) brandsOptions = brands.map(brand => ({ id: brand.id, name: brand.name }));
-	let categoriesOptions = [];
-	if (categories?.length > 0) categoriesOptions = categories.map(category => ({ id: category.id, name: category.name }));
-
-	console.log('brands',brands); 
-	console.log('brandsOptions', brandsOptions);
+	let brandsOptions = [{ id: '', name: 'None' }];
+	if (brands?.length > 0) brandsOptions = [...brandsOptions, ...brands.map(brand => ({ id: brand.id, name: brand.name }))];
+	let categoriesOptions = [{ id: '', name: 'None' }];
+	if (categories?.length > 0) categoriesOptions = [...categoriesOptions, ...categories.map(category => ({ id: category.id, name: category.name }))];
 
 	const checkBoxStyle = {
 		color: '#000', // Outline color when not checked
@@ -47,11 +41,11 @@ export default function ProductFilterSidebar({ onPriceFromChange, onPriceToChang
 			<Typography variant="h6" gutterBottom>Filter By</Typography>
 			<FilterLabel>Category</FilterLabel>
 			<FormControl fullWidth size="small">
-				<FilterSelect options={categoriesOptions} onOptionChange={onCategoryChange} />
+				<FilterSelect defaultOptionId={''} options={categoriesOptions} onOptionChange={onCategoryChange} />
 			</FormControl>
 			<FilterLabel>Brand</FilterLabel>
 			<FormControl fullWidth size="small">
-				<FilterSelect options={brandsOptions} onOptionChange={onBrandChange} />
+				<FilterSelect defaultOptionId={''} options={brandsOptions} onOptionChange={onBrandChange} />
 			</FormControl>
 			<FilterLabel>Price</FilterLabel>
 			<FilterPrice onFromChange={onPriceFromChange} onToChange={onPriceToChange} />

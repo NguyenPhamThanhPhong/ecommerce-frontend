@@ -21,7 +21,7 @@ export function useCartForm() {
     const handleOpen = () => { setOpen(true); }
     const handleClose = () => { setOpen(false); }
 
-    const { cart,loadLocalStorage,addToCart } = useGlobalCartContext();
+    const { cart,loadLocalStorage,addToCart,removeFromCart } = useGlobalCartContext();
 
     const onQuantityChange = (id, value) => {
         if(addToCart){

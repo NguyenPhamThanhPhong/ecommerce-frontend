@@ -11,7 +11,7 @@ export async function getOrder(code, pub) {
 
 export async function getSelfOrders(pageable, pub) {
     try {
-        const response = await api.get(`${url}${orders}`, {
+        const response = await api.get(`${url}${orders}/me`, {
             params: { ...pageable }
         });
         return response.data;

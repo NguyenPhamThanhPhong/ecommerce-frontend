@@ -6,6 +6,14 @@ import SnackbarManager from '@shared/SnackbarManager';
 import { useEffect } from 'react';
 import { useGlobalAccountContext } from '@shared-conntext/AccountContext';
 import { useSnackbarStore } from '@shared-conntext/SnackbarContext';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
+
+import "react-quill/dist/quill.snow.css"; // Import styles
+import dayjs from 'dayjs';
+import customParseFormat from 'dayjs/plugin/customParseFormat';
+import { LocalizationProvider } from '@mui/x-date-pickers';
+
+
 
 const inter = Inter({ subsets: ['latin'] });
 const lato = Lato({ subsets: ['latin'], weight: ['400', '700'] });
@@ -34,8 +42,23 @@ function MyApp({ Component, pageProps, router }) {
       <GlobalStyles />
       <div className={`${inter.className} ${lato.className} ${monsterrat.className} ${public_sans.className}`}>
         <CommonLayout isLogin={isNoLayout}>
-          <SnackbarManager />
-          <Component {...pageProps} />
+          <LocalizationProvider dateAdapter={AdapterDayjs}
+            adapterLocale="en"
+            dateFormats={{
+              keyboardDate: 'DD/MM/YYYY', // For keyboard input and display
+              normalDate: 'DD/MM/YYYY', // Default format for display
+              dayOfMonth: 'DD', // Used for the day of the month in picker
+              month: 'MMM', // Used for month in picker
+              year: 'YYYY', // Used for year in picker
+              monthAndYear: 'MMM YYYY', // Used for month and year in picker
+              monthAndDate: 'MMM DD', // Used for month and date in picker
+              monthAndYearAndDate: 'MMM DD, YYYY', // Used for month and year and date in picker
+              minutes: 'mm', // Used for minutes in time picker
+            }}
+          >
+            <SnackbarManager />
+            <Component {...pageProps} />
+          </LocalizationProvider>
         </CommonLayout>
       </div>
     </ThemeProvider>

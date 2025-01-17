@@ -1,18 +1,26 @@
 import { Avatar, Box, ListItem, Pagination, Paper, Stack, useTheme } from '@mui/material'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { ProfileAssets } from '@components/profile/assets/ProfileAssets';
-import EnhancedTable from '@components/profile/assets/table/ProfileTransactionTable';
 import { useOrderSelfContext } from '@shared-conntext/OrderContext';
+import CollapsibleTable from '@components/profile/assets/table/ProfileTransactionTable';
+import { getSelfOrders } from '@shared-api/Orders';
+import { useSnackbarStore } from '@shared-conntext/SnackbarContext';
 
 export default function Balance() {
     const theme = useTheme();
-    const {
-        orders, totalPage, currentPage, totalInstances, hasPrev, hasNext,
-        loadFirstPage,
-        loadPage,
-        loadNextPage,
-        loadPrevPage
-    } = useOrderSelfContext();
+    const [orders, setOrders] = useState([]);
+    const [totalPages, setTotalPages] = useState(0);
+    const [page, setPage] = useState(0);
+    const pub = useSnackbarStore(state => state.pub);
+    useEffect(() => {
+        getSelfOrders({ page: 0, size: 3, sort: 'createdAt,desc' }, pub).then((res) => {
+            if (res) {
+                setOrders(res.data);
+                setTotalPages(res.totalPages);
+            }
+        });
+    }, []);
+
     return (
         <Stack width={'80%'} flexGrow={1}>
             <Paper elevation={1}>
@@ -41,27 +49,47 @@ export default function Balance() {
                 </Box>
             </Paper>
             <Paper elevation={1} sx={{ mt: 2 }}>
-                <EnhancedTable />
+                <CollapsibleTable orders={orders}
+                />
             </Paper>
-            <Pagination count={100} variant="outlined" shape="rounded"
-                size='medium' siblingCount={2} boundaryCount={2}
-                sx={{
-                    '& .MuiPaginationItem-root': {
-                        backgroundColor: '#E9E9E9',
-                        borderRadius: '8px',
-                        fontSize: 15,
-                        '&:hover': {
+            <Paper>
+                <Pagination count={totalPages} variant="outlined" shape="rounded"
+                    size='medium' siblingCount={1} boundaryCount={1}
+                    page={page}
+                    onChange={(event, page) => {
+                        setPage(page);
+                        getSelfOrders({ page: page-1, size: 3, sort: 'createdAt,desc' }, pub).then((res) => {
+                            if (res) {
+                                setOrders(res.data);
+                            }
+                        });
+                    }}
+                    sx={{
+                        mt: 2,
+                        mb:1,
+                        justifyContent: 'flex-end',
+                        '& .MuiPagination-ul': {
+                            justifyContent: 'flex-end',
+                        },
+                        // minWidth:'300px',
+                        '& .MuiPaginationItem-root': {
+                            backgroundColor: '#E9E9E9',
+                            borderRadius: '8px',
+                            fontSize: 15,
+                            '&:hover': {
+                                backgroundColor: '#000000',
+                                color: '#FFFFFF',
+                            },
+                        },
+                        '& .Mui-selected': {
+                            fontWeight: theme.fontWeight.semiBold,
                             backgroundColor: '#000000',
                             color: '#FFFFFF',
-                        },
-                    },
-                    '& .Mui-selected': {
-                        fontWeight: theme.fontWeight.semiBold,
-                        backgroundColor: '#000000',
-                        color: '#FFFFFF',
-                    }
-                }}
-            />
+                        }
+                    }}
+                />
+            </Paper>
+
         </Stack>
     )
 }

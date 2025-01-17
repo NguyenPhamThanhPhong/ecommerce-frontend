@@ -1,5 +1,5 @@
 'use client';
-import { AppBar, Box, Grid2, TextField, Toolbar, Typography, Container, IconButton, ListItemIcon } from '@mui/material';
+import { AppBar, Box, Grid2, TextField, Toolbar, Typography, Container, IconButton, ListItemIcon, Badge } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import { roundedStyle } from '@styles/styleUtils';
 
@@ -16,6 +16,8 @@ import DashboardIcon from '@mui/icons-material/Dashboard';
 import SettingsIcon from '@mui/icons-material/Settings';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import Link from 'next/link';
+import { useGlobalCartContext } from '@shared-conntext/CartContext';
+import { useRouter } from 'next/router';
 
 // TODO: Add Meta data to App bar
 // TODO: make profile drop down better
@@ -58,6 +60,10 @@ const settings = [{
 
 export const ResponsiveAppBar = () => {
   const [anchorElUser, setAnchorElUser] = React.useState(null);
+
+  const router = useRouter();
+  const cart = useGlobalCartContext(state => state.cart);
+  let itemCount = cart?.length || 0;
 
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(anchorElUser ? null : event.currentTarget);
@@ -109,7 +115,6 @@ export const ResponsiveAppBar = () => {
             ))}
           </Box>
           <Box>
-
             <IconButton
               sx={{
 
@@ -122,12 +127,15 @@ export const ResponsiveAppBar = () => {
               }}
               aria-label="shopping cart"
             >
-              <ShoppingCartIcon />
+              <Link href="/cart" passHref>
+                <Badge badgeContent={itemCount} color="primary">
+                  <ShoppingCartIcon />
+                </Badge>
+              </Link>
             </IconButton>
 
           </Box>
           <Box sx={{ flexGrow: 0 }}>
-
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0, ...roundedStyle({ size: 55 }) }}>
                 <Avatar sx={{ ...roundedStyle({ size: 45 }) }} alt="Remy Sharp" src="/image.jpg" />

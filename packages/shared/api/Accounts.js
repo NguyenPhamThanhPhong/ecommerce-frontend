@@ -10,7 +10,6 @@ export async function login(/** @type {LoginRequest} */data, pub) {
         const response = await api.post(`${url}${tokens}`, data);
         return response;
     } catch (error) {
-        console.log(error)
         if (pub) {
             pub(error.message, 'error');
         }

@@ -7,7 +7,9 @@ import {
   Paper,
   IconButton,
   InputBase,
-  Divider
+  Divider,
+  Pagination,
+  useTheme
 } from '@mui/material';
 import { useState } from 'react';
 import ProductFilterSidebar from '@components/product/ProductFilterSidebar';
@@ -19,6 +21,7 @@ import DirectionsIcon from '@mui/icons-material/Directions';
 import MenuIcon from '@mui/icons-material/Menu';
 import { useProductSearchContext } from '@shared-conntext/ProductContext';
 import ProductCard from '@components/cards/ProductCard';
+import AppShoppingCart from '@components/common/AppShoppingCart';
 
 export function DisplayOptions() {
   const displayOptions = [
@@ -58,8 +61,7 @@ export function DisplayOptions() {
           columnGap: 1,
         }}
         value={displayOptions[0]}
-        onChange={() => null}
-      >
+        onChange={() => null}>
         {displayOptions.map((option) => (
           <FormControlLabel
             key={option.id}
@@ -164,24 +166,24 @@ export const sortbyOptions = [{
 ];
 
 export default function StorePage() {
+  const theme = useTheme();
   const {
     products,
     setSearchTerm, setBrandId, setCategoryId,
     setPriceFrom, setPriceTo,
     setRating, setDiscount, setSortby,
-    hasNext,
-    hasPrev,
+    page, totalPages, handlePageChange,
     submit,
-    loadFirstPageSearch,
-    loadNextPageSearch,
-    loadPrevPageSearch,
-  } = useProductSearchContext();
+  } = useProductSearchContext({ size: 8 });
   return (
     <>
-      <Box sx={{ display: 'block', marginBottom: '28px' }}>
+      {/* <AppShoppingCart /> */}
+      <Box sx={{ display: 'block', marginBottom: '28px', position: 'absolute' }}>
+
       </Box>
       <Stack direction={'row'} columnGap={'24px'} sx={{ display: 'flex', }}>
         {/* Filter Sidebar */}
+
         <ProductFilterSidebar
           onBrandChange={(e) => {
             setBrandId(e.target.value)
@@ -206,7 +208,7 @@ export default function StorePage() {
                 <InputBase
                   sx={{ ml: 1, flex: 1 }}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  placeholder="Search Google Maps"
+                  placeholder="Search something..."
                   inputProps={{ 'aria-label': 'search google maps' }}
                 />
                 <IconButton onClick={submit} type="button" sx={{ p: '10px' }} aria-label="search">
@@ -226,7 +228,14 @@ export default function StorePage() {
           </Card>
           {/* Sort and View Options */}
           {/* Product Grid */}
-          <ProductGrid >
+          <Box sx={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            alignItems: 'start',
+            justifyContent: 'flex-start',
+            gap: 5
+
+          }} >
             {
               products.map((product, index) => {
                 return (
@@ -234,9 +243,40 @@ export default function StorePage() {
                 );
               })
             }
-          </ProductGrid>
+          </Box>
+          <Paper>
+            <Pagination count={totalPages} variant="outlined" shape="rounded"
+              size='medium' siblingCount={1} boundaryCount={1}
+              page={page}
+              onChange={handlePageChange}
+              sx={{
+                mt: 2,
+                mb: 1,
+                justifyContent: 'flex-end',
+                '& .MuiPagination-ul': {
+                  justifyContent: 'flex-end',
+                },
+                // minWidth:'300px',
+                '& .MuiPaginationItem-root': {
+                  backgroundColor: '#E9E9E9',
+                  borderRadius: '8px',
+                  fontSize: 15,
+                  '&:hover': {
+                    backgroundColor: '#000000',
+                    color: '#FFFFFF',
+                  },
+                },
+                '& .Mui-selected': {
+                  fontWeight: theme.fontWeight.semiBold,
+                  backgroundColor: '#000000',
+                  color: '#FFFFFF',
+                }
+              }}
+            />
+          </Paper>
         </Stack>
       </Stack>
+
     </>
 
   );
