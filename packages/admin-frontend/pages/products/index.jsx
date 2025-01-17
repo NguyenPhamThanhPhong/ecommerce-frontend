@@ -43,10 +43,6 @@ const variants = [
     id: PRODUCT_STATUSES.ON_SALE,
     display: 'On sale',
   },
-  {
-    id: PRODUCT_STATUSES.SOLD_OUT,
-    display: 'Sold out',
-  },
 
 ]
 export default function Product() {
@@ -61,8 +57,8 @@ export default function Product() {
   function submit() {
     const filters = calculateFilters();
     searchProducts({ page: 0, size: 40, }, filters, pub).then((data) => {
-      if (data) {
-        setProducts(data);
+      if (data?.data?.length > 0) {
+        setProducts(data.data);
       }
     });
   }

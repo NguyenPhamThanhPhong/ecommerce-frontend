@@ -50,6 +50,7 @@ import NewspaperIcon from '@mui/icons-material/Newspaper';
 import LogoutIcon from '@mui/icons-material/Logout';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import { useState } from 'react';
+import { logout } from '@shared-api/Accounts';
 
 
 const drawerWidth = 240;
@@ -224,6 +225,12 @@ export default function AdminLayout({ children }) {
   const handleClose = () => setAnchorEl(null);
   const handleCloseUserMenu = () => setAnchorEl(null);
 
+  const handleLogout = () => {
+    logout().then(() => {
+      router.push('/login');
+    })
+  }
+
 
   return (
     <Box sx={{ display: 'flex' }}>
@@ -282,7 +289,7 @@ export default function AdminLayout({ children }) {
                   <Typography sx={{ textAlign: 'center' }}>{setting.label}</Typography>
                 </MenuItem>
               ))}
-              <MenuItem key={'Logout'} onClick={handleCloseUserMenu}>
+              <MenuItem key={'Logout'} onClick={handleLogout}>
                 <ListItemIcon><LogoutIcon /></ListItemIcon>
                 <Typography sx={{ textAlign: 'center' }}>{'Logout'}</Typography>
               </MenuItem>

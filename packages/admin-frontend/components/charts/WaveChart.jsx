@@ -38,9 +38,9 @@ const WaveChart = ({data}) => (
   <Paper style={{ padding: '20px', borderRadius: '15px' }}>
     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
       <div>
-        <Typography variant="h6">Chart Order</Typography>
+        <Typography variant="h6">Revenue Chart</Typography>
         <Typography variant="subtitle2" color="textSecondary">
-          Lorem ipsum dolor sit amet, consectetur adip
+          Total revenue over the past 7 days
         </Typography>
       </div>
       <Button

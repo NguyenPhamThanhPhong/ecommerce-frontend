@@ -4,7 +4,6 @@ import {
   Typography,
   Button,
   Link,
-
   useTheme,
   Stack,
   Paper,
@@ -17,6 +16,8 @@ import { useSnackbarStore } from "@shared-conntext/SnackbarContext";
 // import { login,doom } from "@shared-api/Accounts";
 import { useRouter } from "next/router";
 import { useGlobalAccountContext } from "@shared-conntext/AccountContext";
+import EmailIcon from '@mui/icons-material/Email';
+
 
 export default function SignupPage() {
 
@@ -27,7 +28,7 @@ export default function SignupPage() {
   const router = useRouter();
 
   const onLogin = () => {
-    login({ username: email.value, password: password.value },pub).then((response) => {
+    login({ username: email.value, password: password.value }, pub).then((response) => {
       if (response) {
         pub('Login success, ', 'info');
         setTimeout(() => {
@@ -63,15 +64,15 @@ export default function SignupPage() {
           textShadow: "0px 0px 10px rgba(255, 255, 255, 0.8)", // Text glow effect
         }}>
         <Typography variant="h4" fontWeight="bold" textAlign="center" mb={2}>
-          Bytez Member
+          Ptech Member
         </Typography>
         <Typography variant="body1" textAlign="center" mb={4} fontSize={20}>
           Welcome back!
         </Typography>
         <Stack gap={2} component="form" noValidate autoComplete="off">
-          <LoginSignupTextBox {...email} />
-          <LoginSignupTextBox {...password} />
-          <Link href="/login" underline="hover" sx={{ color: "#fff", fontWeight: 'bold' }}>
+          <LoginSignupTextBox  {...email} icon={'email'} />
+          <LoginSignupTextBox   {...password} icon={'password'} />
+          <Link href="/forgot-password" underline="hover" sx={{ color: "#fff", fontWeight: 'bold' }}>
             Forgot your password?
           </Link>
           <Button
@@ -92,7 +93,7 @@ export default function SignupPage() {
         </Stack>
         <Typography textAlign="center" variant="body2" fontSize={14}>
           Don't have an account?{" "}
-          <Link href="/login" underline="hover" sx={{ color: "#fff", fontWeight: 'bold' }}>
+          <Link href="/sign-up" underline="hover" sx={{ color: "#fff", fontWeight: 'bold' }}>
             Create One
           </Link>
         </Typography>

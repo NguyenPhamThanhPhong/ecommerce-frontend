@@ -1,8 +1,11 @@
 import { TextField, InputAdornment, IconButton } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
+import EmailIcon from '@mui/icons-material/Email';
+import Person2Icon from '@mui/icons-material/Person2';
+import LockOpenIcon from '@mui/icons-material/LockOpen';
+import SecurityIcon from '@mui/icons-material/Security';
 
-
-export function LoginSignupTextBox({name, label, placeholder, icon, value, error, errorText, onChange, password }) {
+export function LoginSignupTextBox({ name, label, placeholder, icon, value, error, errorText, onChange, password }) {
     const [showPassword, setShowPassword] = React.useState(false);
 
     const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -30,7 +33,10 @@ export function LoginSignupTextBox({name, label, placeholder, icon, value, error
             InputProps={{
                 startAdornment: (
                     <InputAdornment position="start">
-                        {icon}
+                        {icon === 'name' && <Person2Icon sx={{ color: 'white' }} />}
+                        {icon === 'email' && <EmailIcon sx={{ color: 'white' }} />}
+                        {icon === 'password' && <LockOpenIcon sx={{ color: 'white' }} />}   
+                        {icon === 'otp' && <SecurityIcon sx={{ color: 'white' }} />}
                     </InputAdornment>
                 ),
                 endAdornment: (
@@ -44,7 +50,7 @@ export function LoginSignupTextBox({name, label, placeholder, icon, value, error
                             onMouseUp={handleMouseUpPassword}
                             edge="end"
                         >
-                            {showPassword ? <VisibilityOff /> : <Visibility />}
+                            {showPassword ? <VisibilityOff sx={{color:'white'}} /> : <Visibility sx={{color:'white'}} />}
                         </IconButton>
                     </InputAdornment>
                 )
@@ -55,7 +61,6 @@ export function LoginSignupTextBox({name, label, placeholder, icon, value, error
             sx={{
                 input: { color: "#fff", fontSize: 18 },
                 height: 50,
-
                 "& .MuiOutlinedInput-root": {
                     "& fieldset": {
                         borderColor: "#fff",
@@ -75,6 +80,7 @@ export function LoginSignupTextBox({name, label, placeholder, icon, value, error
                 },
                 '& .MuiInput-underline:hover:not(.Mui-disabled):before': {
                     borderBottomColor: '#ffffff',
+
                 },
             }}
         />

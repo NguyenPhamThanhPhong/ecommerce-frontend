@@ -29,8 +29,10 @@ export default function CheckoutCart() {
   const orderCode = router?.query?.orderCode;
   useEffect(() => {
     if (orderCode) {
+      console.log('orderCode', orderCode);
       getOrder(orderCode, pub).then((response) => {
         if (response) {
+          console.log('resnponse', response);
           setOrder(response);
         }
       });

@@ -22,10 +22,11 @@ const public_sans = Public_Sans({ subsets: ['latin'], });
 
 function MyApp({ Component, pageProps, router }) {
   console.warn = () => { };
-  const noLayoutRoutes = ['/login', '/register', '/sign-up'];
+  const noLayoutRoutes = ['/login', '/forgot-password',"/new-password", '/sign-up'];
   const isNoLayout = noLayoutRoutes.includes(router.pathname);
   const { loadAccount, loadStatistics } = useGlobalAccountContext();
   const pub = useSnackbarStore(state => state.pub);
+  console.log('isnolayout', isNoLayout);
 
 
   useEffect(() => {

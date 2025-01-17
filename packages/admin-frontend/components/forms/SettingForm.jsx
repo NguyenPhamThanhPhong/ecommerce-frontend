@@ -75,7 +75,7 @@ export function useSettingsForm({ }) {
         }
         updateAccount(request, pub).then((res) => {
             if (res) {
-                pub('Customer created successfully', 'success');
+                pub('Profile updated successfully', 'success');
                 reset();
             }
         });

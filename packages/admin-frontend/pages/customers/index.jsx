@@ -33,16 +33,13 @@ const variants = [
     },
     {
         id: CUSTOMER_STATUSES.UNACTIVE,
-        display: 'BLOCKED',
+        display: 'Active',
     },
     {
         id: CUSTOMER_STATUSES.DELETED,
         display: 'DELETED',
     },
-    {
-        id: CUSTOMER_STATUSES.ACTIVE,
-        display: 'ACTIVE',
-    },
+
 ]
 
 

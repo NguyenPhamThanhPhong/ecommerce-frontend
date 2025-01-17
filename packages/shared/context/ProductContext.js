@@ -57,7 +57,6 @@ export default function useProductContext() {
     useEffect(() => {
         setHasPrev(currentPage > 0);
         setHasNext(currentPage < totalPage - 1);
-        // pub(`Found ${totalPage} pages`, 'info');
     }, [currentPage, totalPage]);
 
     function consumeResponse(response) {

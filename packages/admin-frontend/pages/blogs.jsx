@@ -55,9 +55,11 @@ export default function BlogsPage() {
     const [deleteSelected, setDeleteSelected] = React.useState(null);
 
     React.useEffect(() => {
-        searchBlogPosts({ page: 0, size: 40, }, [], pub).then((data) => {
+        searchBlogPosts({ page: 0, size: 12, }, [], pub).then((data) => {
             if (data?.data?.length > 0) {
                 setBlogs(data.data);
+                setTotalPages(data.totalPages);
+                
             }
         });
     }, []);

@@ -33,7 +33,6 @@ export function CellIcons({ onEdit, onView, onDelete }) {
     return (
         <TableCell padding='none' align="left">
             <Stack direction={'row'} sx={{
-                bgcolor:'pink',
                 ml:0
             }} >
                 <IconButton onClick={onEdit}><EditIcon /></IconButton>

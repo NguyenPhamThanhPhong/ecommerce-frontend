@@ -18,6 +18,8 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import Link from 'next/link';
 import { useGlobalCartContext } from '@shared-conntext/CartContext';
 import { useRouter } from 'next/router';
+import { logout } from '@shared-api/Accounts';
+import { useSnackbarStore } from '@shared-conntext/SnackbarContext';
 
 // TODO: Add Meta data to App bar
 // TODO: make profile drop down better
@@ -43,25 +45,25 @@ const pages = [
 const settings = [{
   icon: <PersonIcon />,
   label: 'Account',
+  href: '/profile/details',
 },
 {
   icon: <DashboardIcon />,
   label: 'Dashboard',
+  href: '/profile/dashboard',
 },
 {
   icon: <SettingsIcon />,
   label: 'Settings',
+  href: '/profile/shipping',
 },
-{
-  icon: <LogoutIcon />,
-  label: 'Logout',
-}
 ];
 
 export const ResponsiveAppBar = () => {
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
   const router = useRouter();
+  const pub = useSnackbarStore(state => state.pub);
   const cart = useGlobalCartContext(state => state.cart);
   let itemCount = cart?.length || 0;
 
@@ -74,6 +76,17 @@ export const ResponsiveAppBar = () => {
   };
   const theme = useTheme();
   const palette = theme.palette;
+  function handleLogout() {
+    logout(pub).then((response) => {
+      if (response) {
+        pub('Logout success, ', 'info');
+        setTimeout(() => {
+          router.push('/');
+        }, 1000);
+      }
+    });
+  }
+
 
   return (
     <AppBar position="absolute"
@@ -180,11 +193,18 @@ export const ResponsiveAppBar = () => {
               onClose={handleCloseUserMenu}
             >
               {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                <MenuItem key={setting} onClick={()=>{
+                  router.push(setting.href);
+                  handleCloseUserMenu();
+                }}>
                   <ListItemIcon>{setting.icon}</ListItemIcon>
                   <Typography sx={{ textAlign: 'center' }}>{setting.label}</Typography>
                 </MenuItem>
               ))}
+              <MenuItem key={'logout..'} onClick={handleLogout}>
+                <ListItemIcon><LogoutIcon /></ListItemIcon>
+                <Typography sx={{ textAlign: 'center' }}>Logout</Typography>
+              </MenuItem>
             </Menu>
 
           </Box>

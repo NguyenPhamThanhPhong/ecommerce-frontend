@@ -15,6 +15,10 @@ import SkipNextIcon from '@mui/icons-material/SkipNext';
 import SkipPreviousIcon from '@mui/icons-material/SkipPrevious';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import theme from '@styles/GlobalStyles';
+import { fromIsoToSimpleDate } from '@shared-utils/ConverterUtils';
+import DOMPurify from "dompurify";
+import { useRouter } from 'next/router';
+
 
 const TextOnly = ({ text }) => {
   return (
@@ -76,7 +80,7 @@ export function NewsCard({ cardSx, cardButton, cardMediaProps, image, title, sub
           {
             isHtml ?
               <Box dangerouslySetInnerHTML={{ __html: content }} sx={{ color: 'text.primary', fontSize: '15px' }} />
-              : <Typography variant="body1" sx={{ color: 'text.primary',fontWeight:400 }}>
+              : <Typography variant="body1" sx={{ color: 'text.primary', fontWeight: 400 }}>
                 {content}
               </Typography>
           }
@@ -94,36 +98,52 @@ export function NewsCard({ cardSx, cardButton, cardMediaProps, image, title, sub
   );
 }
 
-export const NewsStackItem = ({ cardSx, cardButton, cardMediaProps, cardImage, time }) => {
+export const NewsStackItem = ({ code, title, imageUrl, createdAt, isHtml, content }) => {
   const theme = useTheme();
+  const sanitizedHtml = DOMPurify.sanitize(content);
+  const router = useRouter();
 
   return (
     <Card sx={{ display: 'flex', mb: 4 }}>
       <CardActionArea disableRipple sx={{
         cursor: 'default'
       }}>
-        <Box sx={{ display: 'flex', flexDirection: 'row' }}>
-          <CardMedia
-            component="img"
-            sx={{ width: '30%' }}
-            image="blog/blog1.png"
-            alt="Live from space album cover" />
-          <CardContent sx={{ display: "inline" }}>
-            <Typography component="div" variant="h5" sx={{
-              fontWeight: 'bold',
-            }}>
-              Encryption Keeps Kids Safe Online
-            </Typography>
-            <Typography gutterBottom
-              variant="subtitle1"
-              component="div" fontSize={14} color='#717171'>
-              Policymakers are proposing laws that will weaken encryption.
-              The EARN IT Act, STOP CSAM Act, and many other proposed bills are threatening encryption in the name of keeping kids safe, ...
-            </Typography>
-            <IconAndText icon={<CalendarMonthIcon sx={{ height: 17 }} />} text="11 Jun 2024" />
-          </CardContent>
-
-        </Box>
+        <CardActionArea onDoubleClick={()=>{
+          router.push(`/blog/${code}`)
+        }} >
+          <Box sx={{ display: 'flex', flexDirection: 'row' }}>
+            <CardMedia
+              component="img"
+              sx={{ width: '30%' }}
+              image={imageUrl}
+              alt="Live from space album cover" />
+            <CardContent sx={{ display: "inline" }}>
+              <Typography component="div" variant="h5" sx={{
+                fontWeight: 'bold',
+              }}>
+                {title}
+              </Typography>
+              {isHtml ? (
+                <Box
+                  gutterBottom
+                  sx={{ fontSize: 14, color: '#717171', marginBottom: 2 }}
+                  dangerouslySetInnerHTML={{ __html: sanitizedHtml }}
+                />
+              ) : (
+                <Typography
+                  gutterBottom
+                  variant="subtitle1"
+                  component="div"
+                  fontSize={14}
+                  color="#717171"
+                >
+                  {content}
+                </Typography>
+              )}
+              <IconAndText icon={<CalendarMonthIcon sx={{ height: 17 }} />} text={fromIsoToSimpleDate(createdAt)} />
+            </CardContent>
+          </Box>
+        </CardActionArea>
       </CardActionArea>
     </Card>
   );

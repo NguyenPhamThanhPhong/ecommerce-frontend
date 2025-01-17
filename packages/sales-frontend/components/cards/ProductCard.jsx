@@ -1,4 +1,4 @@
-import { Card, RadioGroup, CardMedia, CardContent, Typography, Box, Avatar, IconButton, Badge, Stack, Button } from '@mui/material';
+import { Card, RadioGroup, CardMedia, CardContent, Typography, Box, Avatar, IconButton, Badge, Stack, Button, CardActionArea } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import { ProductRating, ProductFavorite, ProductColorPickerItem, ProductTag, ProductColorPicker, ProductSelector } from '@components/product/ProductUIAssets';
 import { toPercentage, trimString } from "@shared-utils/ConverterUtils"
@@ -7,9 +7,11 @@ import { useProductDetailContext } from '@shared-conntext/ProductContext';
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 import { useEffect } from 'react';
 import { useGlobalCartContext } from '@shared-conntext/CartContext';
+import { useRouter } from 'next/router';
 
 export default function ProductCard({ product: detail }) {
   const theme = useTheme();
+  const router = useRouter();
 
   const { product, fav, changeFav } = useProductDetailContext({ detail });
   const [count, setCount] = React.useState(0);
@@ -47,12 +49,14 @@ export default function ProductCard({ product: detail }) {
         <ProductFavorite checked={fav} onChange={changeFav} />
       </Box>
       {/* Product Image */}
-      <CardMedia
-        component="img"
-        image={product.thumbnailUrl} // Replace with the actual image path
-        alt="Product Image"
-        sx={{ height: 150, objectFit: 'fill', flexGrow: 1 }}
-      />
+      <CardActionArea onDoubleClick={()=>router.push(`/products/${product?.code}`)}>
+        <CardMedia
+          component="img"
+          image={product.thumbnailUrl} // Replace with the actual image path
+          alt="Product Image"
+          sx={{ height: 150, objectFit: 'fill', flexGrow: 1 }}
+        />
+      </CardActionArea>
       <CardContent>
         {/* Color Options */}
         {product.imageUrls && product.imageUrls.length > 1 && (

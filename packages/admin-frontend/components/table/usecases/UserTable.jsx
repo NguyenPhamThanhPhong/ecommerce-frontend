@@ -1,5 +1,5 @@
 import AdminTable from "@components/table/AdminTable";
-import { trimString } from "@shared-utils/ConverterUtils";
+import { fromIsoToSimpleDate, trimString } from "@shared-utils/ConverterUtils";
 import { isDateBetween } from "@shared-utils/ValidationUtils";
 import { useRouter } from "next/router";
 
@@ -149,7 +149,7 @@ export default function UserTable({ label, users, onDelete,onView, onEdit }) {
                 profile?.avatarUrl, customer?.email,
                 profile?.phone, profile?.dateOfBirth,
                 isDateBetween(new Date(), new Date('2023-11-18'), new Date('2023-12-05')) ? 'Active' : 'Unactive',
-                `${customer?.enableDate} - ${customer?.disableDate}`);
+                `${fromIsoToSimpleDate(customer?.enableDate)}`);
         }
         );
     }

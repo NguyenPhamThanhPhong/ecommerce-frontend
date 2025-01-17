@@ -24,6 +24,7 @@ import FloatingNumberInput from "@components/inputs/FloatingNumberInput";
 import { useProductDetailContext } from "@shared-conntext/ProductContext";
 import { useRouter } from 'next/router';
 import { toLocaleString, trimString } from "@shared-utils/ConverterUtils";
+import { useGlobalCartContext } from "@shared-conntext/CartContext";
 
 
 const DetailLabel = ({ children }) => (
@@ -82,10 +83,21 @@ const ProductPage = () => {
   const ratingTotal = ratingRatios.reduce((acc, item) => acc + item.ratio, 0);
   const { product, fav, getProductDetail, changeFav,
     displayImage, setDisplayImage,
-    variantId, changeVariant, variants,
+    variantId, changeProductImage, variants,
     colors, setColors, selectedColor, changeColor,
     tabsData } = useProductDetailContext({});
+  const { cart, addToCart, removeFromCart } = useGlobalCartContext();
 
+  function onAddToCartClick(){
+    if (!localStorage) return;
+    if (count <= 0) {
+      removeFromCart(product.id);
+    }
+    else if (count > 0) {
+      addToCart(product.id, count);
+      router.push('/cart');
+    }
+  }
 
 
   useEffect(() => {
@@ -102,14 +114,17 @@ const ProductPage = () => {
         // alignItems: 'center',
       }}>
         <Stack sx={{ width: '50%', display: 'flex', alignItems: 'center', position: 'relative' }}>
-          <ProductFavorite checked={fav} onChange={changeFav} sx={{ top: 0, right: 100, width:70,height:80 }} />
-          <Avatar variant="square" src="/iphone-green.jpg" sx={{
+          <ProductFavorite checked={fav} onChange={changeFav} sx={{ top: 0, right: 100, width: 70, height: 80 }} />
+          <Avatar variant="square" src={displayImage} sx={{
             width: '70%',
             height: '420px',
             objectFit: 'fill',
           }}>
           </Avatar>
-          {product?.images?.length > 0 && <ProductSelector images={product.images} onSelect={setDisplayImage} />}
+          {product?.productImages?.length > 0 &&
+            <ProductSelector
+              onClick={changeProductImage}
+              images={product?.productImages} onSelect={setDisplayImage} />}
         </Stack>
         <Stack sx={{ width: '50%' }}>
           {/* Title and Wishlist */}
@@ -149,7 +164,9 @@ const ProductPage = () => {
           </Box>
           {/* Variant Picker */}
           <DetailLabel>Choose a variant</DetailLabel>
-          {variants?.length > 0 && <ProductVariants variants={variants} variantId={variantId} />}
+          {variants?.length > 0 && <ProductVariants variants={variants} variantId={variantId}
+            changeVariant={changeProductImage}
+          />}
 
           {/* Quantity Selector */}
           <Box sx={{
@@ -160,13 +177,14 @@ const ProductPage = () => {
 
             flexDirection: 'row',
           }}>
-            <FloatingNumberInput />
+            <FloatingNumberInput count={count} setCount={setCount} />
 
             {/* Add to Cart */}
             <Button
               startIcon={<ShoppingBagIcon />}
               variant="contained"
               color="primary"
+              onClick={onAddToCartClick}
               sx={{
                 width: "60%", py: 2,
                 borderRadius: '42px',

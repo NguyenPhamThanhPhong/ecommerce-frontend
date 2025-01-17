@@ -8,7 +8,7 @@
   "main": "index.js",
   "scripts": {
     "test": "npm run test --workspace sales-frontend && npm run test --workspace admin-frontend",
-    "start": "concurrently \"npm --workspace sales-frontend run dev\" \"npm --workspace admin-frontend run dev\"",
+    "start": "concurrently \"npm --workspace sales-frontend run start\" \"npm --workspace admin-frontend run start\"",
     "sales": "npm --workspace sales-frontend run dev",
     "admin": "npm --workspace admin-frontend run dev"
   },
@@ -33,6 +33,7 @@
     "bad-words": "^4.0.0",
     "date-fns": "^3.6.0",
     "dayjs": "^1.11.13",
+    "dompurify": "^3.2.3",
     "frontend": "file:",
     "html-react-parser": "^5.2.2",
     "next": "^15.0.0",

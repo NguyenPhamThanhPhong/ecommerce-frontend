@@ -1,7 +1,8 @@
 import {
     get, api, accounts, accountsSearches,
     acountPasswordOTP, accountPassword,
-    tokens, toForm, form, url, accountsMe, accountAddresses
+    tokens, toForm, form, url, accountsMe, accountAddresses,
+    accountRegistration
 } from './constants/Constants';
 
 
@@ -23,8 +24,6 @@ export async function logout(pub) {
         pub(get(error), 'error');
     }
 }
-
-
 export async function createAccount(data, pub) {
     try {
         const response = await api.post(`${url}${accounts}`, toForm(data));
@@ -33,6 +32,15 @@ export async function createAccount(data, pub) {
         pub(get(error), 'error');
     }
 }
+export async function register(data, pub) {
+    try {
+        const response = await api.post(`${url}${accountRegistration}`, data);
+        return response.data;
+    } catch (error) {
+        pub(get(error), 'error');
+    }
+}
+
 
 export async function getAccount(code, pub) {
     try {
@@ -63,9 +71,9 @@ export async function getOTP(data, pub) {
         pub(get(error), 'error');
     }
 }
-export async function verifyOTP(data, pub) {
+export async function updatePassword(data, pub) {
     try {
-        const response = await api.post(`${url}${accountPassword}`, data);
+        const response = await api.put(`${url}${accountPassword}`, data);
         return true;
     } catch (error) {
         pub(get(error), 'error');

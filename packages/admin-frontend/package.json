@@ -13,7 +13,7 @@
   "scripts": {
     "dev": "cross-env PORT=3007 next dev",
     "build": "next build",
-    "start": "cross-env PORT=3007 next start"
+    "start": "cross-env PORT=3008 next start"
   },
   "eslintConfig": {
     "extends": [

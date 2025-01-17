@@ -33,7 +33,7 @@ const Login = () => {
   const handleLogin = () => {
     if (validateForm()) {
       // Call your login API here
-      login({ email, password }, pub).then((res) => {
+      login({ username: email, password }, pub).then((res) => {
         if (res) {
           pub('Login Successful!', 'success');
           window.setTimeout(() => {

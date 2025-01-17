@@ -8,6 +8,7 @@ export const accountsMe = "/accounts/me";
 export const accountAddresses = "/accounts/addresses";
 export const acountPasswordOTP = "/accounts/password-otp";
 export const accountPassword = "/accounts/password";
+export const accountRegistration = "/accounts/registration";
 
 export const blogs = "/blogs";
 export const blogsSearches = "/blogs/searches";
