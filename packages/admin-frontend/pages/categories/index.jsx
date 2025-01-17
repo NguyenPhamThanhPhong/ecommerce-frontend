@@ -26,15 +26,13 @@ import { deleteCategory, searchCategories } from '@shared-api/Categories';
 
 const CATEGORY_STATUSES = {
   NONE: 'NONE',
-  UNACTIVE: 'UNACTIVE',
-  ACTIVE: 'ACTIVE',
   DELETED: 'DELETED',
 }
 
 const variants = [
   {
     id: CATEGORY_STATUSES.NONE,
-    display: 'None',
+    display: 'All',
   },
   {
     id: CATEGORY_STATUSES.DELETED,
@@ -101,16 +99,7 @@ export default function Category() {
       }
     });
   }
-  function deleteMultiple(selected) {
-    selected.forEach((id) => {
-      deleteCategory(id, pub).then((res) => {
-        if (res) {
-          const newProducts = products.data.filter((product) => product.id !== id);
-          setCategories({ data: newProducts });
-        }
-      });
-    });
-  }
+
   return (
     <Box>
       <Box sx={{

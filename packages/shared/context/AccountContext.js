@@ -61,11 +61,18 @@ export const useGlobalAccountContext = create((set, get) => ({
     },
     login: async (data, pub) => {
         const response = await login(data, pub);
-        if (response) {
+        if (response?.status === 200) {
             set({ account: response.data });
             return true;
         }
         return false;
+    },
+    logout: async (pub) =>{
+        const response = await logout(pub);
+        if (response?.status === 200) {
+            set({ account: {} });
+            return true;
+        }
     },
     loadStatistics: async (pub) => {
         const response = await getStatistics(pub);

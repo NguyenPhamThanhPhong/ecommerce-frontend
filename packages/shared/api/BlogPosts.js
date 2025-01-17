@@ -32,9 +32,11 @@ export async function createBlogPost(data, pub) {
     }
 }
 
-export async function updateBlogPost(id, data, pub) {
+export async function updateBlogPost(data, pub) {
     try {
-        const response = await api.patch(`${url}${blogs}/${id}`, data);
+        const response = await api.put(`${url}${blogs}`, toForm(data),{
+            headers: form
+        });
         return response.data;
     } catch (error) {
         pub(get(error), 'error');

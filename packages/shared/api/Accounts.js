@@ -15,6 +15,15 @@ export async function login(/** @type {LoginRequest} */data, pub) {
         }
     }
 }
+export async function logout(pub) {
+    try {
+        const response = await api.delete(`${url}${tokens}`);
+        return response;
+    } catch (error) {
+        pub(get(error), 'error');
+    }
+}
+
 
 export async function createAccount(data, pub) {
     try {

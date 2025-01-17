@@ -111,7 +111,6 @@ export function useProductForm(isUpdate) {
         return true;
     };
     function submitCreate() {
-        console.log('form val', formValues.category)
         const createRequest = {
             name: formValues.productName,
             brandId: formValues.brand,

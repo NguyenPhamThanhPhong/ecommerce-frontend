@@ -15,6 +15,8 @@ import {
   ListItemIcon,
   Avatar,
   Badge,
+  Menu,
+  MenuItem,
 } from '@mui/material';
 import {
   Search, SearchIconWrapper,
@@ -31,16 +33,12 @@ import FormatAlignLeftIcon from '@mui/icons-material/FormatAlignLeft';
 import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
 import PersonIcon from '@mui/icons-material/Person';
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
-import CreditCardIcon from '@mui/icons-material/CreditCard';
 import CategoryIcon from '@mui/icons-material/Category';
 import BrandingWatermarkIcon from '@mui/icons-material/BrandingWatermark';
 import LocalOfferIcon from '@mui/icons-material/LocalOffer';
-import ViewCarouselIcon from '@mui/icons-material/ViewCarousel';
-import SearchIcon from '@mui/icons-material/Search';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
-import MessageIcon from '@mui/icons-material/Message';
 import MenuButton from '@components/sidebar/MenuButton';
 import AdminBreadcrumbs from '../sidebar/AdminBreadCrumbs';
 import Link from 'next/link';
@@ -48,6 +46,10 @@ import { checkPath } from '@shared-utils/PathUtils';
 import { useRouter } from 'next/router';
 import SettingsIcon from '@mui/icons-material/Settings';
 import { useGlobalAccountContext } from '@shared-conntext/AccountContext';
+import NewspaperIcon from '@mui/icons-material/Newspaper';
+import LogoutIcon from '@mui/icons-material/Logout';
+import DashboardIcon from '@mui/icons-material/Dashboard';
+import { useState } from 'react';
 
 
 const drawerWidth = 240;
@@ -148,11 +150,28 @@ const menu = [
     href: '/coupons',
   },
   {
+    label: 'Blogs',
+    icon: <NewspaperIcon />,
+    href: '/blogs',
+  },
+  {
     label: 'Settings',
     icon: <SettingsIcon />,
     href: '/settings',
   }
 ]
+
+const settings = [{
+  icon: <PersonIcon />,
+  label: 'Account',
+  href: '/settings',
+},
+{
+  icon: <DashboardIcon />,
+  label: 'Dashboard',
+  href: '/',
+},
+];
 
 export const AppIconButton = ({ icon, onClick }) => {
   return (
@@ -176,7 +195,7 @@ export const AppIconButton = ({ icon, onClick }) => {
 
 
 export default function AdminLayout({ children }) {
-  const {account} = useGlobalAccountContext();
+  const { account } = useGlobalAccountContext();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
   const router = useRouter();
@@ -198,6 +217,13 @@ export default function AdminLayout({ children }) {
 
     // return (pathName==="/" && item.label === 'Dashboard') || pathName.startsWith(item.href)
   }
+  const [anchorEl, setAnchorEl] = useState(null);
+  const avatarOpen = Boolean(anchorEl);
+
+  const handleClick = (event) => setAnchorEl(event.currentTarget);
+  const handleClose = () => setAnchorEl(null);
+  const handleCloseUserMenu = () => setAnchorEl(null);
+
 
   return (
     <Box sx={{ display: 'flex' }}>
@@ -232,16 +258,38 @@ export default function AdminLayout({ children }) {
               alignItems: 'center',
               justifyContent: 'space-between',
             }}>
-            <Avatar />
+            <Avatar
+              onClick={handleClick}
+              sx={{ cursor: 'pointer' }}
+            />
+            <Menu
+              anchorEl={anchorEl}
+              open={avatarOpen}
+              onClose={handleClose}
+              anchorOrigin={{
+                vertical: 'bottom',
+                horizontal: 'right',
+              }}
+              transformOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}>
+              {settings.map((setting) => (
+                <MenuItem key={setting} onClick={() => {
+                  router.push(setting.href)
+                }}>
+                  <ListItemIcon>{setting.icon}</ListItemIcon>
+                  <Typography sx={{ textAlign: 'center' }}>{setting.label}</Typography>
+                </MenuItem>
+              ))}
+              <MenuItem key={'Logout'} onClick={handleCloseUserMenu}>
+                <ListItemIcon><LogoutIcon /></ListItemIcon>
+                <Typography sx={{ textAlign: 'center' }}>{'Logout'}</Typography>
+              </MenuItem>
+            </Menu>
             <Typography variant="body1" component={'span'}>Hello
               <Typography variant="body1" component={'span'} sx={{ fontWeight: 'bold' }}>{account?.profile?.fullName}</Typography>
             </Typography>
-            <AppIconButton icon={<NotificationsNoneIcon sx={{
-              color: '#464255',
-            }} />} />
-            <AppIconButton icon={<NotificationsNoneIcon sx={{
-              color: '#464255',
-            }} />} />
             <AppIconButton icon={<NotificationsNoneIcon sx={{
               color: '#464255',
             }} />} />

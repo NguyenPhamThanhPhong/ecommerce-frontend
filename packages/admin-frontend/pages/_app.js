@@ -13,6 +13,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import "react-quill/dist/quill.snow.css"; // Import styles
 import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
+import { useRouter } from 'next/router';
 
 dayjs.extend(customParseFormat);
 
@@ -29,7 +30,10 @@ function MyApp({ Component, pageProps, router }) {
   const pub = useSnackbarStore(state => state.pub);
   useEffect(() => {
     if (loadAccount) {
-      loadAccount(pub);
+      const result = loadAccount(pub);
+      if (result === false) {
+        router.push('/login');
+      }
       // loadStatistics(pub);
     }
 

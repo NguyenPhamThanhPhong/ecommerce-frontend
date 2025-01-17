@@ -33,6 +33,8 @@ export const paymentsVnpUrl = "/payments/vnpay-url";
 export const paymentsVnpay = "/payments/vnpay";
 
 export const statistics = "/statistics";
+export const statisticsMeOrders = "/statistics/me/orders";
+
 
 
 export const json = { 'Content-Type': 'application/json' };

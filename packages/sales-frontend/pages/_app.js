@@ -30,8 +30,10 @@ function MyApp({ Component, pageProps, router }) {
 
   useEffect(() => {
     if (loadAccount) {
-      loadAccount(pub);
-      // loadStatistics(pub);
+      const result = loadAccount(pub);
+      if (result === false) {
+        router.push('/login');
+      }
     }
 
   }, [loadAccount, loadStatistics]);
